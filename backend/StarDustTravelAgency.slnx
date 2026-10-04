@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj" />
+  <Project Path="tests/StarDustTravelAgency.Api.Tests/StarDustTravelAgency.Api.Tests.csproj" />
+</Solution>

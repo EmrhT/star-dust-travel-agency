@@ -39,6 +39,15 @@ ScaffoldingReadMe.txt
 # dotenv environment variables file
 .env
 
+# Frontend dependencies and build output
+node_modules/
+dist/
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+
 # Others
 ~$*
 *~
