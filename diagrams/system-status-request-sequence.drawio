@@ -1,0 +1,88 @@
+<mxfile host="app.diagrams.net" modified="2026-10-04T00:00:00.000Z" agent="Codex" version="24.7.17" type="device">
+  <diagram id="system-status-sequence" name="System Status Request">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="2339" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="Star Dust Travel Agency — System Status Request Sequence" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="250" y="10" width="900" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="user" value="&lt;b&gt;User&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#475569;fontColor=#0F172A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="20" y="60" width="110" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="browser" value="&lt;b&gt;Browser&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DBEAFE;strokeColor=#2563EB;fontColor=#1E3A8A;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="170" y="60" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="react" value="&lt;b&gt;React + TanStack Query&lt;/b&gt;&lt;br&gt;(inside browser)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0E7FF;strokeColor=#4F46E5;fontColor=#312E81;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="330" y="60" width="150" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" value="&lt;b&gt;nginx&lt;/b&gt;&lt;br&gt;frontend container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontColor=#14532D;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="520" y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="api" value="&lt;b&gt;ASP.NET Core&lt;/b&gt;&lt;br&gt;backend container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontColor=#78350F;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="700" y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="controller" value="&lt;b&gt;SystemController&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEDD5;strokeColor=#EA580C;fontColor=#7C2D12;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="880" y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="npgsql" value="&lt;b&gt;NpgsqlDataSource&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3E8FF;strokeColor=#9333EA;fontColor=#581C87;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="postgres" value="&lt;b&gt;PostgreSQL&lt;/b&gt;&lt;br&gt;postgres container" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCE7F3;strokeColor=#DB2777;fontColor=#831843;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="60" width="140" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="life-user" style="shape=line;html=1;strokeColor=#64748B;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="75" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-browser" style="shape=line;html=1;strokeColor=#2563EB;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="230" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-react" style="shape=line;html=1;strokeColor=#4F46E5;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="405" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-nginx" style="shape=line;html=1;strokeColor=#16A34A;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="590" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-api" style="shape=line;html=1;strokeColor=#D97706;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="770" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-controller" style="shape=line;html=1;strokeColor=#EA580C;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="950" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-npgsql" style="shape=line;html=1;strokeColor=#9333EA;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="1130" y="110" width="1" height="1580" as="geometry" /></mxCell>
+        <mxCell id="life-postgres" style="shape=line;html=1;strokeColor=#DB2777;dashed=1;dashPattern=6 6;" vertex="1" parent="1"><mxGeometry x="1310" y="110" width="1" height="1580" as="geometry" /></mxCell>
+
+        <mxCell id="m1" value="1. Open http://localhost:3000" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="75" y="150" as="sourcePoint" /><mxPoint x="230" y="150" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m2" value="2. GET /" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="200" as="sourcePoint" /><mxPoint x="590" y="200" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m3" value="3. 200 index.html" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="590" y="250" as="sourcePoint" /><mxPoint x="230" y="250" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m4" value="4. GET /app-config.js and /assets/index-….js" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="300" as="sourcePoint" /><mxPoint x="590" y="300" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m5" value="5. Runtime config + compiled JavaScript" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="590" y="350" as="sourcePoint" /><mxPoint x="230" y="350" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m6" value="6. Execute bundle and render &amp;lt;App /&amp;gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="400" as="sourcePoint" /><mxPoint x="405" y="400" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m7" value="7. useQuery([system, status])" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4F46E5;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="405" y="450" as="sourcePoint" /><mxPoint x="455" y="450" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m8" value="8. GET /api/system/status&lt;br&gt;Accept: application/json" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="405" y="520" as="sourcePoint" /><mxPoint x="590" y="520" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="note-origin" value="Relative /api URL uses the same browser origin" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#FEF9C3;strokeColor=#CA8A04;fontColor=#713F12;fontSize=11;" vertex="1" parent="1"><mxGeometry x="350" y="545" width="275" height="45" as="geometry" /></mxCell>
+        <mxCell id="m9" value="9. Proxy GET /api/system/status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="590" y="620" as="sourcePoint" /><mxPoint x="770" y="620" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="note-dns" value="http://backend:8080&lt;br&gt;backend = internal Docker DNS" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontColor=#14532D;fontSize=11;" vertex="1" parent="1"><mxGeometry x="560" y="645" width="240" height="55" as="geometry" /></mxCell>
+        <mxCell id="m10" value="10. Match [Route] + [HttpGet]" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#D97706;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="770" y="730" as="sourcePoint" /><mxPoint x="820" y="730" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m11" value="11. GetStatus(cancellationToken)&lt;br&gt;DI supplies NpgsqlDataSource" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="770" y="790" as="sourcePoint" /><mxPoint x="950" y="790" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m12" value="12. CreateCommand(SELECT 1)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="950" y="850" as="sourcePoint" /><mxPoint x="1130" y="850" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m13" value="13. ExecuteScalarAsync(cancellationToken)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="950" y="900" as="sourcePoint" /><mxPoint x="1130" y="900" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m14" value="14. PostgreSQL protocol: SELECT 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1130" y="950" as="sourcePoint" /><mxPoint x="1310" y="950" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="alt-frame" value="alt — PostgreSQL result" style="swimlane;html=1;rounded=0;startSize=28;horizontal=1;fillColor=none;swimlaneFillColor=none;strokeColor=#64748B;dashed=1;fontStyle=1;fontSize=12;align=left;" vertex="1" parent="1"><mxGeometry x="315" y="990" width="1025" height="620" as="geometry" /></mxCell>
+        <mxCell id="success-label" value="[query succeeds]" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontColor=#166534;fontSize=11;" vertex="1" parent="1"><mxGeometry x="325" y="1020" width="140" height="30" as="geometry" /></mxCell>
+        <mxCell id="m15" value="15. Scalar result: 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#166534;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1310" y="1070" as="sourcePoint" /><mxPoint x="1130" y="1070" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m16" value="16. Command completed" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#166534;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1130" y="1120" as="sourcePoint" /><mxPoint x="950" y="1120" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m17" value="17. Ok(SystemStatusResponse)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#166534;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="950" y="1170" as="sourcePoint" /><mxPoint x="770" y="1170" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m18" value="18. 200 application/json" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#166534;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="770" y="1220" as="sourcePoint" /><mxPoint x="590" y="1220" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m19" value="19. Forward JSON response" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#166534;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="590" y="1270" as="sourcePoint" /><mxPoint x="405" y="1270" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m20" value="20. Parse JSON, cache result, set isSuccess" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#4F46E5;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="405" y="1320" as="sourcePoint" /><mxPoint x="455" y="1320" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m21" value="21. Rerender success UI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#166534;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="405" y="1370" as="sourcePoint" /><mxPoint x="230" y="1370" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="alt-divider" style="shape=line;html=1;strokeColor=#64748B;dashed=1;" vertex="1" parent="1"><mxGeometry x="315" y="1410" width="1025" height="1" as="geometry" /></mxCell>
+        <mxCell id="failure-label" value="[query fails]" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1;fontColor=#991B1B;fontSize=11;" vertex="1" parent="1"><mxGeometry x="325" y="1415" width="140" height="30" as="geometry" /></mxCell>
+        <mxCell id="m22" value="22. Connection/query exception" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#DC2626;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="1310" y="1470" as="sourcePoint" /><mxPoint x="950" y="1470" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m23" value="23. Exception propagates" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#DC2626;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="950" y="1510" as="sourcePoint" /><mxPoint x="770" y="1510" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m24" value="24. Exception middleware creates 500 Problem Details" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeColor=#DC2626;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="770" y="1550" as="sourcePoint" /><mxPoint x="820" y="1550" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m25" value="25. 500 response → query isError → error UI" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#DC2626;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="770" y="1590" as="sourcePoint" /><mxPoint x="405" y="1590" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="m26" value="26. Display connected status or error + Retry" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#334155;fontSize=11;" edge="1" parent="1"><mxGeometry relative="1" as="geometry"><mxPoint x="230" y="1660" as="sourcePoint" /><mxPoint x="75" y="1660" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="legend" value="&lt;b&gt;Network boundaries&lt;/b&gt;&lt;br&gt;Browser → nginx: HTTP on localhost:3000&lt;br&gt;nginx → ASP.NET Core: HTTP on backend:8080&lt;br&gt;Npgsql → PostgreSQL: PostgreSQL protocol on postgres:5432&lt;br&gt;&lt;br&gt;React and TanStack Query execute inside the browser; their arrows represent function calls, not network traffic." style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=10;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="315" y="1730" width="720" height="125" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
