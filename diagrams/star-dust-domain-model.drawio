@@ -1,0 +1,172 @@
+<mxfile host="Electron" agent="Codex" pages="2">
+  <diagram id="domain-overview" name="1 - Domain overview">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="Star Dust Travel Agency — conceptual domain overview" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" vertex="1" parent="1">
+          <mxGeometry x="40" y="25" width="800" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="A map of business concepts and their relationships. Fields and database types are intentionally omitted on this page." style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" vertex="1" parent="1">
+          <mxGeometry x="40" y="65" width="950" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="operationsGroup" value="OPERATIONS" style="swimlane;html=1;rounded=1;startSize=32;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#DBEAFE;strokeColor=#93C5FD;" vertex="1" parent="1">
+          <mxGeometry x="40" y="120" width="920" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="launchStation" value="LaunchStation" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#2563EB;" vertex="1" parent="operationsGroup">
+          <mxGeometry x="30" y="65" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="destination" value="Destination" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#2563EB;" vertex="1" parent="operationsGroup">
+          <mxGeometry x="30" y="210" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="route" value="Route&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;station ↔ destination&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#2563EB;" vertex="1" parent="operationsGroup">
+          <mxGeometry x="235" y="135" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="weeklySchedule" value="WeeklySchedule&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;repeating template&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#2563EB;" vertex="1" parent="operationsGroup">
+          <mxGeometry x="455" y="135" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="journey" value="Journey&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;dated trip instance&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;" vertex="1" parent="operationsGroup">
+          <mxGeometry x="685" y="135" width="170" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="spaceship" value="Spaceship" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#2563EB;" vertex="1" parent="operationsGroup">
+          <mxGeometry x="475" y="260" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="peopleGroup" value="PEOPLE &amp; IDENTITY" style="swimlane;html=1;rounded=1;startSize=32;horizontal=1;fontStyle=1;fontColor=#065F46;fillColor=#D1FAE5;strokeColor=#6EE7B7;" vertex="1" parent="1">
+          <mxGeometry x="990" y="120" width="550" height="245" as="geometry" />
+        </mxCell>
+        <mxCell id="appUser" value="ApplicationUser&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;linked by Keycloak subject&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#059669;" vertex="1" parent="peopleGroup">
+          <mxGeometry x="30" y="65" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="crewMember" value="CrewMember" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#059669;" vertex="1" parent="peopleGroup">
+          <mxGeometry x="315" y="65" width="170" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="crewAssignment" value="JourneyCrewAssignment" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#059669;" vertex="1" parent="peopleGroup">
+          <mxGeometry x="290" y="155" width="220" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="salesGroup" value="BOOKING &amp; SALES" style="swimlane;html=1;rounded=1;startSize=32;horizontal=1;fontStyle=1;fontColor=#7C2D12;fillColor=#FFEDD5;strokeColor=#FDBA74;" vertex="1" parent="1">
+          <mxGeometry x="40" y="545" width="920" height="350" as="geometry" />
+        </mxCell>
+        <mxCell id="booking" value="Booking&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;one purchase&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#EA580C;" vertex="1" parent="salesGroup">
+          <mxGeometry x="70" y="105" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ticket" value="Ticket&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;one seat on one journey&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFF7ED;strokeColor=#C2410C;strokeWidth=2;" vertex="1" parent="salesGroup">
+          <mxGeometry x="300" y="105" width="185" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="fareClass" value="FareClass" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#EA580C;" vertex="1" parent="salesGroup">
+          <mxGeometry x="555" y="55" width="150" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="routeFare" value="RouteFare&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;price per route + class&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#EA580C;" vertex="1" parent="salesGroup">
+          <mxGeometry x="555" y="165" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="payment" value="Payment&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;simulated&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#EA580C;" vertex="1" parent="salesGroup">
+          <mxGeometry x="70" y="235" width="160" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="supportGroup" value="COMMUNICATION &amp; GOVERNANCE" style="swimlane;html=1;rounded=1;startSize=32;horizontal=1;fontStyle=1;fontColor=#581C87;fillColor=#F3E8FF;strokeColor=#D8B4FE;" vertex="1" parent="1">
+          <mxGeometry x="990" y="400" width="550" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="announcement" value="Announcement" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#9333EA;" vertex="1" parent="supportGroup">
+          <mxGeometry x="45" y="75" width="180" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="auditRecord" value="AuditRecord&lt;br&gt;&lt;font style=&quot;font-size:11px;font-weight:normal&quot;&gt;append-only history&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FFFFFF;strokeColor=#9333EA;" vertex="1" parent="supportGroup">
+          <mxGeometry x="300" y="75" width="190" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="1 : many" edge="1" parent="1" source="launchStation" target="route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="1 : many" edge="1" parent="1" source="destination" target="route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="1 : many" edge="1" parent="1" source="route" target="weeklySchedule" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="generates" edge="1" parent="1" source="weeklySchedule" target="journey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2563EB;fontSize=11;strokeWidth=2;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="default / assigned" edge="1" parent="1" source="spaceship" target="weeklySchedule" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="operates" edge="1" parent="1" source="spaceship" target="journey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="contains 1–2" edge="1" parent="1" source="booking" target="ticket" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" value="paid by" edge="1" parent="1" source="booking" target="payment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="selected class" edge="1" parent="1" source="fareClass" target="ticket" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" value="priced by" edge="1" parent="1" source="fareClass" target="routeFare" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" value="assigned through" edge="1" parent="1" source="crewMember" target="crewAssignment" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=11;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" value="&lt;b&gt;Cross-area relationships (listed to keep the overview readable)&lt;/b&gt;&lt;br&gt;• ApplicationUser owns Bookings and is the actor on AuditRecords.&lt;br&gt;• Journey has Tickets, CrewAssignments, and Announcements.&lt;br&gt;• Route + FareClass defines each RouteFare." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontColor=#475569;align=left;verticalAlign=top;spacing=12;" vertex="1" parent="1">
+          <mxGeometry x="990" y="745" width="550" height="125" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="operations-detail" name="2 - Operational core detail">
+    <mxGraphModel dx="1383" dy="804" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="d0" />
+        <mxCell id="d1" parent="d0" />
+        <mxCell id="d-title" parent="d1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Operational travel core — proposed first implementation group" vertex="1">
+          <mxGeometry height="40" width="900" x="40" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="d-subtitle" parent="d1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="PK = primary key, FK = foreign key. This is a design proposal for review; it is not a database schema yet." vertex="1">
+          <mxGeometry height="30" width="950" x="40" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="d-launch" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=12;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=13;" value="&lt;b&gt;LaunchStation&lt;/b&gt;&lt;hr&gt;Id : UUID (PK)&lt;br&gt;Name : text, unique&lt;br&gt;Active : boolean" vertex="1">
+          <mxGeometry height="150" width="245" x="60" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="d-destination" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=12;fillColor=#EFF6FF;strokeColor=#2563EB;strokeWidth=2;fontSize=13;" value="&lt;b&gt;Destination&lt;/b&gt;&lt;hr&gt;Id : UUID (PK)&lt;br&gt;Name : text, unique&lt;br&gt;Type : DestinationType&lt;br&gt;StarSystem : text&lt;br&gt;ShortDescription : text&lt;br&gt;GravityRelativeToEarth : decimal&lt;br&gt;AverageTemperatureCelsius : decimal&lt;br&gt;TravelAdvisory : text&lt;br&gt;Active : boolean" vertex="1">
+          <mxGeometry height="300" width="245" x="60" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="d-route" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=12;fillColor=#F8FAFC;strokeColor=#475569;strokeWidth=2;fontSize=13;" value="&lt;b&gt;Route&lt;/b&gt;&lt;hr&gt;Id : UUID (PK)&lt;br&gt;LaunchStationId : UUID (FK)&lt;br&gt;DestinationId : UUID (FK)&lt;br&gt;DurationMinutes : integer&lt;br&gt;Active : boolean&lt;br&gt;&lt;br&gt;&lt;i&gt;One connection; schedule supplies direction.&lt;/i&gt;" vertex="1">
+          <mxGeometry height="235" width="280" x="405" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="d-schedule" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=12;fillColor=#F8FAFC;strokeColor=#475569;strokeWidth=2;fontSize=13;" value="&lt;b&gt;WeeklySchedule&lt;/b&gt;&lt;hr&gt;Id : UUID (PK)&lt;br&gt;RouteId : UUID (FK)&lt;br&gt;Direction : Outbound | Return&lt;br&gt;DepartureDay : day of week&lt;br&gt;DepartureTime : local time&lt;br&gt;DefaultSpaceshipId : UUID (FK)&lt;br&gt;Active : boolean&lt;br&gt;&lt;br&gt;&lt;i&gt;Repeats in Europe/Istanbul time.&lt;/i&gt;" vertex="1">
+          <mxGeometry height="285" width="315" x="780" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="d-journey" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=12;fillColor=#DBEAFE;strokeColor=#1D4ED8;strokeWidth=3;fontSize=13;" value="&lt;b&gt;Journey&lt;/b&gt;&lt;hr&gt;Id : UUID (PK)&lt;br&gt;RouteId : UUID (FK)&lt;br&gt;WeeklyScheduleId : UUID? (FK)&lt;br&gt;Direction : Outbound | Return&lt;br&gt;DepartureAtUtc : timestamp&lt;br&gt;ArrivalAtUtc : timestamp&lt;br&gt;SpaceshipId : UUID (FK)&lt;br&gt;Status : JourneyStatus&lt;br&gt;&lt;br&gt;&lt;i&gt;A concrete dated trip; nullable schedule allows manually created journeys.&lt;/i&gt;" vertex="1">
+          <mxGeometry height="340" width="330" x="1200" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="d-ship" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacing=12;fillColor=#F8FAFC;strokeColor=#475569;strokeWidth=2;fontSize=13;" value="&lt;b&gt;Spaceship&lt;/b&gt;&lt;hr&gt;Id : UUID (PK)&lt;br&gt;Name : text, unique&lt;br&gt;Model : text&lt;br&gt;Capacity : integer&lt;br&gt;YearBuilt : integer&lt;br&gt;Status : SpaceshipStatus" vertex="1">
+          <mxGeometry height="225" width="280" x="640" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="de1" edge="1" parent="d1" source="d-launch" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=12;strokeWidth=2;" target="d-route" value="1 station → many routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de2" edge="1" parent="d1" source="d-destination" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=12;strokeWidth=2;" target="d-route" value="1 destination → many routes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de3" edge="1" parent="d1" source="d-route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=12;strokeWidth=2;" target="d-schedule" value="1 route → many templates">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de4" edge="1" parent="d1" source="d-schedule" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2563EB;fontSize=12;strokeWidth=3;" target="d-journey" value="generates 0..many">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de5" edge="1" parent="d1" source="d-ship" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=12;strokeWidth=2;" target="d-schedule" value="default ship">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de6" edge="1" parent="d1" source="d-ship" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#64748B;fontSize=12;strokeWidth=2;" target="d-journey" value="assigned ship">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="de7" edge="1" parent="d1" source="d-route" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#94A3B8;fontSize=12;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="d-journey" value="route used by dated trip">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="545" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d-note" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#EAB308;fontColor=#713F12;align=left;verticalAlign=middle;spacing=12;fontSize=13;" value="Design boundary: this first group establishes travel operations. Bookings, tickets, crew, authentication, and audit data are visible on the overview page but will be implemented in later, reviewable groups." vertex="1">
+          <mxGeometry height="70" width="1470" x="60" y="850" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
