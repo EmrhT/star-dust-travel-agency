@@ -14,7 +14,7 @@ public sealed class Route
 
     public int DurationMinutes { get; set; }
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 
     public ICollection<WeeklySchedule> WeeklySchedules { get; set; } = [];
 

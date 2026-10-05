@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Npgsql;
 using StarDustTravelAgency.Api.Health;
+using StarDustTravelAgency.Api.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +32,8 @@ if (string.IsNullOrWhiteSpace(connectionString))
 }
 
 builder.Services.AddSingleton(_ => NpgsqlDataSource.Create(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+    options.UseNpgsql(serviceProvider.GetRequiredService<NpgsqlDataSource>()));
 builder.Services
     .AddHealthChecks()
     .AddCheck<ProcessLivenessHealthCheck>(

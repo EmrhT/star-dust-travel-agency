@@ -20,7 +20,7 @@ public sealed class WeeklySchedule
 
     public Spaceship DefaultSpaceship { get; set; } = null!;
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 
     public ICollection<Journey> Journeys { get; set; } = [];
 }

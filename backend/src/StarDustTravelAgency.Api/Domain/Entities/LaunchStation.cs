@@ -6,7 +6,7 @@ public sealed class LaunchStation
 
     public string Name { get; set; } = string.Empty;
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 
     public ICollection<Route> Routes { get; set; } = [];
 }

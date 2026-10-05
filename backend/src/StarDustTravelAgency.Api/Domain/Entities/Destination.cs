@@ -20,7 +20,7 @@ public sealed class Destination
 
     public string TravelAdvisory { get; set; } = string.Empty;
 
-    public bool Active { get; set; }
+    public bool Active { get; set; } = true;
 
     public ICollection<Route> Routes { get; set; } = [];
 }
