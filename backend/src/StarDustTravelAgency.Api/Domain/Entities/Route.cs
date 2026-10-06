@@ -1,5 +1,11 @@
+// Models a station-to-destination path used by schedules and journeys.
+// Persistence mappings enforce its relationships and duration constraints.
 namespace StarDustTravelAgency.Api.Domain.Entities;
 
+/// <summary>
+/// Connects LaunchStation and Destination to schedules and journeys.
+/// WeeklyTimetableCatalog creates it; RouteConfiguration maps it.
+/// </summary>
 public sealed class Route
 {
     public Guid Id { get; set; }

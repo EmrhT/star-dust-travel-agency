@@ -1,3 +1,5 @@
+# Keeps local .NET outputs and repository metadata outside build context.
+# The backend Dockerfile restores and publishes clean project sources.
 **/bin/
 **/obj/
 **/TestResults/

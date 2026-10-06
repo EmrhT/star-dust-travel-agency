@@ -1,10 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using StarDustTravelAgency.Api.Domain.Entities;
 
+// Inserts missing reference catalog records through an EF Core DbContext.
+// Program registers both paths with EF Core's migration-time seed hooks.
 namespace StarDustTravelAgency.Api.Persistence.Seeding;
 
+/// <summary>
+/// Inserts missing entities supplied by ReferenceDataCatalog into DbContext.
+/// Program connects Seed and SeedAsync to EF Core seeding hooks.
+/// </summary>
 public static class ReferenceDataSeeder
 {
+    // Adds missing catalog records and commits them for synchronous EF calls.
     public static void Seed(DbContext context)
     {
         AddMissingLaunchStations(context);
@@ -17,6 +24,7 @@ public static class ReferenceDataSeeder
         }
     }
 
+    // Adds missing catalog records and commits them for asynchronous EF calls.
     public static async Task SeedAsync(
         DbContext context,
         CancellationToken cancellationToken = default)
@@ -31,6 +39,7 @@ public static class ReferenceDataSeeder
         }
     }
 
+    // Compares stored station IDs with ReferenceDataCatalog before tracking.
     private static void AddMissingLaunchStations(DbContext context)
     {
         var existingIds = context.Set<LaunchStation>()
@@ -41,6 +50,7 @@ public static class ReferenceDataSeeder
             .Where(station => !existingIds.Contains(station.Id)));
     }
 
+    // Compares stored destination IDs with the catalog before tracking.
     private static void AddMissingDestinations(DbContext context)
     {
         var existingIds = context.Set<Destination>()
@@ -51,6 +61,7 @@ public static class ReferenceDataSeeder
             .Where(destination => !existingIds.Contains(destination.Id)));
     }
 
+    // Compares stored spaceship IDs with ReferenceDataCatalog before tracking.
     private static void AddMissingSpaceships(DbContext context)
     {
         var existingIds = context.Set<Spaceship>()
@@ -61,6 +72,7 @@ public static class ReferenceDataSeeder
             .Where(spaceship => !existingIds.Contains(spaceship.Id)));
     }
 
+    // Asynchronously tracks stations absent from the connected DbContext.
     private static async Task AddMissingLaunchStationsAsync(
         DbContext context,
         CancellationToken cancellationToken)
@@ -75,6 +87,7 @@ public static class ReferenceDataSeeder
             cancellationToken);
     }
 
+    // Asynchronously tracks destinations absent from the connected DbContext.
     private static async Task AddMissingDestinationsAsync(
         DbContext context,
         CancellationToken cancellationToken)
@@ -89,6 +102,7 @@ public static class ReferenceDataSeeder
             cancellationToken);
     }
 
+    // Asynchronously tracks spaceships absent from the connected DbContext.
     private static async Task AddMissingSpaceshipsAsync(
         DbContext context,
         CancellationToken cancellationToken)

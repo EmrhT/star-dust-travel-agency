@@ -1,3 +1,5 @@
+# Keeps local dependencies, build output, and logs outside build context.
+# The frontend Dockerfile installs and compiles from declared package files.
 node_modules/
 dist/
 .git/

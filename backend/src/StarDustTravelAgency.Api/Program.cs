@@ -6,6 +6,8 @@ using StarDustTravelAgency.Api.Health;
 using StarDustTravelAgency.Api.Persistence;
 using StarDustTravelAgency.Api.Persistence.Seeding;
 
+// Composes the ASP.NET Core host, API services, persistence, and health checks.
+// It is the process entry point joining controllers, EF Core, and PostgreSQL.
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ConfigureHostOptions(options =>
@@ -33,12 +35,15 @@ if (string.IsNullOrWhiteSpace(connectionString))
 }
 
 builder.Services.AddSingleton(_ => NpgsqlDataSource.Create(connectionString));
-builder.Services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
-    options
-        .UseNpgsql(serviceProvider.GetRequiredService<NpgsqlDataSource>())
-        .UseSeeding((context, _) => ReferenceDataSeeder.Seed(context))
-        .UseAsyncSeeding((context, _, cancellationToken) =>
-            ReferenceDataSeeder.SeedAsync(context, cancellationToken)));
+builder.Services.AddDbContext<ApplicationDbContext>(
+    (serviceProvider, options) =>
+        options
+            .UseNpgsql(
+                serviceProvider.GetRequiredService<NpgsqlDataSource>())
+            .UseSeeding(
+                (context, _) => ReferenceDataSeeder.Seed(context))
+            .UseAsyncSeeding((context, _, cancellationToken) =>
+                ReferenceDataSeeder.SeedAsync(context, cancellationToken)));
 builder.Services
     .AddHealthChecks()
     .AddCheck<ProcessLivenessHealthCheck>(
@@ -57,12 +62,16 @@ app.Logger.LogInformation(
 
 app.UseExceptionHandler();
 
-if (app.Configuration.GetValue("Swagger:Enabled", app.Environment.IsDevelopment()))
+if (app.Configuration.GetValue(
+    "Swagger:Enabled",
+    app.Environment.IsDevelopment()))
 {
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Star Dust Travel Agency API v1");
+        options.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            "Star Dust Travel Agency API v1");
         options.DocumentTitle = "Star Dust Travel Agency API";
     });
 }
@@ -71,18 +80,24 @@ app.MapControllers();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {
-    Predicate = registration => registration.Tags.Contains(HealthCheckTags.Live),
+    Predicate = registration =>
+        registration.Tags.Contains(HealthCheckTags.Live),
     ResponseWriter = HealthResponseWriter.WriteAsync,
 });
 
 app.MapHealthChecks("/health/ready", new HealthCheckOptions
 {
-    Predicate = registration => registration.Tags.Contains(HealthCheckTags.Ready),
+    Predicate = registration =>
+        registration.Tags.Contains(HealthCheckTags.Ready),
     ResponseWriter = HealthResponseWriter.WriteAsync,
 });
 
 app.Run();
 
+/// <summary>
+/// Exposes the top-level host to UnavailablePostgresApiFactory.
+/// WebApplicationFactory uses it to boot API integration tests.
+/// </summary>
 public partial class Program
 {
 }

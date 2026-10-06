@@ -1,3 +1,5 @@
+# Serves the React bundle and proxies browser /api requests to ASP.NET Core.
+# Docker entrypoint substitution resolves BACKEND_UPSTREAM at startup.
 server {
     listen 8080;
     server_name _;

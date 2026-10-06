@@ -2,10 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StarDustTravelAgency.Api.Domain.Entities;
 
+// Maps Destination properties and validation rules to PostgreSQL columns.
+// ApplicationDbContext discovers this class while building the EF Core model.
 namespace StarDustTravelAgency.Api.Persistence.Configurations;
 
-public sealed class DestinationConfiguration : IEntityTypeConfiguration<Destination>
+/// <summary>
+/// Maps Destination fields, enum conversion, and its unique name.
+/// ApplicationDbContext discovers it through OnModelCreating.
+/// </summary>
+public sealed class DestinationConfiguration
+    : IEntityTypeConfiguration<Destination>
 {
+    // Applies table, column, precision, default, and uniqueness mappings.
     public void Configure(EntityTypeBuilder<Destination> builder)
     {
         builder.ToTable("destinations");

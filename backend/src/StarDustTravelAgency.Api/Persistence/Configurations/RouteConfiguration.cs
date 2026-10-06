@@ -3,10 +3,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StarDustTravelAgency.Api.Domain.Entities;
 using TravelRoute = StarDustTravelAgency.Api.Domain.Entities.Route;
 
+// Maps Route constraints and station-destination relations to PostgreSQL.
+// ApplicationDbContext discovers this class while building the EF Core model.
 namespace StarDustTravelAgency.Api.Persistence.Configurations;
 
+/// <summary>
+/// Maps Route constraints and its LaunchStation and Destination links.
+/// ApplicationDbContext discovers it through OnModelCreating.
+/// </summary>
 public sealed class RouteConfiguration : IEntityTypeConfiguration<TravelRoute>
 {
+    // Applies duration rules, foreign keys, and route uniqueness mappings.
     public void Configure(EntityTypeBuilder<TravelRoute> builder)
     {
         builder.ToTable("routes", table =>
@@ -42,7 +49,11 @@ public sealed class RouteConfiguration : IEntityTypeConfiguration<TravelRoute>
             .HasForeignKey(route => route.DestinationId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasIndex(route => new { route.LaunchStationId, route.DestinationId })
+        builder.HasIndex(route => new
+        {
+            route.LaunchStationId,
+            route.DestinationId,
+        })
             .IsUnique();
     }
 }

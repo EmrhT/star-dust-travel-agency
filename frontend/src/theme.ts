@@ -1,5 +1,7 @@
 import { createTheme } from '@mui/material/styles'
 
+// Defines Material UI design tokens consumed by ThemeProvider in main.tsx.
+// App components inherit this palette, typography, and shape configuration.
 export const theme = createTheme({
   palette: {
     mode: 'dark',
@@ -19,7 +21,8 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily:
-      'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      'Inter, ui-sans-serif, system-ui, -apple-system, ' +
+      'BlinkMacSystemFont, "Segoe UI", sans-serif',
     h1: {
       fontSize: 'clamp(2rem, 5vw, 3.5rem)',
       fontWeight: 700,

@@ -2,10 +2,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StarDustTravelAgency.Api.Domain.Entities;
 
+// Maps recurring WeeklySchedule assignments and relations to PostgreSQL.
+// ApplicationDbContext discovers this class while building the EF Core model.
 namespace StarDustTravelAgency.Api.Persistence.Configurations;
 
-public sealed class WeeklyScheduleConfiguration : IEntityTypeConfiguration<WeeklySchedule>
+/// <summary>
+/// Maps WeeklySchedule links to Route and its default Spaceship.
+/// ApplicationDbContext discovers it through OnModelCreating.
+/// </summary>
+public sealed class WeeklyScheduleConfiguration
+    : IEntityTypeConfiguration<WeeklySchedule>
 {
+    // Applies schedule columns, foreign keys, and departure uniqueness rules.
     public void Configure(EntityTypeBuilder<WeeklySchedule> builder)
     {
         builder.ToTable("weekly_schedules");

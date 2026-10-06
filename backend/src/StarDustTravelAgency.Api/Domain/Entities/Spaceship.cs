@@ -1,7 +1,13 @@
 using StarDustTravelAgency.Api.Domain.Enums;
 
+// Models a vehicle assigned to recurring schedules and dated journeys.
+// Seed catalogs create the fleet and EF Core persists these relations.
 namespace StarDustTravelAgency.Api.Domain.Entities;
 
+/// <summary>
+/// Supplies the vehicle assigned to WeeklySchedule and Journey.
+/// ReferenceDataCatalog creates it; SpaceshipConfiguration maps it.
+/// </summary>
 public sealed class Spaceship
 {
     public Guid Id { get; set; }

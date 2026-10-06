@@ -1,3 +1,5 @@
+<!-- Builds the ASP.NET API with EF Core, Npgsql, and OpenAPI dependencies. -->
+<!-- The solution, tests, and backend Dockerfile all reference this project. -->
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
@@ -8,14 +10,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.12" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+    <PackageReference
+      Include="Microsoft.EntityFrameworkCore"
+      Version="10.0.12" />
+    <PackageReference
+      Include="Microsoft.EntityFrameworkCore.Relational"
+      Version="10.0.12" />
+    <PackageReference
+      Include="Microsoft.EntityFrameworkCore.Design"
+      Version="10.0.12">
       <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <IncludeAssets>
+        runtime; build; native; contentfiles; analyzers; buildtransitive
+      </IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql" Version="10.0.3" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference
+      Include="Npgsql.EntityFrameworkCore.PostgreSQL"
+      Version="10.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
   </ItemGroup>
 

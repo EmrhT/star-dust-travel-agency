@@ -1,3 +1,5 @@
+# Aligns whitespace rules across the backend, frontend, and documentation.
+# Editors use these settings while language-specific tools handle semantics.
 root = true
 
 [*]
@@ -5,6 +7,7 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+max_line_length = 80
 
 [*.{cs,csproj,json,jsonc,md,ts,tsx,yaml,yml}]
 indent_style = space

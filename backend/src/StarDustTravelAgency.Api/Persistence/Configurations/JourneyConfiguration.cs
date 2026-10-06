@@ -2,10 +2,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StarDustTravelAgency.Api.Domain.Entities;
 
+// Maps Journey fields, constraints, and relationships to PostgreSQL.
+// ApplicationDbContext discovers this class while building the EF Core model.
 namespace StarDustTravelAgency.Api.Persistence.Configurations;
 
+/// <summary>
+/// Maps Journey constraints and links to Route, WeeklySchedule, and Spaceship.
+/// ApplicationDbContext discovers it through OnModelCreating.
+/// </summary>
 public sealed class JourneyConfiguration : IEntityTypeConfiguration<Journey>
 {
+    // Applies table rules, foreign keys, conversions, and query indexes.
     public void Configure(EntityTypeBuilder<Journey> builder)
     {
         builder.ToTable("journeys", table =>
@@ -74,6 +81,10 @@ public sealed class JourneyConfiguration : IEntityTypeConfiguration<Journey>
             journey.ArrivalAtUtc,
         });
 
-        builder.HasIndex(journey => new { journey.Status, journey.DepartureAtUtc });
+        builder.HasIndex(journey => new
+        {
+            journey.Status,
+            journey.DepartureAtUtc,
+        });
     }
 }

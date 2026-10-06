@@ -1,11 +1,15 @@
+# Builds the ASP.NET API and copies its published output into a lean runtime.
+# Docker Compose connects the resulting process to PostgreSQL and nginx.
 FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS restore
 WORKDIR /src
-COPY src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj src/StarDustTravelAgency.Api/
+COPY src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj \
+    src/StarDustTravelAgency.Api/
 RUN dotnet restore src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj
 
 FROM restore AS build
 COPY src/StarDustTravelAgency.Api/ src/StarDustTravelAgency.Api/
-RUN dotnet publish src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj \
+RUN dotnet publish \
+    src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj \
     --configuration Release \
     --no-restore \
     --output /app/publish \

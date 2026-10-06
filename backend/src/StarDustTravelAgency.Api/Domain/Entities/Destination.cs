@@ -1,7 +1,13 @@
 using StarDustTravelAgency.Api.Domain.Enums;
 
+// Models a bookable destination and its travel information for EF Core.
+// Route links let scheduling and persistence associate trips with this place.
 namespace StarDustTravelAgency.Api.Domain.Entities;
 
+/// <summary>
+/// Stores destination facts referenced by Route.
+/// ReferenceDataCatalog creates it; DestinationConfiguration maps it.
+/// </summary>
 public sealed class Destination
 {
     public Guid Id { get; set; }

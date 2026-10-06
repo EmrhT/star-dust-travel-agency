@@ -2,10 +2,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StarDustTravelAgency.Api.Domain.Entities;
 
+// Maps Spaceship fleet properties and constraints to PostgreSQL.
+// ApplicationDbContext discovers this class while building the EF Core model.
 namespace StarDustTravelAgency.Api.Persistence.Configurations;
 
+/// <summary>
+/// Maps Spaceship validation, status conversion, and unique name.
+/// ApplicationDbContext discovers it through OnModelCreating.
+/// </summary>
 public sealed class SpaceshipConfiguration : IEntityTypeConfiguration<Spaceship>
 {
+    // Applies fleet table, validation, enum, and unique-index mappings.
     public void Configure(EntityTypeBuilder<Spaceship> builder)
     {
         builder.ToTable("spaceships", table =>

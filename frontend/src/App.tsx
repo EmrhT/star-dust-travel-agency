@@ -12,6 +12,8 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { getSystemStatus } from './api/system'
 
+// Renders the connectivity page from status data returned by the ASP.NET API.
+// TanStack Query owns request state while Material UI supplies presentation.
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
   month: 'short',
@@ -23,6 +25,7 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZoneName: 'short',
 })
 
+// Requests system status and renders loading, error, or connected UI states.
 function App() {
   const statusQuery = useQuery({
     queryKey: ['system', 'status'],
@@ -39,8 +42,9 @@ function App() {
               Star Dust Travel Agency
             </Typography>
             <Typography color="text.secondary" sx={{ mt: 2, maxWidth: 660 }}>
-              The customer and operations portal is under construction. This page
-              verifies the production frontend, API, and database connection.
+              The customer and operations portal is under construction. This
+              page verifies the production frontend, API, and database
+              connection.
             </Typography>
           </Box>
 
@@ -51,7 +55,11 @@ function App() {
               </Typography>
 
               {statusQuery.isPending && (
-                <Stack direction="row" spacing={2} sx={{ alignItems: 'center' }}>
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  sx={{ alignItems: 'center' }}
+                >
                   <CircularProgress size={22} />
                   <Typography>Checking the API and PostgreSQL…</Typography>
                 </Stack>
@@ -61,7 +69,11 @@ function App() {
                 <Alert
                   severity="error"
                   action={
-                    <Button color="inherit" size="small" onClick={() => statusQuery.refetch()}>
+                    <Button
+                      color="inherit"
+                      size="small"
+                      onClick={() => statusQuery.refetch()}
+                    >
                       Retry
                     </Button>
                   }
@@ -72,7 +84,9 @@ function App() {
 
               {statusQuery.isSuccess && (
                 <Stack spacing={1.5}>
-                  <Alert severity="success">The complete request path is working.</Alert>
+                  <Alert severity="success">
+                    The complete request path is working.
+                  </Alert>
                   <Typography>
                     API: <strong>{statusQuery.data.service}</strong>
                   </Typography>
@@ -80,7 +94,10 @@ function App() {
                     PostgreSQL: <strong>{statusQuery.data.database}</strong>
                   </Typography>
                   <Typography color="text.secondary" variant="body2">
-                    Checked at {istanbulDateTime.format(new Date(statusQuery.data.checkedAtUtc))}
+                    Checked at{' '}
+                    {istanbulDateTime.format(
+                      new Date(statusQuery.data.checkedAtUtc),
+                    )}
                   </Typography>
                 </Stack>
               )}

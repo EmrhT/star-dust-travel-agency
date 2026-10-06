@@ -5,6 +5,8 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import App from './App'
 import { theme } from './theme'
 
+// Boots React and connects App to shared query and Material UI providers.
+// index.html loads this module after the nginx-generated runtime config.
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {

@@ -1,3 +1,5 @@
+// Configures TypeScript checks for React source compiled by Vite.
+// The frontend package scripts use it while producing the nginx bundle.
 {
   "compilerOptions": {
     "target": "ES2022",

@@ -1,4 +1,8 @@
+<!-- Groups the API and its tests for shared .NET build and test commands. -->
+<!-- Project references connect tests back to the application assembly. -->
 <Solution>
-  <Project Path="src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj" />
-  <Project Path="tests/StarDustTravelAgency.Api.Tests/StarDustTravelAgency.Api.Tests.csproj" />
+  <Project
+    Path="src/StarDustTravelAgency.Api/StarDustTravelAgency.Api.csproj" />
+  <Project
+    Path="tests/StarDustTravelAgency.Api.Tests/StarDustTravelAgency.Api.Tests.csproj" />
 </Solution>
