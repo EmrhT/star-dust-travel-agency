@@ -86,5 +86,11 @@ public sealed class JourneyConfiguration : IEntityTypeConfiguration<Journey>
             journey.Status,
             journey.DepartureAtUtc,
         });
+
+        builder.HasIndex(journey => new
+        {
+            journey.WeeklyScheduleId,
+            journey.DepartureAtUtc,
+        }).IsUnique();
     }
 }

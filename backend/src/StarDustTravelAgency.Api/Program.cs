@@ -5,6 +5,7 @@ using Npgsql;
 using StarDustTravelAgency.Api.Health;
 using StarDustTravelAgency.Api.Persistence;
 using StarDustTravelAgency.Api.Persistence.Seeding;
+using StarDustTravelAgency.Api.Services.Journeys;
 
 // Composes the ASP.NET Core host, API services, persistence, and health checks.
 // It is the process entry point joining controllers, EF Core, and PostgreSQL.
@@ -18,6 +19,7 @@ builder.Host.ConfigureHostOptions(options =>
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<JourneyGenerationService>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo

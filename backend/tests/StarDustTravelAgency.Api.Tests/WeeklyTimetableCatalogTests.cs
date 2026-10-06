@@ -66,6 +66,45 @@ public sealed class WeeklyTimetableCatalogTests
     }
 
     /// <summary>
+    /// Verifies timetable foreign keys target ReferenceDataCatalog entities.
+    /// </summary>
+    [Fact]
+    public void Catalog_foreign_keys_reference_known_entities()
+    {
+        var stationIds = ReferenceDataCatalog.CreateLaunchStations()
+            .Select(station => station.Id)
+            .ToHashSet();
+        var destinationIds = ReferenceDataCatalog.CreateDestinations()
+            .Select(destination => destination.Id)
+            .ToHashSet();
+        var spaceshipIds = ReferenceDataCatalog.CreateSpaceships()
+            .Select(spaceship => spaceship.Id)
+            .ToHashSet();
+        var routes = WeeklyTimetableCatalog.CreateRoutes();
+        var routeIds = routes.Select(route => route.Id).ToHashSet();
+        var schedules = WeeklyTimetableCatalog.CreateWeeklySchedules();
+
+        Assert.Equal(routes.Count, routeIds.Count);
+        Assert.Equal(
+            schedules.Count,
+            schedules.Select(schedule => schedule.Id).Distinct().Count());
+        Assert.All(
+            routes,
+            route => Assert.Contains(route.LaunchStationId, stationIds));
+        Assert.All(
+            routes,
+            route => Assert.Contains(route.DestinationId, destinationIds));
+        Assert.All(
+            schedules,
+            schedule => Assert.Contains(schedule.RouteId, routeIds));
+        Assert.All(
+            schedules,
+            schedule => Assert.Contains(
+                schedule.DefaultSpaceshipId,
+                spaceshipIds));
+    }
+
+    /// <summary>
     /// Verifies schedule pairs against route duration and turnaround rules.
     /// </summary>
     [Fact]

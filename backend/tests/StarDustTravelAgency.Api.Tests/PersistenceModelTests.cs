@@ -10,12 +10,12 @@ namespace StarDustTravelAgency.Api.Tests;
 
 /// <summary>
 /// Builds ApplicationDbContext to inspect all entity configuration classes.
-/// It verifies table names and Journey's WeeklySchedule relation.
+/// It verifies tables, Journey relations, and occurrence uniqueness.
 /// </summary>
 public sealed class PersistenceModelTests
 {
     /// <summary>
-    /// Verifies ApplicationDbContext tables and Journey's optional relation.
+    /// Verifies tables, Journey's schedule relation, and occurrence index.
     /// </summary>
     [Fact]
     public void Operational_model_has_expected_tables_and_relationships()
@@ -61,5 +61,18 @@ public sealed class PersistenceModelTests
         Assert.Equal(
             DeleteBehavior.Restrict,
             weeklyScheduleForeignKey?.DeleteBehavior);
+
+        var journeyEntity = context.Model.FindEntityType(typeof(Journey));
+        var occurrenceIndex = journeyEntity?
+            .GetIndexes()
+            .Single(index => index.Properties
+                .Select(property => property.Name)
+                .SequenceEqual(
+                [
+                    nameof(Journey.WeeklyScheduleId),
+                    nameof(Journey.DepartureAtUtc),
+                ]));
+
+        Assert.True(occurrenceIndex?.IsUnique);
     }
 }

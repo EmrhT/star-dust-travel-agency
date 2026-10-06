@@ -1,22 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using StarDustTravelAgency.Api.Domain.Entities;
+using TravelRoute = StarDustTravelAgency.Api.Domain.Entities.Route;
 
-// Inserts missing reference catalog records through an EF Core DbContext.
+// Inserts missing reference and timetable records through an EF Core DbContext.
 // Program registers both paths with EF Core's migration-time seed hooks.
 namespace StarDustTravelAgency.Api.Persistence.Seeding;
 
 /// <summary>
-/// Inserts missing entities supplied by ReferenceDataCatalog into DbContext.
+/// Inserts entities from reference and timetable catalogs into DbContext.
 /// Program connects Seed and SeedAsync to EF Core seeding hooks.
 /// </summary>
 public static class ReferenceDataSeeder
 {
-    // Adds missing catalog records and commits them for synchronous EF calls.
+    // Adds catalogs in foreign-key order and commits synchronous EF calls.
     public static void Seed(DbContext context)
     {
         AddMissingLaunchStations(context);
         AddMissingDestinations(context);
         AddMissingSpaceships(context);
+        AddMissingRoutes(context);
+        AddMissingWeeklySchedules(context);
 
         if (context.ChangeTracker.HasChanges())
         {
@@ -24,7 +27,7 @@ public static class ReferenceDataSeeder
         }
     }
 
-    // Adds missing catalog records and commits them for asynchronous EF calls.
+    // Adds catalogs in foreign-key order and commits asynchronous EF calls.
     public static async Task SeedAsync(
         DbContext context,
         CancellationToken cancellationToken = default)
@@ -32,6 +35,8 @@ public static class ReferenceDataSeeder
         await AddMissingLaunchStationsAsync(context, cancellationToken);
         await AddMissingDestinationsAsync(context, cancellationToken);
         await AddMissingSpaceshipsAsync(context, cancellationToken);
+        await AddMissingRoutesAsync(context, cancellationToken);
+        await AddMissingWeeklySchedulesAsync(context, cancellationToken);
 
         if (context.ChangeTracker.HasChanges())
         {
@@ -70,6 +75,28 @@ public static class ReferenceDataSeeder
 
         context.AddRange(ReferenceDataCatalog.CreateSpaceships()
             .Where(spaceship => !existingIds.Contains(spaceship.Id)));
+    }
+
+    // Compares stored route IDs with WeeklyTimetableCatalog before tracking.
+    private static void AddMissingRoutes(DbContext context)
+    {
+        var existingIds = context.Set<TravelRoute>()
+            .Select(route => route.Id)
+            .ToHashSet();
+
+        context.AddRange(WeeklyTimetableCatalog.CreateRoutes()
+            .Where(route => !existingIds.Contains(route.Id)));
+    }
+
+    // Compares stored schedule IDs with the timetable before tracking.
+    private static void AddMissingWeeklySchedules(DbContext context)
+    {
+        var existingIds = context.Set<WeeklySchedule>()
+            .Select(schedule => schedule.Id)
+            .ToHashSet();
+
+        context.AddRange(WeeklyTimetableCatalog.CreateWeeklySchedules()
+            .Where(schedule => !existingIds.Contains(schedule.Id)));
     }
 
     // Asynchronously tracks stations absent from the connected DbContext.
@@ -114,6 +141,36 @@ public static class ReferenceDataSeeder
         await context.AddRangeAsync(
             ReferenceDataCatalog.CreateSpaceships()
                 .Where(spaceship => !existingIds.Contains(spaceship.Id)),
+            cancellationToken);
+    }
+
+    // Asynchronously tracks routes absent from the connected DbContext.
+    private static async Task AddMissingRoutesAsync(
+        DbContext context,
+        CancellationToken cancellationToken)
+    {
+        var existingIds = await context.Set<TravelRoute>()
+            .Select(route => route.Id)
+            .ToHashSetAsync(cancellationToken);
+
+        await context.AddRangeAsync(
+            WeeklyTimetableCatalog.CreateRoutes()
+                .Where(route => !existingIds.Contains(route.Id)),
+            cancellationToken);
+    }
+
+    // Asynchronously tracks schedules absent from the connected DbContext.
+    private static async Task AddMissingWeeklySchedulesAsync(
+        DbContext context,
+        CancellationToken cancellationToken)
+    {
+        var existingIds = await context.Set<WeeklySchedule>()
+            .Select(schedule => schedule.Id)
+            .ToHashSetAsync(cancellationToken);
+
+        await context.AddRangeAsync(
+            WeeklyTimetableCatalog.CreateWeeklySchedules()
+                .Where(schedule => !existingIds.Contains(schedule.Id)),
             cancellationToken);
     }
 }
