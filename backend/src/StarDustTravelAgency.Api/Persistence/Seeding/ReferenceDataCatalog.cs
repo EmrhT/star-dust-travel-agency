@@ -9,22 +9,22 @@ public static class ReferenceDataCatalog
     [
         new()
         {
-            Id = Guid.Parse("10000000-0000-0000-0000-000000000001"),
+            Id = ReferenceDataIds.LaunchStations.Tokyo,
             Name = "Tokyo",
         },
         new()
         {
-            Id = Guid.Parse("10000000-0000-0000-0000-000000000002"),
+            Id = ReferenceDataIds.LaunchStations.Istanbul,
             Name = "Istanbul",
         },
         new()
         {
-            Id = Guid.Parse("10000000-0000-0000-0000-000000000003"),
+            Id = ReferenceDataIds.LaunchStations.Berlin,
             Name = "Berlin",
         },
         new()
         {
-            Id = Guid.Parse("10000000-0000-0000-0000-000000000004"),
+            Id = ReferenceDataIds.LaunchStations.NewYork,
             Name = "New York",
         },
     ];
@@ -33,7 +33,7 @@ public static class ReferenceDataCatalog
     [
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000001"),
+            Id = ReferenceDataIds.Destinations.Mars,
             Name = "Mars",
             Type = DestinationType.Planet,
             StarSystem = "Solar System",
@@ -44,7 +44,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000002"),
+            Id = ReferenceDataIds.Destinations.Venus,
             Name = "Venus",
             Type = DestinationType.Planet,
             StarSystem = "Solar System",
@@ -55,7 +55,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000003"),
+            Id = ReferenceDataIds.Destinations.Titan,
             Name = "Titan",
             Type = DestinationType.Moon,
             StarSystem = "Solar System",
@@ -66,7 +66,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000004"),
+            Id = ReferenceDataIds.Destinations.Europa,
             Name = "Europa",
             Type = DestinationType.Moon,
             StarSystem = "Solar System",
@@ -77,7 +77,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000005"),
+            Id = ReferenceDataIds.Destinations.ProximaCentauriB,
             Name = "Proxima Centauri b",
             Type = DestinationType.Exoplanet,
             StarSystem = "Proxima Centauri",
@@ -88,7 +88,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000006"),
+            Id = ReferenceDataIds.Destinations.Trappist1E,
             Name = "TRAPPIST-1e",
             Type = DestinationType.Exoplanet,
             StarSystem = "TRAPPIST-1",
@@ -99,7 +99,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000007"),
+            Id = ReferenceDataIds.Destinations.Kepler186F,
             Name = "Kepler-186f",
             Type = DestinationType.Exoplanet,
             StarSystem = "Kepler-186",
@@ -110,7 +110,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000008"),
+            Id = ReferenceDataIds.Destinations.Ganymede,
             Name = "Ganymede",
             Type = DestinationType.Moon,
             StarSystem = "Solar System",
@@ -121,7 +121,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000009"),
+            Id = ReferenceDataIds.Destinations.Enceladus,
             Name = "Enceladus",
             Type = DestinationType.Moon,
             StarSystem = "Solar System",
@@ -132,7 +132,7 @@ public static class ReferenceDataCatalog
         },
         new()
         {
-            Id = Guid.Parse("20000000-0000-0000-0000-000000000010"),
+            Id = ReferenceDataIds.Destinations.Kepler452B,
             Name = "Kepler-452b",
             Type = DestinationType.Exoplanet,
             StarSystem = "Kepler-452",
@@ -145,25 +145,25 @@ public static class ReferenceDataCatalog
 
     public static IReadOnlyList<Spaceship> CreateSpaceships() =>
     [
-        CreateSpaceship("30000000-0000-0000-0000-000000000001", "Celestial Nomad", "Asteria 180", 180, 2018),
-        CreateSpaceship("30000000-0000-0000-0000-000000000002", "Aurora Vanguard", "Helios 220", 220, 2021),
-        CreateSpaceship("30000000-0000-0000-0000-000000000003", "Horizon IX", "Horizon 140", 140, 2019),
-        CreateSpaceship("30000000-0000-0000-0000-000000000004", "Odyssey Prime", "Odyssey 260", 260, 2024),
-        CreateSpaceship("30000000-0000-0000-0000-000000000005", "Stellar Meridian", "Meridian 200", 200, 2020),
-        CreateSpaceship("30000000-0000-0000-0000-000000000006", "Artemis Dawn", "Artemis 160", 160, 2022),
-        CreateSpaceship("30000000-0000-0000-0000-000000000007", "Solaris Ascendant", "Solaris 240", 240, 2025),
-        CreateSpaceship("30000000-0000-0000-0000-000000000008", "Nebula Voyager", "Nebula 190", 190, 2023),
+        CreateSpaceship(ReferenceDataIds.Spaceships.CelestialNomad, "Celestial Nomad", "Asteria 180", 180, 2018),
+        CreateSpaceship(ReferenceDataIds.Spaceships.AuroraVanguard, "Aurora Vanguard", "Helios 220", 220, 2021),
+        CreateSpaceship(ReferenceDataIds.Spaceships.HorizonIX, "Horizon IX", "Horizon 140", 140, 2019),
+        CreateSpaceship(ReferenceDataIds.Spaceships.OdysseyPrime, "Odyssey Prime", "Odyssey 260", 260, 2024),
+        CreateSpaceship(ReferenceDataIds.Spaceships.StellarMeridian, "Stellar Meridian", "Meridian 200", 200, 2020),
+        CreateSpaceship(ReferenceDataIds.Spaceships.ArtemisDawn, "Artemis Dawn", "Artemis 160", 160, 2022),
+        CreateSpaceship(ReferenceDataIds.Spaceships.SolarisAscendant, "Solaris Ascendant", "Solaris 240", 240, 2025),
+        CreateSpaceship(ReferenceDataIds.Spaceships.NebulaVoyager, "Nebula Voyager", "Nebula 190", 190, 2023),
     ];
 
     private static Spaceship CreateSpaceship(
-        string id,
+        Guid id,
         string name,
         string model,
         int capacity,
         int yearBuilt) =>
         new()
         {
-            Id = Guid.Parse(id),
+            Id = id,
             Name = name,
             Model = model,
             Capacity = capacity,
