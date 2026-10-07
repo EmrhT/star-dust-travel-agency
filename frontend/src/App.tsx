@@ -10,10 +10,13 @@ import {
   Typography,
 } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import { getJourneysForWeek } from './api/journeys'
 import { getSystemStatus } from './api/system'
 
-// Renders the connectivity page from status data returned by the ASP.NET API.
-// TanStack Query owns request state while Material UI supplies presentation.
+// Renders API connectivity and journey-count data returned by ASP.NET Core.
+// TanStack Query owns both request states while Material UI presents them.
+const journeyWeekStarting = '2026-10-12'
+
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
   month: 'short',
@@ -25,11 +28,16 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZoneName: 'short',
 })
 
-// Requests system status and renders loading, error, or connected UI states.
+// Requests status and journeys, then renders each query's independent state.
 function App() {
   const statusQuery = useQuery({
     queryKey: ['system', 'status'],
     queryFn: ({ signal }) => getSystemStatus({ signal }),
+  })
+  const journeysQuery = useQuery({
+    queryKey: ['journeys', 'week', journeyWeekStarting],
+    queryFn: ({ signal }) =>
+      getJourneysForWeek(journeyWeekStarting, { signal }),
   })
 
   return (
@@ -100,6 +108,49 @@ function App() {
                     )}
                   </Typography>
                 </Stack>
+              )}
+            </Stack>
+          </Paper>
+
+          <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
+            <Stack spacing={2.5}>
+              <Typography component="h2" variant="h5">
+                Journey data
+              </Typography>
+
+              {journeysQuery.isPending && (
+                <Stack
+                  direction="row"
+                  spacing={2}
+                  sx={{ alignItems: 'center' }}
+                >
+                  <CircularProgress size={22} />
+                  <Typography>Loading the generated week…</Typography>
+                </Stack>
+              )}
+
+              {journeysQuery.isError && (
+                <Alert
+                  severity="error"
+                  action={
+                    <Button
+                      color="inherit"
+                      size="small"
+                      onClick={() => journeysQuery.refetch()}
+                    >
+                      Retry
+                    </Button>
+                  }
+                >
+                  {journeysQuery.error.message}
+                </Alert>
+              )}
+
+              {journeysQuery.isSuccess && (
+                <Alert severity="success">
+                  <strong>{journeysQuery.data.length}</strong> journeys were
+                  returned for the week starting {journeyWeekStarting}.
+                </Alert>
               )}
             </Stack>
           </Paper>
