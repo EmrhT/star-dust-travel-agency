@@ -12,9 +12,10 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { getJourneysForWeek } from './api/journeys'
 import { getSystemStatus } from './api/system'
+import { JourneyTable } from './components/JourneyTable'
 
-// Renders API connectivity and journey-count data returned by ASP.NET Core.
-// TanStack Query owns both request states while Material UI presents them.
+// Renders connectivity and journey data returned by ASP.NET Core.
+// TanStack Query owns request state; JourneyTable presents cached rows.
 const journeyWeekStarting = '2026-10-12'
 
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
@@ -28,7 +29,7 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZoneName: 'short',
 })
 
-// Requests status and journeys, then renders each query's independent state.
+// Requests status and journeys, then delegates successful rows to JourneyTable.
 function App() {
   const statusQuery = useQuery({
     queryKey: ['system', 'status'],
@@ -147,10 +148,13 @@ function App() {
               )}
 
               {journeysQuery.isSuccess && (
-                <Alert severity="success">
-                  <strong>{journeysQuery.data.length}</strong> journeys were
-                  returned for the week starting {journeyWeekStarting}.
-                </Alert>
+                <Stack spacing={2}>
+                  <Alert severity="success">
+                    <strong>{journeysQuery.data.length}</strong> journeys were
+                    returned for the week starting {journeyWeekStarting}.
+                  </Alert>
+                  <JourneyTable journeys={journeysQuery.data} />
+                </Stack>
               )}
             </Stack>
           </Paper>
