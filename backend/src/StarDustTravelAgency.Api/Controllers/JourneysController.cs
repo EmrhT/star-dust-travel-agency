@@ -6,14 +6,39 @@ using StarDustTravelAgency.Api.Services.Journeys;
 namespace StarDustTravelAgency.Api.Controllers;
 
 /// <summary>
-/// Handles journey-generation requests for one Monday-based schedule week.
-/// JourneyGenerationService performs the time conversion and persistence.
+/// Handles journey read and generation requests for a Monday-based week.
+/// Journey services provide generation and read-only weekly query operations.
 /// </summary>
 [ApiController]
 [Route("api/journeys")]
 public sealed class JourneysController(
-    JourneyGenerationService generationService) : ControllerBase
+    JourneyGenerationService generationService,
+    JourneyQueryService queryService) : ControllerBase
 {
+    /// <summary>
+    /// Returns JourneyQueryService results for one Monday-based week.
+    /// </summary>
+    [HttpGet]
+    [ProducesResponseType<IReadOnlyList<JourneyListItem>>(
+        StatusCodes.Status200OK)]
+    [ProducesResponseType<ValidationProblemDetails>(
+        StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IReadOnlyList<JourneyListItem>>> GetWeek(
+        [FromQuery] DateOnly? weekStarting,
+        CancellationToken cancellationToken)
+    {
+        if (!ValidateWeekStarting(weekStarting))
+        {
+            return ValidationProblem(ModelState);
+        }
+
+        var journeys = await queryService.GetWeekAsync(
+            weekStarting!.Value,
+            cancellationToken);
+
+        return Ok(journeys);
+    }
+
     /// <summary>
     /// Validates the requested Monday and delegates one week of generation.
     /// </summary>
@@ -26,20 +51,7 @@ public sealed class JourneysController(
         GenerateJourneyWeekRequest request,
         CancellationToken cancellationToken)
     {
-        if (request.WeekStarting is null)
-        {
-            ModelState.AddModelError(
-                nameof(request.WeekStarting),
-                "weekStarting is required.");
-        }
-        else if (request.WeekStarting.Value.DayOfWeek != DayOfWeek.Monday)
-        {
-            ModelState.AddModelError(
-                nameof(request.WeekStarting),
-                "weekStarting must be a Monday.");
-        }
-
-        if (!ModelState.IsValid)
+        if (!ValidateWeekStarting(request.WeekStarting))
         {
             return ValidationProblem(ModelState);
         }
@@ -52,6 +64,27 @@ public sealed class JourneysController(
             request.WeekStarting.Value,
             result.Created,
             result.AlreadyExisted));
+    }
+
+    /// <summary>
+    /// Adds shared required-Monday errors for both controller actions.
+    /// </summary>
+    private bool ValidateWeekStarting(DateOnly? weekStarting)
+    {
+        if (weekStarting is null)
+        {
+            ModelState.AddModelError(
+                "weekStarting",
+                "weekStarting is required.");
+        }
+        else if (weekStarting.Value.DayOfWeek != DayOfWeek.Monday)
+        {
+            ModelState.AddModelError(
+                "weekStarting",
+                "weekStarting must be a Monday.");
+        }
+
+        return ModelState.IsValid;
     }
 }
 
