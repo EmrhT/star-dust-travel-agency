@@ -10,14 +10,21 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useState } from 'react'
-import { getJourneysForWeek } from './api/journeys'
+import {
+  generateJourneysForWeek,
+  getJourneysForWeek,
+} from './api/journeys'
 import { getSystemStatus } from './api/system'
 import { JourneyTable } from './components/JourneyTable'
 
-// Renders connectivity and selectable weekly journey data from ASP.NET Core.
-// TanStack Query owns server state; JourneyTable presents its cached rows.
+// Renders connectivity plus weekly journey reads and generation controls.
+// TanStack Query owns API state; JourneyTable presents its cached rows.
 const initialJourneyWeek = '2026-10-12'
 
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
@@ -38,11 +45,12 @@ function isMonday(dateValue: string) {
   return !Number.isNaN(date.getTime()) && date.getUTCDay() === 1
 }
 
-// Stores the selected Monday and renders both queries plus JourneyTable.
+// Coordinates status, journey reads, generation, and JourneyTable rendering.
 function App() {
   const [journeyWeekStarting, setJourneyWeekStarting] =
     useState(initialJourneyWeek)
   const journeyWeekIsValid = isMonday(journeyWeekStarting)
+  const queryClient = useQueryClient()
   const statusQuery = useQuery({
     queryKey: ['system', 'status'],
     queryFn: ({ signal }) => getSystemStatus({ signal }),
@@ -52,6 +60,14 @@ function App() {
     queryFn: ({ signal }) =>
       getJourneysForWeek(journeyWeekStarting, { signal }),
     enabled: journeyWeekIsValid,
+  })
+  const generateWeekMutation = useMutation({
+    mutationFn: generateJourneysForWeek,
+    onSuccess: async (result) => {
+      await queryClient.invalidateQueries({
+        queryKey: ['journeys', 'week', result.weekStarting],
+      })
+    },
   })
 
   return (
@@ -136,9 +152,10 @@ function App() {
                 label="Week starting"
                 type="date"
                 value={journeyWeekStarting}
-                onChange={(event) =>
+                onChange={(event) => {
                   setJourneyWeekStarting(event.target.value)
-                }
+                  generateWeekMutation.reset()
+                }}
                 error={!journeyWeekIsValid}
                 helperText={
                   journeyWeekIsValid
@@ -148,6 +165,41 @@ function App() {
                 slotProps={{ inputLabel: { shrink: true } }}
                 sx={{ maxWidth: 280 }}
               />
+
+              <Box>
+                <Button
+                  variant="contained"
+                  disabled={
+                    !journeyWeekIsValid
+                    || generateWeekMutation.isPending
+                  }
+                  onClick={() =>
+                    generateWeekMutation.mutate(journeyWeekStarting)
+                  }
+                >
+                  {generateWeekMutation.isPending
+                    ? 'Generating…'
+                    : 'Generate week'}
+                </Button>
+              </Box>
+
+              {generateWeekMutation.isError && (
+                <Alert severity="error">
+                  {generateWeekMutation.error.message}
+                </Alert>
+              )}
+
+              {generateWeekMutation.isSuccess && (
+                <Alert severity="success">
+                  Generation finished:{' '}
+                  <strong>{generateWeekMutation.data.created}</strong>{' '}
+                  created and{' '}
+                  <strong>
+                    {generateWeekMutation.data.alreadyExisted}
+                  </strong>{' '}
+                  already existed.
+                </Alert>
+              )}
 
               {!journeyWeekIsValid && (
                 <Alert severity="warning">
