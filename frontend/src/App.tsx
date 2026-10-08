@@ -7,16 +7,18 @@ import {
   Container,
   Paper,
   Stack,
+  TextField,
   Typography,
 } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { getJourneysForWeek } from './api/journeys'
 import { getSystemStatus } from './api/system'
 import { JourneyTable } from './components/JourneyTable'
 
-// Renders connectivity and journey data returned by ASP.NET Core.
-// TanStack Query owns request state; JourneyTable presents cached rows.
-const journeyWeekStarting = '2026-10-12'
+// Renders connectivity and selectable weekly journey data from ASP.NET Core.
+// TanStack Query owns server state; JourneyTable presents its cached rows.
+const initialJourneyWeek = '2026-10-12'
 
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
@@ -29,8 +31,18 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZoneName: 'short',
 })
 
-// Requests status and journeys, then delegates successful rows to JourneyTable.
+// Checks the selected date before App asks the API for a schedule week.
+function isMonday(dateValue: string) {
+  const date = new Date(`${dateValue}T00:00:00Z`)
+
+  return !Number.isNaN(date.getTime()) && date.getUTCDay() === 1
+}
+
+// Stores the selected Monday and renders both queries plus JourneyTable.
 function App() {
+  const [journeyWeekStarting, setJourneyWeekStarting] =
+    useState(initialJourneyWeek)
+  const journeyWeekIsValid = isMonday(journeyWeekStarting)
   const statusQuery = useQuery({
     queryKey: ['system', 'status'],
     queryFn: ({ signal }) => getSystemStatus({ signal }),
@@ -39,6 +51,7 @@ function App() {
     queryKey: ['journeys', 'week', journeyWeekStarting],
     queryFn: ({ signal }) =>
       getJourneysForWeek(journeyWeekStarting, { signal }),
+    enabled: journeyWeekIsValid,
   })
 
   return (
@@ -119,7 +132,30 @@ function App() {
                 Journey data
               </Typography>
 
-              {journeysQuery.isPending && (
+              <TextField
+                label="Week starting"
+                type="date"
+                value={journeyWeekStarting}
+                onChange={(event) =>
+                  setJourneyWeekStarting(event.target.value)
+                }
+                error={!journeyWeekIsValid}
+                helperText={
+                  journeyWeekIsValid
+                    ? 'Select a Monday to load that schedule week.'
+                    : 'The selected date must be a Monday.'
+                }
+                slotProps={{ inputLabel: { shrink: true } }}
+                sx={{ maxWidth: 280 }}
+              />
+
+              {!journeyWeekIsValid && (
+                <Alert severity="warning">
+                  Select a Monday before loading journeys.
+                </Alert>
+              )}
+
+              {journeyWeekIsValid && journeysQuery.isPending && (
                 <Stack
                   direction="row"
                   spacing={2}
@@ -130,7 +166,7 @@ function App() {
                 </Stack>
               )}
 
-              {journeysQuery.isError && (
+              {journeyWeekIsValid && journeysQuery.isError && (
                 <Alert
                   severity="error"
                   action={
@@ -147,13 +183,19 @@ function App() {
                 </Alert>
               )}
 
-              {journeysQuery.isSuccess && (
+              {journeyWeekIsValid && journeysQuery.isSuccess && (
                 <Stack spacing={2}>
-                  <Alert severity="success">
+                  <Alert
+                    severity={
+                      journeysQuery.data.length === 0 ? 'info' : 'success'
+                    }
+                  >
                     <strong>{journeysQuery.data.length}</strong> journeys were
                     returned for the week starting {journeyWeekStarting}.
                   </Alert>
-                  <JourneyTable journeys={journeysQuery.data} />
+                  {journeysQuery.data.length > 0 && (
+                    <JourneyTable journeys={journeysQuery.data} />
+                  )}
                 </Stack>
               )}
             </Stack>
