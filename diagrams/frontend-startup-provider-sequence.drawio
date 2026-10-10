@@ -1,0 +1,317 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram id="frontend-startup" name="Frontend startup">
+    <mxGraphModel dx="1139" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="2050" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Frontend startup and provider composition" vertex="1">
+          <mxGeometry height="40" width="1000" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Every call shows parameters and return values. Solid arrows are calls; dashed arrows are returns. HTTP query execution continues in separate request diagrams." vertex="1">
+          <mxGeometry height="30" width="1750" x="30" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="runtime-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#854D0E;fillColor=#FEFCE8;strokeColor=#FDE047;opacity=35;" value="CONTAINER RUNTIME" vertex="1">
+          <mxGeometry height="1900" width="390" x="20" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="browser-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="BROWSER — MODULE LOADING AND REACT RUNTIME" vertex="1">
+          <mxGeometry height="1900" width="1725" x="425" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="entrypoint" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="40-generate-app-config.sh&#xa;nginx entrypoint" vertex="1">
+          <mxGeometry height="65" width="175" x="25" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx&#xa;frontend container" vertex="1">
+          <mxGeometry height="65" width="175" x="225" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="browser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="Browser + DOM&#xa;index.html" vertex="1">
+          <mxGeometry height="65" width="175" x="435" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="loader" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="ES module loader&#xa;compiled module graph" vertex="1">
+          <mxGeometry height="65" width="180" x="635" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="modules" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Module initializers&#xa;config.ts + theme.ts" vertex="1">
+          <mxGeometry height="65" width="185" x="840" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="main" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Top-level startup&#xa;main.tsx" vertex="1">
+          <mxGeometry height="65" width="175" x="1050" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="reactdom" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="createRoot() / Root.render()&#xa;react-dom/client" vertex="1">
+          <mxGeometry height="65" width="185" x="1250" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="providers" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="StrictMode + ThemeProvider&#xa;QueryClientProvider + CssBaseline" vertex="1">
+          <mxGeometry height="65" width="200" x="1460" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="App() + isMonday()&#xa;App.tsx" vertex="1">
+          <mxGeometry height="65" width="175" x="1685" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="hooks" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="React + TanStack hooks&#xa;state and query clients" vertex="1">
+          <mxGeometry height="65" width="190" x="1885" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="life-entry" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#D97706;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="112" y="180" as="sourcePoint" />
+            <mxPoint x="112" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-nginx" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#D97706;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="312" y="180" as="sourcePoint" />
+            <mxPoint x="312" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-browser" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0891B2;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="522" y="180" as="sourcePoint" />
+            <mxPoint x="522" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-loader" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="725" y="180" as="sourcePoint" />
+            <mxPoint x="725" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-modules" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="932" y="180" as="sourcePoint" />
+            <mxPoint x="932" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-main" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1137" y="180" as="sourcePoint" />
+            <mxPoint x="1137" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-reactdom" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1342" y="180" as="sourcePoint" />
+            <mxPoint x="1342" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-providers" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1560" y="180" as="sourcePoint" />
+            <mxPoint x="1560" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-app" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1772" y="180" as="sourcePoint" />
+            <mxPoint x="1772" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="life-hooks" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1980" y="180" as="sourcePoint" />
+            <mxPoint x="1980" y="1975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. envsubst(APP_API_BASE_URL: string, template)&#xa;: app-config.js text">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="190" y="230" />
+              <mxPoint x="190" y="285" />
+            </Array>
+            <mxPoint x="112" y="230" as="sourcePoint" />
+            <mxPoint x="112" y="285" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="2. Write /usr/share/nginx/html/app-config.js: void&#xa;then nginx begins serving static files">
+          <mxGeometry relative="1" x="-0.02" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="112" y="330" as="sourcePoint" />
+            <mxPoint x="312" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="3. HTTP GET /: Promise&lt;Response&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="522" y="390" as="sourcePoint" />
+            <mxPoint x="312" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r1" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="4. HTTP 200 index.html">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="312" y="445" as="sourcePoint" />
+            <mxPoint x="522" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. HTTP GET /app-config.js: Promise&lt;Response&gt;">
+          <mxGeometry relative="1" x="-0.0286" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="410" y="500" />
+            </Array>
+            <mxPoint x="522" y="500" as="sourcePoint" />
+            <mxPoint x="312" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r2" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="6. HTTP 200 JavaScript&#xa;window.__APP_CONFIG__ = { apiBaseUrl: &#39;/api&#39; }">
+          <mxGeometry relative="1" x="0.0286" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="312" y="560" as="sourcePoint" />
+            <mxPoint x="522" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="7. Execute app-config.js(): void&#xa;runtime config is available before the module graph">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="600" />
+              <mxPoint x="600" y="650" />
+            </Array>
+            <mxPoint x="522" y="600" as="sourcePoint" />
+            <mxPoint x="522" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="8. HTTP GET compiled main module and imports&#xa;: Promise&lt;JavaScript module graph&gt;">
+          <mxGeometry relative="1" x="-0.0286" y="20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="522" y="700" as="sourcePoint" />
+            <mxPoint x="312" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="9. HTTP 200 compiled JavaScript assets">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="312" y="755" as="sourcePoint" />
+            <mxPoint x="725" y="755" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. Initialize config.ts(window.__APP_CONFIG__)&#xa;: appConfig = { apiBaseUrl: string }">
+          <mxGeometry relative="1" x="0.0145" y="-25" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="725" y="815" as="sourcePoint" />
+            <mxPoint x="932" y="815" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="11. createTheme(themeOptions: ThemeOptions): Theme&#xa;theme.ts exports theme">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1015" y="855" />
+              <mxPoint x="1015" y="905" />
+            </Array>
+            <mxPoint x="932" y="855" as="sourcePoint" />
+            <mxPoint x="932" y="905" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="12. Module exports: appConfig: AppConfig, theme: Theme">
+          <mxGeometry relative="1" x="-0.0145" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="932" y="950" as="sourcePoint" />
+            <mxPoint x="725" y="950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="13. Evaluate main.tsx imports and top-level statements: void">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="725" y="1005" as="sourcePoint" />
+            <mxPoint x="1137" y="1005" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="14. new QueryClient({ retry: 1, refetchOnWindowFocus: false })&#xa;: QueryClient">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1137" y="1065" as="sourcePoint" />
+            <mxPoint x="1980" y="1065" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="15. document.getElementById(id: &#39;root&#39;)&#xa;: HTMLElement | null (non-null asserted)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1137" y="1130" as="sourcePoint" />
+            <mxPoint x="522" y="1130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. &lt;div id=&#39;root&#39;&gt; HTMLElement">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="522" y="1185" as="sourcePoint" />
+            <mxPoint x="1137" y="1185" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m12" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="17. createRoot(container: HTMLElement): Root">
+          <mxGeometry relative="1" x="0.0049" y="-20" as="geometry">
+            <mxPoint x="-1" as="offset" />
+            <mxPoint x="1137" y="1240" as="sourcePoint" />
+            <mxPoint x="1342" y="1240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="18. root.render(providerTree: ReactNode): void">
+          <mxGeometry relative="1" x="0.0003" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1137" y="1300" as="sourcePoint" />
+            <mxPoint x="1342" y="1300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m14" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="19. Render StrictMode({ children }): ReactElement&#xa;development may repeat render checks">
+          <mxGeometry relative="1" x="-0.0092" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1342" y="1360" as="sourcePoint" />
+            <mxPoint x="1560" y="1360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="20. ThemeProvider({ theme, children }), CssBaseline(),&#xa;QueryClientProvider({ client: QueryClient, children }): ReactElement">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1650" y="1400" />
+              <mxPoint x="1650" y="1455" />
+            </Array>
+            <mxPoint x="1560" y="1400" as="sourcePoint" />
+            <mxPoint x="1560" y="1455" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m16" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="21. App(): JSX.Element">
+          <mxGeometry relative="1" x="-0.0566" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1560" y="1505" as="sourcePoint" />
+            <mxPoint x="1772" y="1505" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m17" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="22. useState(initialState: &#39;2026-10-12&#39;)&#xa;: [journeyWeekStarting: string, setJourneyWeekStarting: Dispatch]">
+          <mxGeometry relative="1" x="-0.0577" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1772" y="1565" as="sourcePoint" />
+            <mxPoint x="1980" y="1565" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m18" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="23. isMonday(dateValue: string): boolean&#xa;isMonday(&#39;2026-10-12&#39;) returns true">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1860" y="1610" />
+              <mxPoint x="1860" y="1660" />
+            </Array>
+            <mxPoint x="1772" y="1610" as="sourcePoint" />
+            <mxPoint x="1772" y="1660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m19" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="24. useQueryClient(): QueryClient">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1772" y="1705" as="sourcePoint" />
+            <mxPoint x="1980" y="1705" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m20" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="25. useQuery({ queryKey: [&#39;system&#39;,&#39;status&#39;], queryFn })&#xa;: UseQueryResult&lt;SystemStatus&gt;">
+          <mxGeometry relative="1" x="-0.0577" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1772" y="1765" as="sourcePoint" />
+            <mxPoint x="1980" y="1765" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m21" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="26. useQuery({ queryKey: [&#39;journeys&#39;,&#39;week&#39;,date],&#xa;queryFn, enabled: true }): UseQueryResult&lt;JourneyListItem[]&gt;">
+          <mxGeometry relative="1" x="-0.0577" y="-20" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1772" y="1830" as="sourcePoint" />
+            <mxPoint x="1980" y="1830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m22" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="27. useMutation({ mutationFn, onSuccess })&#xa;: UseMutationResult&lt;GenerateJourneyWeekResult, Error, string&gt;">
+          <mxGeometry relative="1" x="-0.0577" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1772" y="1895" as="sourcePoint" />
+            <mxPoint x="1980" y="1895" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="28. JSX element tree → providers → ReactDOM&#xa;29. ReactDOM commits rendered elements into #root: void">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1772" y="1950" as="sourcePoint" />
+            <mxPoint x="522" y="1950" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

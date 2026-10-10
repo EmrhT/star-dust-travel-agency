@@ -33,6 +33,9 @@ builder.Services.AddSwaggerGen(options =>
         Title = "Star Dust Travel Agency API",
         Version = "v1",
     });
+    options.IncludeXmlComments(
+        typeof(Program).Assembly,
+        includeControllerXmlComments: true);
 });
 
 var connectionString = builder.Configuration.GetConnectionString("Postgres");
