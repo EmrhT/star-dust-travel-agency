@@ -1,315 +1,166 @@
-<mxfile host="Electron" agent="Codex">
-  <diagram id="journey-week-query" name="Journey week query">
-    <mxGraphModel dx="1139" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2000" math="0" shadow="0">
+<mxfile host="Electron" agent="Codex" pages="2">
+  <diagram id="journey-query-success" name="1 - Successful query and rendering">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Journey week selection — request, query, and response sequence" vertex="1">
-          <mxGeometry height="40" width="1300" x="30" as="geometry" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Journey-week query and rendering — successful path" vertex="1">
+          <mxGeometry height="40" width="1000" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Solid arrows are calls or network messages. Dashed arrows are return values. Names match the current source files." vertex="1">
-          <mxGeometry height="30" width="1500" x="30" y="40" as="geometry" />
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: getJourneysForWeek(), GetWeek(), ValidateWeekStarting(), GetWeekAsync(), ToUtc(), JourneyTable(), getRouteLabel(), and formatDateTime()." vertex="1">
+          <mxGeometry height="30" width="1900" x="30" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="frontend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="FRONTEND — browser process" vertex="1">
-          <mxGeometry height="1860" width="1050" x="180" y="80" as="geometry" />
-        </mxCell>
-        <mxCell id="r7" edge="1" parent="frontend-band" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="21. Promise resolves with JourneyListItem[]">
-          <mxGeometry relative="1" x="-0.0222" y="20" as="geometry">
-            <mxPoint x="1" as="offset" />
-            <mxPoint x="750" y="1610" as="sourcePoint" />
-            <mxPoint x="525" y="1610" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="frontend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="FRONTEND — BROWSER" vertex="1">
+          <mxGeometry height="1920" width="1000" x="10" y="95" as="geometry" />
         </mxCell>
         <mxCell id="proxy-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#854D0E;fillColor=#FEFCE8;strokeColor=#FDE047;opacity=35;" value="PROXY" vertex="1">
-          <mxGeometry height="1845" width="195" x="1245" y="80" as="geometry" />
+          <mxGeometry height="1920" width="185" x="1025" y="95" as="geometry" />
         </mxCell>
-        <mxCell id="backend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#166534;fillColor=#F0FDF4;strokeColor=#86EFAC;opacity=35;" value="BACKEND — ASP.NET Core and PostgreSQL" vertex="1">
-          <mxGeometry height="1845" width="885" x="1455" y="80" as="geometry" />
+        <mxCell id="backend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#166534;fillColor=#F0FDF4;strokeColor=#86EFAC;opacity=35;" value="BACKEND — ASP.NET CORE + POSTGRESQL" vertex="1">
+          <mxGeometry height="1920" width="1140" x="1225" y="95" as="geometry" />
         </mxCell>
-        <mxCell id="user" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="User" vertex="1">
-          <mxGeometry height="60" width="145" x="20" y="110" as="geometry" />
+
+        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="App component&#xa;App.tsx" vertex="1">
+          <mxGeometry height="65" width="150" x="20" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="table" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="JourneyTable()&#xa;JourneyTable.tsx" vertex="1">
-          <mxGeometry height="60" width="175" x="195" y="110" as="geometry" />
+        <mxCell id="table" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="JourneyTable component&#xa;JourneyTable.tsx" vertex="1">
+          <mxGeometry height="65" width="175" x="195" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="App()&#xa;App.tsx" vertex="1">
-          <mxGeometry height="60" width="180" x="400" y="110" as="geometry" />
+        <mxCell id="query" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="useQuery observer&#xa;TanStack Query" vertex="1">
+          <mxGeometry height="65" width="165" x="400" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="tanstack" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="useQuery()&#xa;@tanstack/react-query" vertex="1">
-          <mxGeometry height="60" width="190" x="610" y="110" as="geometry" />
-        </mxCell>
-        <mxCell id="api-function" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="getJourneysForWeek()&#xa;api/journeys.ts" vertex="1">
-          <mxGeometry height="60" width="200" x="830" y="110" as="geometry" />
+        <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Journey API client&#xa;api/journeys.ts" vertex="1">
+          <mxGeometry height="65" width="165" x="600" y="115" as="geometry" />
         </mxCell>
         <mxCell id="fetch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="fetch() / Response.json()&#xa;Browser Web API" vertex="1">
-          <mxGeometry height="60" width="170" x="1060" y="110" as="geometry" />
+          <mxGeometry height="65" width="190" x="805" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx&#xa;default.conf.template" vertex="1">
-          <mxGeometry height="60" width="170" x="1260" y="110" as="geometry" />
+        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx proxy&#xa;default.conf.template" vertex="1">
+          <mxGeometry height="65" width="165" x="1035" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="controller" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="JourneysController.GetWeek()&#xa;JourneysController.cs" vertex="1">
-          <mxGeometry height="60" width="210" x="1460" y="110" as="geometry" />
+        <mxCell id="controller" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="JourneysController&#xa;JourneysController.cs" vertex="1">
+          <mxGeometry height="65" width="180" x="1235" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="service" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="JourneyQueryService.GetWeekAsync()&#xa;JourneyQueryService.cs" vertex="1">
-          <mxGeometry height="60" width="210" x="1700" y="110" as="geometry" />
+        <mxCell id="service" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="JourneyQueryService&#xa;JourneyQueryService.cs" vertex="1">
+          <mxGeometry height="65" width="185" x="1450" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="ef" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#D1FAE5;strokeColor=#059669;" value="ApplicationDbContext.Journeys&#xa;EF Core" vertex="1">
-          <mxGeometry height="60" width="190" x="1940" y="110" as="geometry" />
+        <mxCell id="ef" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#D1FAE5;strokeColor=#059669;" value="ApplicationDbContext&#xa;+ EF Core" vertex="1">
+          <mxGeometry height="65" width="175" x="1670" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="database" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fontStyle=1;fillColor=#CCFBF1;strokeColor=#0F766E;" value="PostgreSQL&#xa;journeys + related tables" vertex="1">
-          <mxGeometry height="70" width="180" x="2160" y="105" as="geometry" />
+        <mxCell id="db" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fontStyle=1;fillColor=#CCFBF1;strokeColor=#0F766E;" value="PostgreSQL" vertex="1">
+          <mxGeometry height="75" width="145" x="1880" y="110" as="geometry" />
         </mxCell>
-        <mxCell id="life-user" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#9333EA;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="92" y="170" as="sourcePoint" />
-            <mxPoint x="92" y="1910" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="formatter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="ASP.NET output formatter&#xa;System.Text.Json" vertex="1">
+          <mxGeometry height="65" width="200" x="2060" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="life-table" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="282" y="170" as="sourcePoint" />
-            <mxPoint x="282" y="1910" as="targetPoint" />
-          </mxGeometry>
+
+        <mxCell id="la" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;"><mxGeometry relative="1" as="geometry"><mxPoint x="95" y="180" as="sourcePoint" /><mxPoint x="95" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lt" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;"><mxGeometry relative="1" as="geometry"><mxPoint x="282" y="180" as="sourcePoint" /><mxPoint x="282" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lq" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;"><mxGeometry relative="1" as="geometry"><mxPoint x="482" y="180" as="sourcePoint" /><mxPoint x="482" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lapi" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;"><mxGeometry relative="1" as="geometry"><mxPoint x="682" y="180" as="sourcePoint" /><mxPoint x="682" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lf" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0891B2;"><mxGeometry relative="1" as="geometry"><mxPoint x="900" y="180" as="sourcePoint" /><mxPoint x="900" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ln" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#D97706;"><mxGeometry relative="1" as="geometry"><mxPoint x="1117" y="180" as="sourcePoint" /><mxPoint x="1117" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lc" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;"><mxGeometry relative="1" as="geometry"><mxPoint x="1325" y="180" as="sourcePoint" /><mxPoint x="1325" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ls" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;"><mxGeometry relative="1" as="geometry"><mxPoint x="1542" y="180" as="sourcePoint" /><mxPoint x="1542" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="le" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#059669;"><mxGeometry relative="1" as="geometry"><mxPoint x="1757" y="180" as="sourcePoint" /><mxPoint x="1757" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ldb" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0F766E;"><mxGeometry relative="1" as="geometry"><mxPoint x="1952" y="185" as="sourcePoint" /><mxPoint x="1952" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lformatter" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;"><mxGeometry relative="1" as="geometry"><mxPoint x="2160" y="180" as="sourcePoint" /><mxPoint x="2160" y="1990" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="m1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. useQuery({ queryKey: [&#39;journeys&#39;, &#39;week&#39;, weekStarting], enabled: true })"><mxGeometry relative="1" as="geometry"><mxPoint x="95" y="225" as="sourcePoint" /><mxPoint x="482" y="225" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="2. queryFn({ signal: AbortSignal }): Promise&lt;JourneyListItem[]&gt;"><mxGeometry relative="1" as="geometry"><mxPoint x="482" y="280" as="sourcePoint" /><mxPoint x="95" y="280" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="3. getJourneysForWeek(weekStarting: string, { signal })&#xa;: Promise&lt;JourneyListItem[]&gt;"><mxGeometry relative="1" as="geometry"><mxPoint x="95" y="345" as="sourcePoint" /><mxPoint x="682" y="345" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. new URLSearchParams({ weekStarting }): URLSearchParams"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="755" y="380" /><mxPoint x="755" y="430" /></Array><mxPoint x="682" y="380" as="sourcePoint" /><mxPoint x="682" y="430" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. fetch(url, { Accept: application/json, signal })&#xa;: Promise&lt;Response&gt;"><mxGeometry relative="1" as="geometry"><mxPoint x="682" y="480" as="sourcePoint" /><mxPoint x="900" y="480" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="6. HTTP GET /api/journeys?weekStarting=2026-10-12"><mxGeometry relative="1" as="geometry"><mxPoint x="900" y="535" as="sourcePoint" /><mxPoint x="1117" y="535" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="7. ASP.NET routing + model binding → GetWeek(&#xa;weekStarting: DateOnly?, cancellationToken: CancellationToken)"><mxGeometry relative="1" as="geometry"><mxPoint x="1117" y="600" as="sourcePoint" /><mxPoint x="1325" y="600" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="8. ValidateWeekStarting(weekStarting: DateOnly?): bool&#xa;returns true for non-null Monday"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1405" y="645" /><mxPoint x="1405" y="700" /></Array><mxPoint x="1325" y="645" as="sourcePoint" /><mxPoint x="1325" y="700" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="9. GetWeekAsync(weekStarting: DateOnly, cancellationToken)&#xa;: Task&lt;IReadOnlyList&lt;JourneyListItem&gt;&gt;"><mxGeometry relative="1" as="geometry"><mxPoint x="1325" y="755" as="sourcePoint" /><mxPoint x="1542" y="755" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. ToUtc(date: DateOnly): DateTimeOffset&#xa;2026-10-12 00:00 UTC+3 → 2026-10-11 21:00Z"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1625" y="800" /><mxPoint x="1625" y="860" /></Array><mxPoint x="1542" y="800" as="sourcePoint" /><mxPoint x="1542" y="860" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="11. Journeys.AsNoTracking().Where(UTC bounds).OrderBy(...)&#xa;.Select(JourneyListItem).ToArrayAsync(cancellationToken)"><mxGeometry relative="1" as="geometry"><mxPoint x="1542" y="920" as="sourcePoint" /><mxPoint x="1757" y="920" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m12" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="12. Parameterized SELECT with related route/station/ship joins&#xa;parameters: weekStartUtc, weekEndUtc"><mxGeometry relative="1" as="geometry"><mxPoint x="1757" y="985" as="sourcePoint" /><mxPoint x="1952" y="985" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r1" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="13. Matching rows ordered by DepartureAtUtc"><mxGeometry relative="1" as="geometry"><mxPoint x="1952" y="1040" as="sourcePoint" /><mxPoint x="1757" y="1040" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r2" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="14. Task resolves: JourneyListItem[]"><mxGeometry relative="1" as="geometry"><mxPoint x="1757" y="1095" as="sourcePoint" /><mxPoint x="1542" y="1095" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="15. IReadOnlyList&lt;JourneyListItem&gt;"><mxGeometry relative="1" as="geometry"><mxPoint x="1542" y="1150" as="sourcePoint" /><mxPoint x="1325" y="1150" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m13" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="16. Ok(journeys): OkObjectResult / ActionResult&lt;...&gt;"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1405" y="1185" /><mxPoint x="1405" y="1235" /></Array><mxPoint x="1325" y="1185" as="sourcePoint" /><mxPoint x="1325" y="1235" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m14" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="17. Serialize C# JourneyListItem records → JSON UTF-8 bytes"><mxGeometry relative="1" as="geometry"><mxPoint x="1325" y="1290" as="sourcePoint" /><mxPoint x="2160" y="1290" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="18. HTTP 200 application/json: array of journey objects"><mxGeometry relative="1" as="geometry"><mxPoint x="2160" y="1345" as="sourcePoint" /><mxPoint x="1117" y="1345" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="19. Proxied HTTP 200 JSON response"><mxGeometry relative="1" as="geometry"><mxPoint x="1117" y="1400" as="sourcePoint" /><mxPoint x="900" y="1400" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="20. fetch Promise resolves: Response { ok: true, status: 200 }"><mxGeometry relative="1" as="geometry"><mxPoint x="900" y="1455" as="sourcePoint" /><mxPoint x="682" y="1455" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="21. response.json(): Promise&lt;JourneyListItem[]&gt;"><mxGeometry relative="1" as="geometry"><mxPoint x="682" y="1510" as="sourcePoint" /><mxPoint x="900" y="1510" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r7" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="22. Parsed JavaScript objects: JourneyListItem[]"><mxGeometry relative="1" as="geometry"><mxPoint x="900" y="1565" as="sourcePoint" /><mxPoint x="682" y="1565" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r8" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="23. Promise resolves: JourneyListItem[]"><mxGeometry relative="1" as="geometry"><mxPoint x="682" y="1620" as="sourcePoint" /><mxPoint x="482" y="1620" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m16" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="24. Cache queryKey → data; state becomes success"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="560" y="1650" /><mxPoint x="560" y="1700" /></Array><mxPoint x="482" y="1650" as="sourcePoint" /><mxPoint x="482" y="1700" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r9" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="25. React rerender: journeysQuery.data = JourneyListItem[]"><mxGeometry relative="1" as="geometry"><mxPoint x="482" y="1740" as="sourcePoint" /><mxPoint x="95" y="1740" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m17" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="26. JourneyTable({ journeys: JourneyListItem[] }): JSX.Element"><mxGeometry relative="1" as="geometry"><mxPoint x="95" y="1795" as="sourcePoint" /><mxPoint x="282" y="1795" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="m18" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="27. For each row: getRouteLabel(journey): string&#xa;28. formatDateTime(timestamp: string): string × 2"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="370" y="1825" /><mxPoint x="370" y="1880" /></Array><mxPoint x="282" y="1825" as="sourcePoint" /><mxPoint x="282" y="1880" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="r10" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="29. JSX.Element containing the rendered journey table">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="282" y="1940" as="sourcePoint" /><mxPoint x="95" y="1940" as="targetPoint" /></mxGeometry>
         </mxCell>
-        <mxCell id="life-app" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="490" y="170" as="sourcePoint" />
-            <mxPoint x="490" y="1910" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#FFF7ED;strokeColor=#FB923C;fontSize=12;" value="React turns the returned JSX description into DOM table rows. The helper calls repeat once (route) or twice (timestamps) for every journey." vertex="1">
+          <mxGeometry height="80" width="500" x="390" y="1820" as="geometry" />
         </mxCell>
-        <mxCell id="life-tanstack" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="705" y="170" as="sourcePoint" />
-            <mxPoint x="705" y="1910" as="targetPoint" />
-          </mxGeometry>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <diagram id="journey-query-alternatives" name="2 - Validation, errors, empty data, cancellation">
+    <mxGraphModel dx="1400" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2100" pageHeight="1740" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title2" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Journey-week query — alternate paths" vertex="1">
+          <mxGeometry height="40" width="900" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="life-api" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="930" y="170" as="sourcePoint" />
-            <mxPoint x="930" y="1910" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="subtitle2" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="These branches explain why validation exists on both sides, how empty data differs from failure, and how retry and cancellation affect request state." vertex="1">
+          <mxGeometry height="30" width="1700" x="30" y="60" as="geometry" />
         </mxCell>
-        <mxCell id="life-fetch" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0891B2;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1145" y="170" as="sourcePoint" />
-            <mxPoint x="1145" y="1910" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="life-nginx" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#D97706;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1345" y="170" as="sourcePoint" />
-            <mxPoint x="1345" y="1910" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="life-controller" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1565" y="170" as="sourcePoint" />
-            <mxPoint x="1565" y="1910" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="life-service" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1805" y="170" as="sourcePoint" />
-            <mxPoint x="1805" y="1910" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="life-ef" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#059669;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="2035" y="170" as="sourcePoint" />
-            <mxPoint x="2035" y="1910" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="life-db" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0F766E;">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="2250" y="175" as="sourcePoint" />
-            <mxPoint x="2250" y="1910" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. Select Monday → onChange(event)">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="92" y="220" as="sourcePoint" />
-            <mxPoint x="490" y="220" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m2" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="2. setJourneyWeekStarting(event.target.value: string): void&#xa;React schedules App() rerender">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="570" y="285" />
-              <mxPoint x="570" y="335" />
-            </Array>
-            <mxPoint x="490" y="285" as="sourcePoint" />
-            <mxPoint x="490" y="335" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m3" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="3. useQuery({ queryKey: [&#39;journeys&#39;, &#39;week&#39;, date], queryFn, enabled: true })&#xa;: UseQueryResult&lt;JourneyListItem[]&gt;">
-          <mxGeometry relative="1" x="0.0233" y="-25" as="geometry">
-            <mxPoint x="-1" as="offset" />
-            <mxPoint x="490" y="385" as="sourcePoint" />
-            <mxPoint x="705" y="385" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. queryFn({ signal: AbortSignal }) →&#xa;getJourneysForWeek(date: string, { signal })">
-          <mxGeometry relative="1" x="0.0222" y="-25" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="705" y="455" as="sourcePoint" />
-            <mxPoint x="930" y="455" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. fetch(&#39;/api/journeys?weekStarting=&#39; + date,&#xa;{ Accept: &#39;application/json&#39;, signal }): Promise&lt;Response&gt;">
-          <mxGeometry relative="1" x="0.0233" y="-15" as="geometry">
-            <mxPoint x="-1" as="offset" />
-            <mxPoint x="930" y="545" as="sourcePoint" />
-            <mxPoint x="1145" y="545" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m6" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="6. HTTP GET /api/journeys?weekStarting=2026-10-12&#xa;Accept: application/json">
-          <mxGeometry relative="1" x="0.05" y="-15" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="1145" y="625" as="sourcePoint" />
-            <mxPoint x="1345" y="625" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="7. proxy_pass ${BACKEND_UPSTREAM}&#xa;ASP.NET routing + model binding select GetWeek">
-          <mxGeometry relative="1" x="0.0455" y="-15" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="1345" y="705" as="sourcePoint" />
-            <mxPoint x="1565" y="705" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="8. GetWeek(weekStarting: DateOnly?,&#xa;cancellationToken: CancellationToken)">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1650" y="755" />
-              <mxPoint x="1650" y="805" />
-            </Array>
-            <mxPoint x="1565" y="755" as="sourcePoint" />
-            <mxPoint x="1565" y="805" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m9" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="9. ValidateWeekStarting(weekStarting): bool&#xa;true for a non-null Monday">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1650" y="835" />
-              <mxPoint x="1650" y="885" />
-            </Array>
-            <mxPoint x="1565" y="835" as="sourcePoint" />
-            <mxPoint x="1565" y="885" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m10" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. GetWeekAsync(weekStarting: DateOnly,&#xa;cancellationToken): Task&lt;IReadOnlyList&lt;JourneyListItem&gt;&gt;">
-          <mxGeometry relative="1" x="0.0417" y="-15" as="geometry">
-            <mxPoint as="offset" />
-            <Array as="points">
-              <mxPoint x="1690" y="925" />
-            </Array>
-            <mxPoint x="1565" y="925" as="sourcePoint" />
-            <mxPoint x="1805" y="925" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m11" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="11. ToUtc(weekStarting): DateTimeOffset&#xa;weekEndUtc = weekStartUtc.AddDays(7)">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1890" y="975" />
-              <mxPoint x="1890" y="1025" />
-            </Array>
-            <mxPoint x="1805" y="975" as="sourcePoint" />
-            <mxPoint x="1805" y="1025" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m12" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="12. context.Journeys.AsNoTracking().Where(bounds)&#xa;.OrderBy(...).Select(JourneyListItem).ToArrayAsync(token)">
-          <mxGeometry relative="1" y="-15" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="1805" y="1065" as="sourcePoint" />
-            <mxPoint x="2035" y="1065" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m13" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="13. Parameterized SELECT with joins and UTC bounds&#xa;journeys, routes, launch_stations, destinations, spaceships">
-          <mxGeometry relative="1" x="-0.0233" y="-15" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="2035" y="1145" as="sourcePoint" />
-            <mxPoint x="2250" y="1145" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r1" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="14. Result rows">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="2250" y="1225" as="sourcePoint" />
-            <mxPoint x="2035" y="1225" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r2" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="15. Materialized JourneyListItem[]&#xa;Task completes">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="2035" y="1305" as="sourcePoint" />
-            <mxPoint x="1805" y="1305" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. IReadOnlyList&lt;JourneyListItem&gt; journeys">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="1805" y="1375" as="sourcePoint" />
-            <mxPoint x="1565" y="1375" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="17. Ok(journeys) → output formatter serializes C# records&#xa;HTTP 200 application/json body">
-          <mxGeometry relative="1" x="0.0455" y="25" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="1565" y="1455" as="sourcePoint" />
-            <mxPoint x="1345" y="1455" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="18. Proxied HTTP 200 JSON response">
-          <mxGeometry relative="1" x="-0.05" y="25" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="1345" y="1525" as="sourcePoint" />
-            <mxPoint x="1145" y="1525" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="19. Promise resolves with Response">
-          <mxGeometry relative="1" x="-0.0233" y="15" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="1145" y="1585" as="sourcePoint" />
-            <mxPoint x="930" y="1585" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m14" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="20. response.json(): Promise&lt;JourneyListItem[]&gt;&#xa;JSON text is parsed into JavaScript objects">
-          <mxGeometry relative="1" x="0.0233" y="-25" as="geometry">
-            <mxPoint x="-1" as="offset" />
-            <mxPoint x="930" y="1645" as="sourcePoint" />
-            <mxPoint x="1145" y="1645" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="22. Cache under [&#39;journeys&#39;, &#39;week&#39;, date]&#xa;set query state to isSuccess">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="790" y="1740" />
-              <mxPoint x="790" y="1785" />
-            </Array>
-            <mxPoint x="705" y="1740" as="sourcePoint" />
-            <mxPoint x="705" y="1785" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r8" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="23. App rerenders; journeysQuery.data: JourneyListItem[]">
-          <mxGeometry relative="1" x="-0.0233" y="15" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="705" y="1815" as="sourcePoint" />
-            <mxPoint x="490" y="1815" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m16" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="24. JourneyTable({ journeys: journeysQuery.data })&#xa;: JSX.Element">
-          <mxGeometry relative="1" x="-0.0385" y="25" as="geometry">
-            <mxPoint as="offset" />
-            <Array as="points">
-              <mxPoint x="390" y="1855" />
-            </Array>
-            <mxPoint x="490" y="1855" as="sourcePoint" />
-            <mxPoint x="282" y="1855" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="r9" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="25. React updates the browser DOM → visible journey table">
-          <mxGeometry relative="1" x="-0.0316" y="20" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="282" y="1900" as="sourcePoint" />
-            <mxPoint x="92" y="1900" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
+        <mxCell id="app2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="App component&#xa;App.tsx" vertex="1"><mxGeometry height="65" width="165" x="25" y="100" as="geometry" /></mxCell>
+        <mxCell id="query2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="useQuery observer&#xa;TanStack Query" vertex="1"><mxGeometry height="65" width="175" x="240" y="100" as="geometry" /></mxCell>
+        <mxCell id="api2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="getJourneysForWeek()&#xa;api/journeys.ts" vertex="1"><mxGeometry height="65" width="185" x="465" y="100" as="geometry" /></mxCell>
+        <mxCell id="fetch2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="fetch()&#xa;Browser Web API" vertex="1"><mxGeometry height="65" width="165" x="700" y="100" as="geometry" /></mxCell>
+        <mxCell id="nginx2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx proxy" vertex="1"><mxGeometry height="65" width="150" x="915" y="100" as="geometry" /></mxCell>
+        <mxCell id="controller2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="JourneysController&#xa;GetWeek()" vertex="1"><mxGeometry height="65" width="180" x="1115" y="100" as="geometry" /></mxCell>
+        <mxCell id="service2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="JourneyQueryService&#xa;GetWeekAsync()" vertex="1"><mxGeometry height="65" width="190" x="1345" y="100" as="geometry" /></mxCell>
+        <mxCell id="data2" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;fontStyle=1;fillColor=#CCFBF1;strokeColor=#0F766E;" value="EF Core +&#xa;PostgreSQL" vertex="1"><mxGeometry height="75" width="150" x="1585" y="95" as="geometry" /></mxCell>
+        <mxCell id="table2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="JourneyTable&#xa;component" vertex="1"><mxGeometry height="65" width="155" x="1785" y="100" as="geometry" /></mxCell>
+
+        <mxCell id="la2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;"><mxGeometry relative="1" as="geometry"><mxPoint x="107" y="165" as="sourcePoint" /><mxPoint x="107" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lq2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;"><mxGeometry relative="1" as="geometry"><mxPoint x="327" y="165" as="sourcePoint" /><mxPoint x="327" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lapi2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;"><mxGeometry relative="1" as="geometry"><mxPoint x="557" y="165" as="sourcePoint" /><mxPoint x="557" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lf2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0891B2;"><mxGeometry relative="1" as="geometry"><mxPoint x="782" y="165" as="sourcePoint" /><mxPoint x="782" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ln2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#D97706;"><mxGeometry relative="1" as="geometry"><mxPoint x="990" y="165" as="sourcePoint" /><mxPoint x="990" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lc2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;"><mxGeometry relative="1" as="geometry"><mxPoint x="1205" y="165" as="sourcePoint" /><mxPoint x="1205" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ls2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;"><mxGeometry relative="1" as="geometry"><mxPoint x="1440" y="165" as="sourcePoint" /><mxPoint x="1440" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="ld2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#0F766E;"><mxGeometry relative="1" as="geometry"><mxPoint x="1660" y="170" as="sourcePoint" /><mxPoint x="1660" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="lt2" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;"><mxGeometry relative="1" as="geometry"><mxPoint x="1862" y="165" as="sourcePoint" /><mxPoint x="1862" y="1680" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="section-a" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=8;spacingLeft=10;fontStyle=1;fillColor=#EFF6FF;strokeColor=#60A5FA;opacity=30;" value="A — Frontend rejects a non-Monday before any network request" vertex="1"><mxGeometry height="250" width="1960" x="10" y="190" as="geometry" /></mxCell>
+        <mxCell id="a1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. isMonday(dateValue: string): boolean → false"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="190" y="250" /><mxPoint x="190" y="300" /></Array><mxPoint x="107" y="250" as="sourcePoint" /><mxPoint x="107" y="300" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="a2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="2. useQuery({ enabled: false })"><mxGeometry relative="1" as="geometry"><mxPoint x="107" y="350" as="sourcePoint" /><mxPoint x="327" y="350" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="a-note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#FFF7ED;strokeColor=#FB923C;fontSize=12;" value="TanStack Query does not call queryFn. App renders the Monday warning. This improves UX, but it is not an API security boundary." vertex="1"><mxGeometry height="95" width="700" x="500" y="315" as="geometry" /></mxCell>
+
+        <mxCell id="section-b" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=8;spacingLeft=10;fontStyle=1;fillColor=#FEF2F2;strokeColor=#F87171;opacity=30;" value="B — A direct client bypasses the UI and sends an invalid date" vertex="1"><mxGeometry height="480" width="1960" x="10" y="460" as="geometry" /></mxCell>
+        <mxCell id="b1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="3. GET /api/journeys?weekStarting=2026-10-13"><mxGeometry relative="1" as="geometry"><mxPoint x="782" y="525" as="sourcePoint" /><mxPoint x="990" y="525" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="b2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. GetWeek(weekStarting: DateOnly?, cancellationToken)"><mxGeometry relative="1" as="geometry"><mxPoint x="990" y="580" as="sourcePoint" /><mxPoint x="1205" y="580" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="b3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. ValidateWeekStarting(DateOnly?): bool → false&#xa;ModelState.AddModelError(&#39;weekStarting&#39;, message)"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1300" y="625" /><mxPoint x="1300" y="690" /></Array><mxPoint x="1205" y="625" as="sourcePoint" /><mxPoint x="1205" y="690" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="b4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="6. HTTP 400 ValidationProblemDetails; service and database are not called"><mxGeometry relative="1" as="geometry"><mxPoint x="1205" y="745" as="sourcePoint" /><mxPoint x="782" y="745" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="b5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="7. Response { ok: false, status: 400 }"><mxGeometry relative="1" as="geometry"><mxPoint x="782" y="800" as="sourcePoint" /><mxPoint x="557" y="800" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="b6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="8. throw Error(&#39;The API returned HTTP 400.&#39;)"><mxGeometry relative="1" as="geometry"><mxPoint x="557" y="850" as="sourcePoint" /><mxPoint x="327" y="850" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="b-note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#FFF7ED;strokeColor=#FB923C;fontSize=12;" value="The global QueryClient retry count is 1, so TanStack may execute queryFn once more before exposing isError. App's Retry button calls journeysQuery.refetch()." vertex="1"><mxGeometry height="85" width="610" x="450" y="845" as="geometry" /></mxCell>
+
+        <mxCell id="section-c" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=8;spacingLeft=10;fontStyle=1;fillColor=#F0FDF4;strokeColor=#4ADE80;opacity=30;" value="C — Valid week, but no rows exist" vertex="1"><mxGeometry height="330" width="1960" x="10" y="960" as="geometry" /></mxCell>
+        <mxCell id="c1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="9. GetWeekAsync(valid Monday, cancellationToken)"><mxGeometry relative="1" as="geometry"><mxPoint x="1205" y="1025" as="sourcePoint" /><mxPoint x="1440" y="1025" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="c2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. SELECT for UTC week bounds"><mxGeometry relative="1" as="geometry"><mxPoint x="1440" y="1080" as="sourcePoint" /><mxPoint x="1660" y="1080" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="c3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="11. Empty JourneyListItem[]; HTTP 200 []"><mxGeometry relative="1" as="geometry"><mxPoint x="1660" y="1135" as="sourcePoint" /><mxPoint x="327" y="1135" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="c4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="12. isSuccess; data.length === 0"><mxGeometry relative="1" as="geometry"><mxPoint x="327" y="1190" as="sourcePoint" /><mxPoint x="107" y="1190" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="c5" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="13. App renders info alert; length &gt; 0 is false, so JourneyTable is not called"><mxGeometry relative="1" as="geometry"><mxPoint x="107" y="1245" as="sourcePoint" /><mxPoint x="1862" y="1245" as="targetPoint" /></mxGeometry></mxCell>
+
+        <mxCell id="section-d" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingTop=8;spacingLeft=10;fontStyle=1;fillColor=#F5F3FF;strokeColor=#A78BFA;opacity=30;" value="D — The selected week changes while a request is in flight" vertex="1"><mxGeometry height="350" width="1960" x="10" y="1310" as="geometry" /></mxCell>
+        <mxCell id="d1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="14. New queryKey makes the old observer obsolete"><mxGeometry relative="1" as="geometry"><mxPoint x="107" y="1375" as="sourcePoint" /><mxPoint x="327" y="1375" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="d2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="15. AbortController.abort() → AbortSignal"><mxGeometry relative="1" as="geometry"><mxPoint x="327" y="1430" as="sourcePoint" /><mxPoint x="782" y="1430" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="d3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. fetch rejects with AbortError"><mxGeometry relative="1" as="geometry"><mxPoint x="782" y="1485" as="sourcePoint" /><mxPoint x="557" y="1485" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="d4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="17. Cancelled old result is not used for the new query key"><mxGeometry relative="1" as="geometry"><mxPoint x="557" y="1540" as="sourcePoint" /><mxPoint x="327" y="1540" as="targetPoint" /></mxGeometry></mxCell>
+        <mxCell id="d-note" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#FFF7ED;strokeColor=#FB923C;fontSize=12;" value="The same CancellationToken can propagate through ASP.NET Core and EF Core if the server observes the disconnected request. Cancellation avoids stale work; it is not an error shown to the user." vertex="1"><mxGeometry height="100" width="720" x="850" y="1515" as="geometry" /></mxCell>
       </root>
     </mxGraphModel>
   </diagram>
