@@ -1,13 +1,13 @@
 <mxfile host="Electron" agent="Codex" pages="2">
   <diagram id="journey-query-success" name="1 - Successful query and rendering">
-    <mxGraphModel dx="1139" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="2100" math="0" shadow="0">
+    <mxGraphModel dx="1139" dy="662" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2600" pageHeight="2100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Journey-week query and rendering — successful path" vertex="1">
           <mxGeometry height="40" width="1000" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: getJourneysForWeek(), GetWeek(), ValidateWeekStarting(), GetWeekAsync(), ToUtc(), JourneyTable(), getRouteLabel(), and formatDateTime()." vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: getJourneysForWeek(), GetWeek(), ValidateWeekStarting(), GetWeekAsync(), BusinessTime.StartOfDayUtc(), JourneyTable(), getRouteLabel(), and formatDateTime()." vertex="1">
           <mxGeometry height="30" width="1900" x="30" y="60" as="geometry" />
         </mxCell>
         <mxCell id="frontend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="FRONTEND — BROWSER" vertex="1">
@@ -20,7 +20,7 @@
           <mxGeometry height="1920" width="185" x="1025" y="95" as="geometry" />
         </mxCell>
         <mxCell id="backend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#166534;fillColor=#F0FDF4;strokeColor=#86EFAC;opacity=35;" value="BACKEND — ASP.NET CORE + POSTGRESQL" vertex="1">
-          <mxGeometry height="1920" width="1140" x="1225" y="95" as="geometry" />
+          <mxGeometry height="1920" width="1340" x="1225" y="95" as="geometry" />
         </mxCell>
         <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="App component&#xa;App.tsx" vertex="1">
           <mxGeometry height="65" width="150" x="20" y="115" as="geometry" />
@@ -54,6 +54,9 @@
         </mxCell>
         <mxCell id="formatter" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="ASP.NET output formatter&#xa;System.Text.Json" vertex="1">
           <mxGeometry height="65" width="200" x="2060" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="business-time" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="BusinessTime&#xa;Domain/Time/BusinessTime.cs" vertex="1">
+          <mxGeometry height="65" width="210" x="2290" y="115" as="geometry" />
         </mxCell>
         <mxCell id="la" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
           <mxGeometry relative="1" as="geometry">
@@ -119,6 +122,12 @@
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="2160" y="180" as="sourcePoint" />
             <mxPoint x="2160" y="1990" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lbt" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#9333EA;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2395" y="180" as="sourcePoint" />
+            <mxPoint x="2395" y="1990" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="m1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. useQuery({ queryKey: [&#39;journeys&#39;, &#39;week&#39;, weekStarting], enabled: true })">
@@ -187,14 +196,16 @@
             <mxPoint x="1542" y="755" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m10" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. ToUtc(date: DateOnly): DateTimeOffset&#xa;2026-10-12 00:00 UTC+3 → 2026-10-11 21:00Z">
+        <mxCell id="m10" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10a. BusinessTime.StartOfDayUtc(date: DateOnly)&#xa;: DateTimeOffset">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="1625" y="800" />
-              <mxPoint x="1625" y="860" />
-            </Array>
-            <mxPoint x="1542" y="800" as="sourcePoint" />
-            <mxPoint x="1542" y="860" as="targetPoint" />
+            <mxPoint x="1542" y="810" as="sourcePoint" />
+            <mxPoint x="2395" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rbt" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="10b. 2026-10-11 21:00Z for 2026-10-12 00:00 UTC+3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="2395" y="865" as="sourcePoint" />
+            <mxPoint x="1542" y="865" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="m11" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="11. Journeys.AsNoTracking().Where(UTC bounds).OrderBy(...)&#xa;.Select(JourneyListItem).ToArrayAsync(cancellationToken)">
