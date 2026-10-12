@@ -8,7 +8,7 @@ before implementation, and application changes remain small enough to inspect.
 - [x] Trace frontend startup and provider composition.
 - [x] Trace the system-status request and response.
 - [x] Trace the journey-week query and table rendering.
-- [ ] Trace journey-week generation and TanStack Query cache refresh.
+- [x] Trace journey-week generation and TanStack Query cache refresh.
 
 The handwritten `fetch()` functions remain in place through this milestone so
 their URL construction, headers, serialization, errors, and cancellation are

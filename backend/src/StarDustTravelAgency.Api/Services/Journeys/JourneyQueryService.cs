@@ -1,28 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 using StarDustTravelAgency.Api.Domain.Enums;
+using StarDustTravelAgency.Api.Domain.Time;
 using StarDustTravelAgency.Api.Persistence;
 
-// Reads dated journeys for one requested week through EF Core projections.
+// Reads one BusinessTime-bounded week through EF Core projections.
 // JourneysController returns the resulting read models as JSON to API clients.
 namespace StarDustTravelAgency.Api.Services.Journeys;
 
 /// <summary>
 /// Queries ApplicationDbContext for display-ready weekly journey data.
-/// JourneysController supplies the week and serializes the returned items.
+/// BusinessTime supplies bounds; JourneysController serializes the items.
 /// </summary>
 public sealed class JourneyQueryService(
     ApplicationDbContext context)
 {
-    private static readonly TimeSpan UtcPlusThree = TimeSpan.FromHours(3);
-
     /// <summary>
-    /// Returns one UTC+3 schedule week ordered by its UTC departure time.
+    /// Returns one BusinessTime-bounded week ordered by UTC departure.
+    /// JourneysController awaits the projected JourneyListItem collection.
     /// </summary>
     public async Task<IReadOnlyList<JourneyListItem>> GetWeekAsync(
         DateOnly weekStarting,
         CancellationToken cancellationToken = default)
     {
-        var weekStartUtc = ToUtc(weekStarting);
+        var weekStartUtc = BusinessTime.StartOfDayUtc(weekStarting);
         var weekEndUtc = weekStartUtc.AddDays(7);
 
         return await context.Journeys
@@ -41,16 +41,6 @@ public sealed class JourneyQueryService(
                 journey.Spaceship.Name,
                 journey.Status))
             .ToArrayAsync(cancellationToken);
-    }
-
-    /// <summary>
-    /// Converts the requested UTC+3 Monday boundary into a UTC timestamp.
-    /// </summary>
-    private static DateTimeOffset ToUtc(DateOnly date)
-    {
-        var localDateTime = date.ToDateTime(TimeOnly.MinValue);
-        return new DateTimeOffset(localDateTime, UtcPlusThree)
-            .ToUniversalTime();
     }
 }
 

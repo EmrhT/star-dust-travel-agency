@@ -85,6 +85,13 @@ liveness probe.
 API is currently able to perform useful application work and is suitable for a
 readiness probe.
 
+## Time convention
+
+Business schedule inputs use UTC+3, while PostgreSQL stores journey instants in
+UTC. The backend's `BusinessTime` type is the single conversion policy used by
+both journey generation and weekly queries. The frontend formats returned UTC
+timestamps in the `Europe/Istanbul` time zone for display.
+
 ## Configuration
 
 ASP.NET Core converts double underscores in environment-variable names into

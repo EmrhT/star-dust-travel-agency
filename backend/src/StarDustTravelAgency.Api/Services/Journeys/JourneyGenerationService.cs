@@ -1,23 +1,23 @@
 using Microsoft.EntityFrameworkCore;
 using StarDustTravelAgency.Api.Domain.Entities;
 using StarDustTravelAgency.Api.Domain.Enums;
+using StarDustTravelAgency.Api.Domain.Time;
 using StarDustTravelAgency.Api.Persistence;
 
-// Creates dated journeys from recurring schedules for one requested week.
-// JourneysController supplies input, and ApplicationDbContext persists output.
+// Creates dated journeys from schedules using shared BusinessTime conversion.
+// JourneysController supplies input; ApplicationDbContext persists output.
 namespace StarDustTravelAgency.Api.Services.Journeys;
 
 /// <summary>
 /// Converts active WeeklySchedule rows into idempotent Journey rows.
-/// JourneysController invokes it, and JourneyConfiguration protects uniqueness.
+/// BusinessTime supplies UTC values; JourneyConfiguration ensures uniqueness.
 /// </summary>
 public sealed class JourneyGenerationService(
     ApplicationDbContext context)
 {
-    private static readonly TimeSpan UtcPlusThree = TimeSpan.FromHours(3);
-
     /// <summary>
-    /// Generates missing journeys and returns counts to JourneysController.
+    /// Generates BusinessTime-aligned journeys for JourneysController.
+    /// ApplicationDbContext persists only missing schedule occurrences.
     /// </summary>
     public async Task<JourneyGenerationResult> GenerateWeekAsync(
         DateOnly weekStarting,
@@ -38,7 +38,7 @@ public sealed class JourneyGenerationService(
             })
             .ToArrayAsync(cancellationToken);
 
-        var weekStartUtc = ToUtc(weekStarting, TimeOnly.MinValue);
+        var weekStartUtc = BusinessTime.StartOfDayUtc(weekStarting);
         var weekEndUtc = weekStartUtc.AddDays(7);
         var storedOccurrences = await context.Journeys
             .AsNoTracking()
@@ -63,7 +63,7 @@ public sealed class JourneyGenerationService(
         {
             var departureDate = weekStarting.AddDays(
                 ToMondayBasedOffset(schedule.DepartureDay));
-            var departureAtUtc = ToUtc(
+            var departureAtUtc = BusinessTime.ToUtc(
                 departureDate,
                 schedule.DepartureTime);
             var occurrence = (schedule.Id, departureAtUtc);
@@ -93,16 +93,6 @@ public sealed class JourneyGenerationService(
         return new JourneyGenerationResult(
             newJourneys.Count,
             schedules.Length - newJourneys.Count);
-    }
-
-    /// <summary>
-    /// Converts a UTC+3 local date and time into a UTC timestamp for Journey.
-    /// </summary>
-    private static DateTimeOffset ToUtc(DateOnly date, TimeOnly time)
-    {
-        var localDateTime = date.ToDateTime(time);
-        return new DateTimeOffset(localDateTime, UtcPlusThree)
-            .ToUniversalTime();
     }
 
     /// <summary>

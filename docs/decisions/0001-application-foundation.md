@@ -22,6 +22,8 @@ JavaScript bundle.
   PostgreSQL connectivity.
 - Send application logs to stdout/stderr.
 - Use UTC for stored instants and `Europe/Istanbul` for business-facing time.
+- Centralize business-local to UTC conversion in `BusinessTime` so generation
+  and query boundaries cannot implement different offsets.
 
 ## Consequences
 
@@ -32,3 +34,5 @@ JavaScript bundle.
 - PostgreSQL failure makes the backend unready but does not falsely report that
   the ASP.NET process is dead.
 - The frontend image contains no Node.js runtime.
+- Journey services share one tested UTC+3 conversion policy instead of owning
+  private conversion helpers.
