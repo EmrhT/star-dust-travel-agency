@@ -14,6 +14,9 @@ Browser -> nginx/React -> ASP.NET Core -> PostgreSQL
 The travel domain, Keycloak authentication, bookings, and administration pages
 will be added incrementally after this foundation is verified.
 
+The ordered learning and implementation milestones are maintained in the
+[project roadmap](docs/project-roadmap.md).
+
 ## Prerequisites
 
 - Docker Engine with Docker Compose v2
