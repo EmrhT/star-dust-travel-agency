@@ -30,12 +30,13 @@ and before Keycloak or additional booking and administration endpoints.
 
 ### Evaluation and implementation plan
 
-1. Freeze and inspect the current OpenAPI document as the language-neutral API
+1. [x] Inspect the current OpenAPI document as the language-neutral API
    contract.
-2. Compare TypeScript generators for browser `fetch()` support, abort signals,
-   enum handling, generated-code readability, and deterministic builds.
-3. Select and pin one generator version; record the choice and tradeoffs in an
-   architecture decision record.
+2. [x] Compare TypeScript generators for browser `fetch()` support, abort
+   signals, enum handling, generated-code readability, and deterministic
+   builds.
+3. [x] Select NSwag `14.7.1` and record the choice and tradeoffs in
+   `docs/decisions/0002-openapi-typescript-client.md`.
 4. Improve operation identifiers, response declarations, validation errors,
    and schemas where generation exposes ambiguity.
 5. Add a repeatable generation command and a clearly marked generated output
