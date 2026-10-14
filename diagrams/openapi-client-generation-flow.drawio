@@ -1,0 +1,144 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram id="target-client-flow" name="Target generation flow">
+    <mxGraphModel dx="1291" dy="751" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2200" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Target OpenAPI-to-browser build flow" vertex="1">
+          <mxGeometry height="40" width="450" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Compile C#, describe the API, generate TypeScript, compile the frontend, and execute it in the browser." vertex="1">
+          <mxGeometry height="30" width="610" x="30" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="stage1" parent="1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#166534;fillColor=#F0FDF4;strokeColor=#86EFAC;" value="1. BACKEND COMPILATION" vertex="1">
+          <mxGeometry height="820" width="390" x="20" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="stage2" parent="1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;" value="2. OPENAPI GENERATION" vertex="1">
+          <mxGeometry height="820" width="390" x="435" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="stage3" parent="1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#6B21A8;fillColor=#FAF5FF;strokeColor=#C084FC;" value="3. CLIENT GENERATION" vertex="1">
+          <mxGeometry height="820" width="390" x="850" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="stage4" parent="1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#854D0E;fillColor=#FFFBEB;strokeColor=#FACC15;" value="4. FRONTEND COMPILATION" vertex="1">
+          <mxGeometry height="820" width="390" x="1265" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="stage5" parent="1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#155E75;fillColor=#ECFEFF;strokeColor=#67E8F9;" value="5. APPLICATION RUNTIME" vertex="1">
+          <mxGeometry height="820" width="500" x="1680" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="csharp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="C# application source&#xa;&#xa;Program.cs&#xa;Controllers + DTOs&#xa;Services + domain classes&#xa;Attributes + XML comments" vertex="1">
+          <mxGeometry height="145" width="280" x="75" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="dotnet" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#D1FAE5;strokeColor=#059669;" value="dotnet build&#xa;&#xa;Input: .cs + .csproj files&#xa;Return: API assembly + XML docs" vertex="1">
+          <mxGeometry height="115" width="280" x="75" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="assembly" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontStyle=1;fillColor=#D1FAE5;strokeColor=#059669;" value="Compiled backend artifacts&#xa;&#xa;StarDustTravelAgency.Api.dll&#xa;StarDustTravelAgency.Api.xml" vertex="1">
+          <mxGeometry height="130" width="280" x="75" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="metadata" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="ASP.NET Core API metadata&#xa;&#xa;Input: compiled assembly + XML docs&#xa;Return: endpoint descriptions" vertex="1">
+          <mxGeometry height="120" width="285" x="487" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="swashbuckle" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Swashbuckle&#xa;&#xa;GET /swagger/v1/swagger.json&#xa;Input: endpoint descriptions&#xa;Return: OpenAPI 3.0.4 JSON" vertex="1">
+          <mxGeometry height="135" width="285" x="487" y="415" as="geometry" />
+        </mxCell>
+        <mxCell id="openapi" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="OpenAPI document&#xa;&#xa;Paths + operation IDs&#xa;Parameters + request bodies&#xa;Response and DTO schemas" vertex="1">
+          <mxGeometry height="145" width="285" x="487" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="nswag-command" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="NSwag generation command&#xa;&#xa;dotnet tool run nswag&#xa;run nswag.json&#xa;&#xa;Input: OpenAPI JSON + settings" vertex="1">
+          <mxGeometry height="145" width="285" x="902" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="nswag" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="NSwag TypeScript generator&#xa;&#xa;Reads operations and schemas&#xa;Return: TypeScript source code" vertex="1">
+          <mxGeometry height="120" width="285" x="902" y="465" as="geometry" />
+        </mxCell>
+        <mxCell id="generated-ts" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="Generated client source&#xa;&#xa;frontend/src/api/generated/…&#xa;Client classes + methods&#xa;DTO interfaces + enums" vertex="1">
+          <mxGeometry height="145" width="285" x="902" y="675" as="geometry" />
+        </mxCell>
+        <mxCell id="frontend-source" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="Frontend TypeScript source&#xa;&#xa;App.tsx + components&#xa;TanStack Query adapters&#xa;+ NSwag-generated client" vertex="1">
+          <mxGeometry height="130" width="285" x="1317" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="vite" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="npm run build → Vite&#xa;&#xa;Input: TypeScript + TSX + assets&#xa;Return: production web files" vertex="1">
+          <mxGeometry height="120" width="285" x="1317" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="web-files" parent="1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="Static frontend artifacts&#xa;&#xa;index.html&#xa;JavaScript bundle(s)&#xa;Other browser assets" vertex="1">
+          <mxGeometry height="140" width="285" x="1317" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="nginx frontend container&#xa;&#xa;Input: production web files&#xa;HTTP return: index.html + JS assets" vertex="1">
+          <mxGeometry height="125" width="310" x="1775" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="browser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="Browser JavaScript engine&#xa;&#xa;Parses index.html&#xa;Downloads and executes JS&#xa;Return: rendered DOM" vertex="1">
+          <mxGeometry height="135" width="310" x="1775" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="generated-client-runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0F2FE;strokeColor=#0284C7;" value="Generated client at runtime&#xa;&#xa;method(parameters, AbortSignal)&#xa;→ Promise&lt;typed response&gt;&#xa;&#xa;Uses browser fetch()" vertex="1">
+          <mxGeometry height="145" width="310" x="1775" y="635" as="geometry" />
+        </mxCell>
+        <mxCell id="api-runtime" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="Running ASP.NET Core API&#xa;&#xa;Input: HTTP request&#xa;Return: HTTP JSON / ProblemDetails" vertex="1">
+          <mxGeometry height="115" width="310" x="1775" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="csharp" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;" target="dotnet" value="source input">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="dotnet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#059669;" target="assembly" value="assembly + XML docs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="assembly" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;" target="metadata" value="compiled API description">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="700" />
+              <mxPoint x="420" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="metadata" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;" target="swashbuckle" value="endpoint metadata">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="swashbuckle" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;" target="openapi" value="OpenAPI JSON">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="openapi" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;" target="nswag-command" value="contract input">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="835" y="707" />
+              <mxPoint x="835" y="322" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="nswag-command" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;" target="nswag" value="OpenAPI + nswag.json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" edge="1" parent="1" source="nswag" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;" target="generated-ts" value="writes .ts files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" edge="1" parent="1" source="generated-ts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#D97706;" target="frontend-source" value="generated imports">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1250" y="747" />
+              <mxPoint x="1250" y="265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e10" edge="1" parent="1" source="frontend-source" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#D97706;" target="vite" value="TypeScript + TSX">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" edge="1" parent="1" source="vite" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#D97706;" target="web-files" value="index.html + JS assets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" edge="1" parent="1" source="web-files" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#0891B2;" target="nginx" value="COPY dist → nginx root">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1668" y="720" />
+              <mxPoint x="1668" y="252" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e13" edge="1" parent="1" source="nginx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#0891B2;" target="browser" value="HTTP static files">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e14" edge="1" parent="1" source="browser" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#0284C7;" target="generated-client-runtime" value="React/TanStack calls method">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e15" edge="1" parent="1" source="generated-client-runtime" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;" target="api-runtime" value="fetch(): request / Promise response">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
