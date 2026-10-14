@@ -36,6 +36,18 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(
         typeof(Program).Assembly,
         includeControllerXmlComments: true);
+    options.SupportNonNullableReferenceTypes();
+    options.NonNullableReferenceTypesAsRequired();
+
+    // Gives NSwag stable controller_action names for generated client methods.
+    options.CustomOperationIds(apiDescription =>
+    {
+        var routeValues = apiDescription.ActionDescriptor.RouteValues;
+        var controller = routeValues["controller"];
+        var action = routeValues["action"];
+
+        return $"{controller}_{action}";
+    });
 });
 
 var connectionString = builder.Configuration.GetConnectionString("Postgres");

@@ -18,7 +18,12 @@ public sealed class SystemController(
     /// Queries PostgreSQL before returning data to frontend getSystemStatus.
     /// </summary>
     [HttpGet("status")]
-    [ProducesResponseType<SystemStatusResponse>(StatusCodes.Status200OK)]
+    [ProducesResponseType<SystemStatusResponse>(
+        StatusCodes.Status200OK,
+        "application/json")]
+    [ProducesResponseType<ProblemDetails>(
+        StatusCodes.Status500InternalServerError,
+        "application/problem+json")]
     public async Task<ActionResult<SystemStatusResponse>> GetStatus(
         CancellationToken cancellationToken)
     {

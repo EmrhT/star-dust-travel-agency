@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using StarDustTravelAgency.Api.Services.Journeys;
 
 // Exposes manual one-week journey generation through the REST API.
@@ -20,11 +21,16 @@ public sealed class JourneysController(
     /// </summary>
     [HttpGet]
     [ProducesResponseType<IReadOnlyList<JourneyListItem>>(
-        StatusCodes.Status200OK)]
+        StatusCodes.Status200OK,
+        "application/json")]
     [ProducesResponseType<ValidationProblemDetails>(
-        StatusCodes.Status400BadRequest)]
+        StatusCodes.Status400BadRequest,
+        "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(
+        StatusCodes.Status500InternalServerError,
+        "application/problem+json")]
     public async Task<ActionResult<IReadOnlyList<JourneyListItem>>> GetWeek(
-        [FromQuery] DateOnly? weekStarting,
+        [FromQuery, BindRequired] DateOnly weekStarting,
         CancellationToken cancellationToken)
     {
         if (!ValidateWeekStarting(weekStarting))
@@ -33,7 +39,7 @@ public sealed class JourneysController(
         }
 
         var journeys = await queryService.GetWeekAsync(
-            weekStarting!.Value,
+            weekStarting,
             cancellationToken);
 
         return Ok(journeys);
@@ -43,12 +49,18 @@ public sealed class JourneysController(
     /// Validates the requested Monday and delegates one week of generation.
     /// </summary>
     [HttpPost("generate-week")]
+    [Consumes("application/json")]
     [ProducesResponseType<GenerateJourneyWeekResponse>(
-        StatusCodes.Status200OK)]
+        StatusCodes.Status200OK,
+        "application/json")]
     [ProducesResponseType<ValidationProblemDetails>(
-        StatusCodes.Status400BadRequest)]
+        StatusCodes.Status400BadRequest,
+        "application/problem+json")]
+    [ProducesResponseType<ProblemDetails>(
+        StatusCodes.Status500InternalServerError,
+        "application/problem+json")]
     public async Task<ActionResult<GenerateJourneyWeekResponse>> GenerateWeek(
-        GenerateJourneyWeekRequest request,
+        [FromBody, BindRequired] GenerateJourneyWeekRequest request,
         CancellationToken cancellationToken)
     {
         if (!ValidateWeekStarting(request.WeekStarting))
@@ -57,27 +69,21 @@ public sealed class JourneysController(
         }
 
         var result = await generationService.GenerateWeekAsync(
-            request.WeekStarting!.Value,
+            request.WeekStarting,
             cancellationToken);
 
         return Ok(new GenerateJourneyWeekResponse(
-            request.WeekStarting.Value,
+            request.WeekStarting,
             result.Created,
             result.AlreadyExisted));
     }
 
     /// <summary>
-    /// Adds shared required-Monday errors for both controller actions.
+    /// Adds a shared Monday error for both controller actions.
     /// </summary>
-    private bool ValidateWeekStarting(DateOnly? weekStarting)
+    private bool ValidateWeekStarting(DateOnly weekStarting)
     {
-        if (weekStarting is null)
-        {
-            ModelState.AddModelError(
-                "weekStarting",
-                "weekStarting is required.");
-        }
-        else if (weekStarting.Value.DayOfWeek != DayOfWeek.Monday)
+        if (weekStarting.DayOfWeek != DayOfWeek.Monday)
         {
             ModelState.AddModelError(
                 "weekStarting",
@@ -90,9 +96,15 @@ public sealed class JourneysController(
 
 /// <summary>
 /// Describes the Monday for JourneysController to generate.
-/// React will serialize its nullable date as the API request body.
+/// React serializes this required date as the API request body.
 /// </summary>
-public sealed record GenerateJourneyWeekRequest(DateOnly? WeekStarting);
+public sealed record GenerateJourneyWeekRequest
+{
+    /// <summary>
+    /// Supplies the Monday passed to JourneyGenerationService.
+    /// </summary>
+    public required DateOnly WeekStarting { get; init; }
+}
 
 /// <summary>
 /// Reports JourneyGenerationService results to the requesting client.
