@@ -39,8 +39,8 @@ and before Keycloak or additional booking and administration endpoints.
    `docs/decisions/0002-openapi-typescript-client.md`.
 4. [x] Improve operation identifiers, response declarations, validation
    errors, and schemas where generation exposes ambiguity.
-5. Add a repeatable generation command and a clearly marked generated output
-   directory. Generated files must not be edited manually.
+5. [x] Add a repeatable generation command and a clearly marked generated
+   output directory. Generated files must not be edited manually.
 6. Replace the handwritten transport details in `api/system.ts` and
    `api/journeys.ts` while retaining small application-facing adapters where
    they improve naming or TanStack Query integration.

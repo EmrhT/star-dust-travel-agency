@@ -122,12 +122,35 @@ npm --prefix frontend run build
 The normal container build runs the frontend and backend production builds even
 when those SDKs are not installed on the host.
 
+## Regenerate the TypeScript API client
+
+Client generation requires the .NET 10 SDK, Node.js 22.12 or newer, npm, and
+curl on the development host. Restore the pinned tools and packages once:
+
+```bash
+dotnet tool restore
+npm --prefix frontend ci
+```
+
+After changing controller routes, inputs, responses, or DTOs, run:
+
+```bash
+./scripts/generate-api-client.sh
+```
+
+The command builds and briefly starts the API, exports Swashbuckle's OpenAPI
+document to `openapi/star-dust-v1.json`, runs the pinned NSwag generator, and
+formats `frontend/src/api/generated/star-dust-api.ts`. Commit both generated
+artifacts with the backend contract change; do not edit them manually.
+
 ## Repository layout
 
 ```text
 backend/      ASP.NET Core API and backend container build
 frontend/     React SPA, nginx configuration, and frontend container build
 docs/         Architectural decisions and learning notes
+openapi/      Generated language-neutral API contract
+scripts/      Repeatable repository development commands
 docker-compose.yml
 ```
 

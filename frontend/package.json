@@ -10,7 +10,8 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "format:api": "prettier --write src/api/generated/star-dust-api.ts"
   },
   "dependencies": {
     "@emotion/react": "11.14.0",
@@ -25,6 +26,8 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.1.1",
+    "prettier": "3.9.10",
+    "prettier-plugin-jsdoc": "1.8.1",
     "typescript": "7.0.2",
     "vite": "8.3.0"
   }

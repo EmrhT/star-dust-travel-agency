@@ -1,0 +1,352 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Star Dust Travel Agency API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/journeys": {
+      "get": {
+        "tags": [
+          "Journeys"
+        ],
+        "summary": "Returns JourneyQueryService results for one Monday-based week.",
+        "operationId": "Journeys_GetWeek",
+        "parameters": [
+          {
+            "name": "weekStarting",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JourneyListItem"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/journeys/generate-week": {
+      "post": {
+        "tags": [
+          "Journeys"
+        ],
+        "summary": "Validates the requested Monday and delegates one week of generation.",
+        "operationId": "Journeys_GenerateWeek",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateJourneyWeekRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateJourneyWeekResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/system/status": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Queries PostgreSQL before returning data to frontend getSystemStatus.",
+        "operationId": "System_GetStatus",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemStatusResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GenerateJourneyWeekRequest": {
+        "required": [
+          "weekStarting"
+        ],
+        "type": "object",
+        "properties": {
+          "weekStarting": {
+            "type": "string",
+            "description": "Supplies the Monday passed to JourneyGenerationService.",
+            "format": "date"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Describes the Monday for JourneysController to generate.\nReact serializes this required date as the API request body."
+      },
+      "GenerateJourneyWeekResponse": {
+        "required": [
+          "alreadyExisted",
+          "created",
+          "weekStarting"
+        ],
+        "type": "object",
+        "properties": {
+          "weekStarting": {
+            "type": "string",
+            "format": "date"
+          },
+          "created": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "alreadyExisted": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reports JourneyGenerationService results to the requesting client.\nASP.NET Core serializes this record into the endpoint's JSON response."
+      },
+      "JourneyListItem": {
+        "required": [
+          "arrivalAtUtc",
+          "departureAtUtc",
+          "destination",
+          "direction",
+          "id",
+          "launchStation",
+          "spaceship",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "launchStation": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "direction": {
+            "$ref": "#/components/schemas/TravelDirection"
+          },
+          "departureAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "spaceship": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/JourneyStatus"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Projects Journey and related entity fields needed by the future React view.\nJourneyQueryService creates these items without exposing EF entities."
+      },
+      "JourneyStatus": {
+        "enum": [
+          "Draft",
+          "Scheduled",
+          "Boarding",
+          "Departed",
+          "Arrived",
+          "Delayed",
+          "Cancelled"
+        ],
+        "type": "string",
+        "description": "Describes a Journey's operational lifecycle state.\nJourneyConfiguration converts its values to database strings."
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "SystemStatusResponse": {
+        "required": [
+          "checkedAtUtc",
+          "database",
+          "service"
+        ],
+        "type": "object",
+        "properties": {
+          "service": {
+            "type": "string"
+          },
+          "database": {
+            "type": "string"
+          },
+          "checkedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Carries the status serialized by SystemController.GetStatus.\nfrontend SystemStatus is the corresponding TypeScript contract."
+      },
+      "TravelDirection": {
+        "enum": [
+          "Outbound",
+          "Return"
+        ],
+        "type": "string",
+        "description": "Distinguishes outbound and return WeeklySchedule and Journey legs.\nTheir EF configuration classes convert its values to strings."
+      },
+      "ValidationProblemDetails": {
+        "required": [
+          "errors"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "additionalProperties": { }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Journeys",
+      "description": "Handles journey read and generation requests for a Monday-based week.\nJourney services provide generation and read-only weekly query operations."
+    },
+    {
+      "name": "System",
+      "description": "Uses NpgsqlDataSource to verify PostgreSQL for GET api/system/status.\nfrontend getSystemStatus consumes its SystemStatusResponse."
+    }
+  ]
+}
