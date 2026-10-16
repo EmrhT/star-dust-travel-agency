@@ -1,5 +1,7 @@
 import { appConfig } from '../config'
 import {
+  type GenerateJourneyWeekRequest,
+  type GenerateJourneyWeekResponse as GeneratedJourneyWeekResponse,
   JourneysClient,
   type JourneyListItem as GeneratedJourneyListItem,
   type JourneyStatus as GeneratedJourneyStatus,
@@ -7,8 +9,8 @@ import {
   type TravelDirection as GeneratedTravelDirection,
 } from './generated/star-dust-api'
 
-// Adapts generated journey reads and handwritten writes for TanStack Query.
-// Runtime config supplies the deployment path shared by both implementations.
+// Adapts generated journey transport operations for TanStack Query consumers.
+// Runtime config supplies their deployment path and adapters normalize errors.
 
 // Re-exports NSwag's TravelDirection contract for JourneyTable consumers.
 export type TravelDirection = GeneratedTravelDirection
@@ -24,12 +26,8 @@ export interface GetJourneysOptions {
   signal?: AbortSignal
 }
 
-// Matches the generation result serialized by JourneysController.
-export interface GenerateJourneyWeekResult {
-  weekStarting: string
-  created: number
-  alreadyExisted: number
-}
+// Reuses the generation response produced from JourneysController's contract.
+export type GenerateJourneyWeekResult = GeneratedJourneyWeekResponse
 
 const generatedClientBaseUrl = appConfig.apiBaseUrl.replace(/\/api\/?$/, '')
 const journeysClient = new JourneysClient(generatedClientBaseUrl)
@@ -58,25 +56,29 @@ export async function getJourneysForWeek(
   }
 }
 
-// Serializes one Monday for JourneysController's generation endpoint.
+// Builds the generated request DTO and delegates POST serialization to NSwag.
 export async function generateJourneysForWeek(
   weekStarting: string,
 ): Promise<GenerateJourneyWeekResult> {
-  const response = await fetch(
-    `${appConfig.apiBaseUrl}/journeys/generate-week`,
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ weekStarting }),
-    },
-  )
+  const request: GenerateJourneyWeekRequest = { weekStarting }
 
-  if (!response.ok) {
-    throw new Error(`The API returned HTTP ${response.status}.`)
+  try {
+    return await journeysClient.generateWeek(request)
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error
+    }
+
+    if (typeof error === 'object' && error !== null) {
+      const problem = error as ProblemDetails
+
+      throw new Error(
+        problem.detail ??
+          problem.title ??
+          'The journey-generation request failed.',
+      )
+    }
+
+    throw new Error('The journey-generation request failed.')
   }
-
-  return response.json() as Promise<GenerateJourneyWeekResult>
 }
