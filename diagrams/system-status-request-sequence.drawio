@@ -7,7 +7,7 @@
         <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="System status request — successful path" vertex="1">
           <mxGeometry height="40" width="900" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Application functions covered: getSystemStatus() and SystemController.GetStatus(). App() is the caller; library and framework calls provide the complete path." vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Application functions covered: getSystemStatus(), generated SystemClient.getStatus()/processGetStatus(), and SystemController.GetStatus()." vertex="1">
           <mxGeometry height="30" width="1650" x="30" y="60" as="geometry" />
         </mxCell>
         <mxCell id="front-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="FRONTEND — BROWSER" vertex="1">
@@ -28,7 +28,7 @@
         <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="getSystemStatus()&#xa;api/system.ts" vertex="1">
           <mxGeometry height="65" width="180" x="430" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="fetch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="fetch() / Response.json()&#xa;Browser Web API" vertex="1">
+        <mxCell id="fetch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="SystemClient + fetch()&#xa;generated/star-dust-api.ts" vertex="1">
           <mxGeometry height="65" width="180" x="645" y="115" as="geometry" />
         </mxCell>
         <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx proxy&#xa;default.conf.template" vertex="1">
@@ -120,14 +120,14 @@
             <mxPoint x="520" y="350" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. fetch(&#39;/api/system/status&#39;, { Accept, signal })&#xa;: Promise&lt;Response&gt;">
+        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. systemClient.getStatus(signal: AbortSignal)&#xa;: Promise&lt;SystemStatusResponse&gt;">
           <mxGeometry relative="1" x="0.0233" y="-15" as="geometry">
             <mxPoint x="-1" as="offset" />
             <mxPoint x="520" y="415" as="sourcePoint" />
             <mxPoint x="735" y="415" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. HTTP GET /api/system/status&#xa;Accept: application/json">
+        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. fetch(&#39;/api/system/status&#39;, { method: &#39;GET&#39;, Accept, signal })&#xa;HTTP request">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="735" y="480" as="sourcePoint" />
             <mxPoint x="940" y="480" as="targetPoint" />
@@ -204,34 +204,41 @@
             <mxPoint x="940" y="1120" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. Proxied HTTP 200 JSON response">
+        <mxCell id="r4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. Proxied HTTP 200 JSON response to browser fetch()">
           <mxGeometry relative="1" x="-0.0244" y="15" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="940" y="1175" as="sourcePoint" />
             <mxPoint x="735" y="1175" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="17. fetch Promise resolves: Response { ok: true, status: 200 }">
-          <mxGeometry relative="1" x="-0.0233" y="20" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="735" y="1230" as="sourcePoint" />
-            <mxPoint x="520" y="1230" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="m13" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="18. response.json(): Promise&lt;SystemStatus&gt;">
+        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="17. fetch Promise resolves inside SystemClient: Response { status: 200 }">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="520" y="1285" as="sourcePoint" />
-            <mxPoint x="735" y="1285" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="820" y="1210" />
+              <mxPoint x="820" y="1245" />
+            </Array>
+            <mxPoint x="735" y="1210" as="sourcePoint" />
+            <mxPoint x="735" y="1245" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="19. Parsed JavaScript object: SystemStatus">
+        <mxCell id="m13" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="18. processGetStatus(response): Promise&lt;SystemStatusResponse&gt;&#xa;response.text() + JSON.parse(text)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="820" y="1270" />
+              <mxPoint x="820" y="1310" />
+            </Array>
+            <mxPoint x="735" y="1270" as="sourcePoint" />
+            <mxPoint x="735" y="1310" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="19. getStatus Promise resolves: SystemStatusResponse object">
           <mxGeometry relative="1" x="-0.0233" y="20" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="735" y="1340" as="sourcePoint" />
             <mxPoint x="520" y="1340" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r7" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="20. getSystemStatus Promise resolves: SystemStatus">
+        <mxCell id="r7" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="20. getSystemStatus resolves generated type alias: SystemStatus">
           <mxGeometry relative="1" x="0.0329" y="15" as="geometry">
             <mxPoint x="1" as="offset" />
             <mxPoint x="520" y="1395" as="sourcePoint" />
@@ -278,7 +285,7 @@
         <mxCell id="api2" value="getSystemStatus()&#xa;api/system.ts" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" vertex="1" parent="1">
           <mxGeometry x="410" y="110" width="180" height="65" as="geometry" />
         </mxCell>
-        <mxCell id="fetch2" value="fetch()&#xa;Browser Web API" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" vertex="1" parent="1">
+        <mxCell id="fetch2" value="SystemClient + fetch()&#xa;generated/star-dust-api.ts" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" vertex="1" parent="1">
           <mxGeometry x="620" y="110" width="165" height="65" as="geometry" />
         </mxCell>
         <mxCell id="nginx2" value="nginx / network" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" vertex="1" parent="1">
@@ -377,19 +384,19 @@
             <mxPoint x="1505" y="450" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ar2" value="5. HTTP 500 application/problem+json → nginx → fetch" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;strokeColor=#DC2626;" edge="1" parent="1">
+        <mxCell id="ar2" value="5. HTTP 500 application/problem+json → nginx → generated fetch()" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;strokeColor=#DC2626;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1505" y="510" as="sourcePoint" />
             <mxPoint x="702" y="510" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="ar3" value="6. Promise resolves: Response { ok: false, status: 500 }" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" edge="1" parent="1">
+        <mxCell id="ar3" value="6. processGetStatus parses body and rejects: ProblemDetails" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="702" y="565" as="sourcePoint" />
             <mxPoint x="500" y="565" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="am4" value="7. throw new Error(&#39;The API returned HTTP 500.&#39;)&#xa;: rejected Promise&lt;SystemStatus&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;strokeColor=#DC2626;" edge="1" parent="1">
+        <mxCell id="am4" value="7. catch ProblemDetails; throw new Error(detail ?? title)&#xa;: rejected Promise&lt;SystemStatus&gt;" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;strokeColor=#DC2626;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="500" y="600" as="sourcePoint" />
             <mxPoint x="500" y="650" as="targetPoint" />
@@ -442,7 +449,7 @@
             <mxPoint x="702" y="1110" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="am9" value="14. AbortSignal becomes aborted; fetch stops request&#xa;and rejects with AbortError" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" edge="1" parent="1">
+        <mxCell id="am9" value="14. AbortSignal becomes aborted; generated fetch stops request&#xa;and rejects with AbortError" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="702" y="1150" as="sourcePoint" />
             <mxPoint x="702" y="1205" as="targetPoint" />
@@ -452,7 +459,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="ar6" value="15. getSystemStatus Promise rejects due to cancellation" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" edge="1" parent="1">
+        <mxCell id="ar6" value="15. AbortError propagates through SystemClient and getSystemStatus" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="702" y="1250" as="sourcePoint" />
             <mxPoint x="295" y="1250" as="targetPoint" />

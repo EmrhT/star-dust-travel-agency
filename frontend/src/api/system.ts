@@ -1,30 +1,39 @@
 import { appConfig } from '../config'
+import {
+  SystemClient,
+  type ProblemDetails,
+  type SystemStatusResponse,
+} from './generated/star-dust-api'
 
-// Defines and retrieves the system status contract exposed by SystemController.
-// App consumes the typed result while TanStack Query controls cancellation.
-// Describes the JSON fields serialized by the backend status response record.
-export interface SystemStatus {
-  service: string
-  database: string
-  checkedAtUtc: string
-}
+// Adapts generated SystemClient transport behavior to React application needs.
+// App supplies cancellation; runtime config supplies the deployment API path.
+// Reuses the generated OpenAPI type instead of duplicating its DTO fields.
+export type SystemStatus = SystemStatusResponse
 
-// Calls the configured API and converts its JSON response into SystemStatus.
+const generatedClientBaseUrl = appConfig.apiBaseUrl.replace(/\/api\/?$/, '')
+const systemClient = new SystemClient(generatedClientBaseUrl)
+
+// Delegates HTTP and JSON work to SystemClient and normalizes API failures.
 export async function getSystemStatus({
   signal,
 }: {
   signal?: AbortSignal
 } = {}): Promise<SystemStatus> {
-  const response = await fetch(`${appConfig.apiBaseUrl}/system/status`, {
-    headers: {
-      Accept: 'application/json',
-    },
-    signal,
-  })
+  try {
+    return await systemClient.getStatus(signal)
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error
+    }
 
-  if (!response.ok) {
-    throw new Error(`The API returned HTTP ${response.status}.`)
+    if (typeof error === 'object' && error !== null) {
+      const problem = error as ProblemDetails
+
+      throw new Error(
+        problem.detail ?? problem.title ?? 'The system-status request failed.',
+      )
+    }
+
+    throw new Error('The system-status request failed.')
   }
-
-  return response.json() as Promise<SystemStatus>
 }
