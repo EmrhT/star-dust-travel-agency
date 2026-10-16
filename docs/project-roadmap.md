@@ -45,7 +45,8 @@ and before Keycloak or additional booking and administration endpoints.
    application-facing adapters where they improve naming or TanStack Query
    integration.
    - [x] Integrate `SystemClient.getStatus()` through `api/system.ts`.
-   - [ ] Integrate journey query and generation through `api/journeys.ts`.
+   - [x] Integrate `JourneysClient.getWeek()` through `api/journeys.ts`.
+   - [ ] Integrate journey generation through `api/journeys.ts`.
 7. Preserve `AbortSignal` propagation, runtime API-base configuration, JSON
    enum behavior, and ASP.NET Core `ProblemDetails` errors.
 8. Add a stale-client check so CI fails when the committed generated client no

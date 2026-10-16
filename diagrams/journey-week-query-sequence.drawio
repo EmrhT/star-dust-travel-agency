@@ -7,7 +7,7 @@
         <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Journey-week query and rendering — successful path" vertex="1">
           <mxGeometry height="40" width="1000" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: getJourneysForWeek(), GetWeek(), ValidateWeekStarting(), GetWeekAsync(), BusinessTime.StartOfDayUtc(), JourneyTable(), getRouteLabel(), and formatDateTime()." vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: getJourneysForWeek(), generated JourneysClient.getWeek()/processGetWeek(), backend query functions, and JourneyTable helpers." vertex="1">
           <mxGeometry height="30" width="1900" x="30" y="60" as="geometry" />
         </mxCell>
         <mxCell id="frontend-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="FRONTEND — BROWSER" vertex="1">
@@ -34,7 +34,7 @@
         <mxCell id="api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Journey API client&#xa;api/journeys.ts" vertex="1">
           <mxGeometry height="65" width="165" x="600" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="fetch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="fetch() / Response.json()&#xa;Browser Web API" vertex="1">
+        <mxCell id="fetch" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="JourneysClient + fetch()&#xa;generated/star-dust-api.ts" vertex="1">
           <mxGeometry height="65" width="190" x="805" y="115" as="geometry" />
         </mxCell>
         <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx proxy&#xa;default.conf.template" vertex="1">
@@ -149,21 +149,20 @@
             <mxPoint x="682" y="345" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. new URLSearchParams({ weekStarting }): URLSearchParams">
+        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. journeysClient.getWeek(weekStarting: string, signal: AbortSignal)&#xa;: Promise&lt;JourneyListItem[]&gt;">
           <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="755" y="380" />
-              <mxPoint x="755" y="430" />
-            </Array>
-            <mxPoint x="682" y="380" as="sourcePoint" />
-            <mxPoint x="682" y="430" as="targetPoint" />
+            <mxPoint x="682" y="405" as="sourcePoint" />
+            <mxPoint x="900" y="405" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. fetch(url, { Accept: application/json, signal })&#xa;: Promise&lt;Response&gt;">
-          <mxGeometry relative="1" x="-0.0092" y="-20" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="682" y="480" as="sourcePoint" />
-            <mxPoint x="900" y="480" as="targetPoint" />
+        <mxCell id="m5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="5. Build encoded URL; fetch(url, { method: &#39;GET&#39;, Accept, signal })&#xa;: Promise&lt;Response&gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="995" y="455" />
+              <mxPoint x="995" y="495" />
+            </Array>
+            <mxPoint x="900" y="455" as="sourcePoint" />
+            <mxPoint x="900" y="495" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="m6" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="6. HTTP GET /api/journeys?weekStarting=2026-10-12">
@@ -264,28 +263,34 @@
             <mxPoint x="1117" y="1345" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="19. Proxied HTTP 200 JSON response">
+        <mxCell id="r5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="19. Proxied HTTP 200 JSON response to generated fetch()">
           <mxGeometry relative="1" x="0.0783" y="20" as="geometry">
             <mxPoint x="-1" as="offset" />
             <mxPoint x="1117" y="1400" as="sourcePoint" />
             <mxPoint x="900" y="1400" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="20. fetch Promise resolves: Response { ok: true, status: 200 }">
-          <mxGeometry relative="1" x="0.0092" y="15" as="geometry">
-            <mxPoint x="1" as="offset" />
-            <mxPoint x="900" y="1455" as="sourcePoint" />
-            <mxPoint x="682" y="1455" as="targetPoint" />
+        <mxCell id="r6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="20. fetch Promise resolves inside JourneysClient: Response { status: 200 }">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="995" y="1440" />
+              <mxPoint x="995" y="1475" />
+            </Array>
+            <mxPoint x="900" y="1440" as="sourcePoint" />
+            <mxPoint x="900" y="1475" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="21. response.json(): Promise&lt;JourneyListItem[]&gt;">
-          <mxGeometry relative="1" x="-0.0092" y="-10" as="geometry">
-            <mxPoint as="offset" />
-            <mxPoint x="682" y="1510" as="sourcePoint" />
-            <mxPoint x="900" y="1510" as="targetPoint" />
+        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="21. processGetWeek(response): Promise&lt;JourneyListItem[]&gt;&#xa;response.text() + JSON.parse(text)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="995" y="1500" />
+              <mxPoint x="995" y="1535" />
+            </Array>
+            <mxPoint x="900" y="1500" as="sourcePoint" />
+            <mxPoint x="900" y="1535" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r7" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="22. Parsed JavaScript objects: JourneyListItem[]">
+        <mxCell id="r7" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="22. getWeek Promise resolves: generated JourneyListItem[]">
           <mxGeometry relative="1" x="0.0092" y="15" as="geometry">
             <mxPoint x="1" as="offset" />
             <mxPoint x="900" y="1565" as="sourcePoint" />
@@ -363,7 +368,7 @@
         <mxCell id="api2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="getJourneysForWeek()&#xa;api/journeys.ts" vertex="1">
           <mxGeometry height="65" width="185" x="465" y="100" as="geometry" />
         </mxCell>
-        <mxCell id="fetch2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="fetch()&#xa;Browser Web API" vertex="1">
+        <mxCell id="fetch2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#CFFAFE;strokeColor=#0891B2;" value="JourneysClient + fetch()&#xa;generated/star-dust-api.ts" vertex="1">
           <mxGeometry height="65" width="165" x="700" y="100" as="geometry" />
         </mxCell>
         <mxCell id="nginx2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx proxy" vertex="1">
@@ -482,19 +487,19 @@
             <mxPoint x="1205" y="690" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="b4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="6. HTTP 400 ValidationProblemDetails; service and database are not called">
+        <mxCell id="b4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="6. HTTP 400 ValidationProblemDetails; processGetWeek parses the body">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="1205" y="745" as="sourcePoint" />
             <mxPoint x="782" y="745" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="b5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="7. Response { ok: false, status: 400 }">
+        <mxCell id="b5" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="7. getWeek rejects with parsed ValidationProblemDetails">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="782" y="800" as="sourcePoint" />
             <mxPoint x="557" y="800" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="b6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="8. throw Error(&#39;The API returned HTTP 400.&#39;)">
+        <mxCell id="b6" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="8. Adapter throws Error(detail ?? title); queryFn rejects">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="557" y="850" as="sourcePoint" />
             <mxPoint x="327" y="850" as="targetPoint" />
@@ -545,13 +550,13 @@
             <mxPoint x="327" y="1375" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="d2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="15. AbortController.abort() → AbortSignal">
+        <mxCell id="d2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="15. AbortController.abort() changes the signal passed to getWeek()">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="327" y="1430" as="sourcePoint" />
             <mxPoint x="782" y="1430" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="d3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. fetch rejects with AbortError">
+        <mxCell id="d3" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="16. Generated fetch and getWeek reject with AbortError">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="782" y="1485" as="sourcePoint" />
             <mxPoint x="557" y="1485" as="targetPoint" />
