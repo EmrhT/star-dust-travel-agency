@@ -47,8 +47,9 @@ and before Keycloak or additional booking and administration endpoints.
    - [x] Integrate `SystemClient.getStatus()` through `api/system.ts`.
    - [x] Integrate `JourneysClient.getWeek()` through `api/journeys.ts`.
    - [x] Integrate `JourneysClient.generateWeek()` through `api/journeys.ts`.
-7. Preserve `AbortSignal` propagation, runtime API-base configuration, JSON
-   enum behavior, and ASP.NET Core `ProblemDetails` errors.
+7. [x] Preserve `AbortSignal` propagation, runtime API-base configuration,
+   JSON enum behavior, and ASP.NET Core `ProblemDetails` errors. Shared
+   generated-client conventions live in `api/client-support.ts`.
 8. Add a stale-client check so CI fails when the committed generated client no
    longer matches the OpenAPI contract.
 9. Run backend tests, TypeScript checks, the production frontend build, and

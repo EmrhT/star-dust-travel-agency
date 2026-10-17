@@ -1,11 +1,10 @@
-import { appConfig } from '../config'
+import { generatedClientBaseUrl, toApiError } from './client-support'
 import {
   type GenerateJourneyWeekRequest,
   type GenerateJourneyWeekResponse as GeneratedJourneyWeekResponse,
   JourneysClient,
   type JourneyListItem as GeneratedJourneyListItem,
   type JourneyStatus as GeneratedJourneyStatus,
-  type ProblemDetails,
   type TravelDirection as GeneratedTravelDirection,
 } from './generated/star-dust-api'
 
@@ -29,7 +28,6 @@ export interface GetJourneysOptions {
 // Reuses the generation response produced from JourneysController's contract.
 export type GenerateJourneyWeekResult = GeneratedJourneyWeekResponse
 
-const generatedClientBaseUrl = appConfig.apiBaseUrl.replace(/\/api\/?$/, '')
 const journeysClient = new JourneysClient(generatedClientBaseUrl)
 
 // Delegates the GET and JSON work to JourneysClient and normalizes failures.
@@ -40,19 +38,7 @@ export async function getJourneysForWeek(
   try {
     return await journeysClient.getWeek(weekStarting, signal)
   } catch (error) {
-    if (error instanceof Error) {
-      throw error
-    }
-
-    if (typeof error === 'object' && error !== null) {
-      const problem = error as ProblemDetails
-
-      throw new Error(
-        problem.detail ?? problem.title ?? 'The journey-week request failed.',
-      )
-    }
-
-    throw new Error('The journey-week request failed.')
+    throw toApiError(error, 'The journey-week request failed.')
   }
 }
 
@@ -65,20 +51,6 @@ export async function generateJourneysForWeek(
   try {
     return await journeysClient.generateWeek(request)
   } catch (error) {
-    if (error instanceof Error) {
-      throw error
-    }
-
-    if (typeof error === 'object' && error !== null) {
-      const problem = error as ProblemDetails
-
-      throw new Error(
-        problem.detail ??
-          problem.title ??
-          'The journey-generation request failed.',
-      )
-    }
-
-    throw new Error('The journey-generation request failed.')
+    throw toApiError(error, 'The journey-generation request failed.')
   }
 }
