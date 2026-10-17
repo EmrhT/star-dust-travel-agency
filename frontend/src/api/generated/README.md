@@ -10,5 +10,7 @@ Run this command from the repository root after changing the backend contract:
 ./scripts/generate-api-client.sh
 ```
 
+Use `./scripts/check-api-client.sh` for a read-only local or CI drift check.
+
 Handwritten API adapters outside this directory connect the generated client
 to runtime configuration, authentication, and TanStack Query.

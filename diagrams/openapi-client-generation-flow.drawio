@@ -141,4 +141,99 @@
       </root>
     </mxGraphModel>
   </diagram>
+  <diagram id="stale-client-check" name="Stale-client verification">
+    <mxGraphModel dx="1200" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="1150" math="0" shadow="0">
+      <root>
+        <mxCell id="check-0" />
+        <mxCell id="check-1" parent="check-0" />
+        <mxCell id="check-title" parent="check-1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="OpenAPI and TypeScript stale-client verification" vertex="1">
+          <mxGeometry height="40" width="800" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="check-subtitle" parent="check-1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="The same deterministic generator is used for updates and verification; cleanup restores the developer or CI checkout." vertex="1">
+          <mxGeometry height="30" width="1000" x="30" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="check-start" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Developer or CI&#xa;./scripts/check-api-client.sh&#xa;arguments: none" vertex="1">
+          <mxGeometry height="85" width="250" x="50" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="check-inputs" parent="check-1" style="shape=document;whiteSpace=wrap;html=1;boundedLbl=1;fontStyle=1;fillColor=#F8FAFC;strokeColor=#64748B;" value="Existing artifacts&#xa;star-dust-v1.json&#xa;star-dust-api.ts" vertex="1">
+          <mxGeometry height="100" width="230" x="390" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="check-backup" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="mktemp -d + cp&#xa;backup both inputs&#xa;result: temporary copies" vertex="1">
+          <mxGeometry height="90" width="240" x="720" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="check-generate" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="generate-api-client.sh&#xa;build + temporary API + NSwag&#xa;result: regenerated artifacts" vertex="1">
+          <mxGeometry height="95" width="280" x="1050" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="check-failure" parent="check-1" style="rhombus;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEE2E2;strokeColor=#DC2626;" value="Generator&#xa;exit 0?" vertex="1">
+          <mxGeometry height="120" width="170" x="1105" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="check-compare" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0F2FE;strokeColor=#0284C7;" value="cmp -s(backup, regenerated)&#xa;for OpenAPI and TypeScript&#xa;result: two comparison statuses" vertex="1">
+          <mxGeometry height="95" width="300" x="710" y="305" as="geometry" />
+        </mxCell>
+        <mxCell id="check-current" parent="check-1" style="rhombus;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="Both&#xa;identical?" vertex="1">
+          <mxGeometry height="125" width="180" x="410" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="check-stale" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEE2E2;strokeColor=#DC2626;" value="Report each stale path&#xa;result: intended exit code 1" vertex="1">
+          <mxGeometry height="85" width="245" x="120" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="check-fresh" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="Report artifacts current&#xa;result: intended exit code 0" vertex="1">
+          <mxGeometry height="85" width="245" x="540" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="check-error" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEE2E2;strokeColor=#DC2626;" value="Preserve generator failure&#xa;result: non-zero exit code" vertex="1">
+          <mxGeometry height="85" width="245" x="1010" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="check-cleanup" parent="check-1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="cleanup(): void&#xa;cp backups over artifacts&#xa;remove known temporary files" vertex="1">
+          <mxGeometry height="100" width="280" x="470" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="check-exit-zero" parent="check-1" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="exit 0&#xa;CI passes" vertex="1">
+          <mxGeometry height="90" width="160" x="330" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="check-exit-one" parent="check-1" style="ellipse;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEE2E2;strokeColor=#DC2626;" value="exit non-zero&#xa;CI fails" vertex="1">
+          <mxGeometry height="90" width="170" x="730" y="900" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e1" edge="1" parent="check-1" source="check-start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-inputs" value="verify files exist">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e2" edge="1" parent="check-1" source="check-inputs" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-backup" value="original contents">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e3" edge="1" parent="check-1" source="check-backup" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-generate" value="invoke normal generator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e4" edge="1" parent="check-1" source="check-generate" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-failure" value="process exit status">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e5" edge="1" parent="check-1" source="check-failure" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;" target="check-compare" value="yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e6" edge="1" parent="check-1" source="check-compare" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-current" value="comparison results">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e7" edge="1" parent="check-1" source="check-current" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#DC2626;" target="check-stale" value="no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e8" edge="1" parent="check-1" source="check-current" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;" target="check-fresh" value="yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e9" edge="1" parent="check-1" source="check-failure" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#DC2626;" target="check-error" value="no">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e10" edge="1" parent="check-1" source="check-stale" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-cleanup" value="EXIT trap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e11" edge="1" parent="check-1" source="check-fresh" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-cleanup" value="EXIT trap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e12" edge="1" parent="check-1" source="check-error" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;" target="check-cleanup" value="EXIT trap">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e13" edge="1" parent="check-1" source="check-cleanup" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;" target="check-exit-zero" value="current branch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="check-e14" edge="1" parent="check-1" source="check-cleanup" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#DC2626;" target="check-exit-one" value="stale or error branch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
 </mxfile>

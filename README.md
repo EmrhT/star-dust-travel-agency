@@ -122,6 +122,16 @@ npm --prefix frontend run build
 The normal container build runs the frontend and backend production builds even
 when those SDKs are not installed on the host.
 
+Verify that backend OpenAPI metadata and the committed TypeScript client agree:
+
+```bash
+./scripts/check-api-client.sh
+```
+
+The command regenerates both artifacts, compares them with their committed
+contents, and restores the original files before exiting. Its non-zero exit
+code makes the same command suitable for any CI system.
+
 ## Regenerate the TypeScript API client
 
 Client generation requires the .NET 10 SDK, Node.js 22.12 or newer, npm, and

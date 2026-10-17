@@ -50,8 +50,8 @@ and before Keycloak or additional booking and administration endpoints.
 7. [x] Preserve `AbortSignal` propagation, runtime API-base configuration,
    JSON enum behavior, and ASP.NET Core `ProblemDetails` errors. Shared
    generated-client conventions live in `api/client-support.ts`.
-8. Add a stale-client check so CI fails when the committed generated client no
-   longer matches the OpenAPI contract.
+8. [x] Add a platform-neutral stale-client check whose non-zero exit code lets
+   CI reject an OpenAPI or generated-client drift.
 9. Run backend tests, TypeScript checks, the production frontend build, and
    browser-level GET and POST smoke tests.
 10. Update affected comments and draw.io sequence diagrams to distinguish

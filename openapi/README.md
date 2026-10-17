@@ -13,3 +13,9 @@ and the NSwag TypeScript client together:
 Do not edit the JSON snapshot manually. Controller metadata and Swagger
 configuration are its source; `OpenApiContractTests` protects important
 requiredness, operation-name, schema, and media-type behavior.
+
+Check for an unregenerated backend contract without retaining file changes:
+
+```bash
+./scripts/check-api-client.sh
+```
