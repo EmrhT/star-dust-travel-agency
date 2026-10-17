@@ -52,10 +52,14 @@ and before Keycloak or additional booking and administration endpoints.
    generated-client conventions live in `api/client-support.ts`.
 8. [x] Add a platform-neutral stale-client check whose non-zero exit code lets
    CI reject an OpenAPI or generated-client drift.
-9. Run backend tests, TypeScript checks, the production frontend build, and
-   browser-level GET and POST smoke tests.
-10. Update affected comments and draw.io sequence diagrams to distinguish
-    generated client calls from browser `fetch()` and TanStack Query behavior.
+9. [ ] Complete full-stack verification without introducing a browser-test
+   framework solely for the current single screen.
+   - [x] Run all backend tests and the stale-client check.
+   - [x] Run TypeScript checks and both production container builds.
+   - [x] Smoke-test GET, POST, validation, and idempotency through nginx.
+   - [ ] Confirm React rendering and the Generate button in a real browser.
+10. [x] Update affected comments and draw.io diagrams to distinguish generated
+    client calls from browser `fetch()` and TanStack Query behavior.
 
 ### Completion criteria
 
