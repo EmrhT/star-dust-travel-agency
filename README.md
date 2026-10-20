@@ -158,16 +158,21 @@ artifacts with the backend contract change; do not edit them manually.
 ```text
 backend/      ASP.NET Core API and backend container build
 frontend/     React SPA, nginx configuration, and frontend container build
+haproxy/      Host HTTPS ingress and hostname-routing configuration
 docs/         Architectural decisions and learning notes
 openapi/      Generated language-neutral API contract
 scripts/      Repeatable repository development commands
 docker-compose.yml
 ```
 
-## Keycloak direction
+## Local HTTPS and Keycloak development
 
-A later milestone will use the existing Keycloak deployment at
-`keycloak.no-name.win`. It will use a separate `star-dust` realm, a public SPA
-client with Authorization Code + PKCE, and an API audience with `Admin` and
-`Customer` client roles. Keycloak is intentionally not required for this first
-anonymous connectivity milestone.
+Host-installed HAProxy terminates HTTPS for `stardust.no-name.win` and
+`auth-stardust.no-name.win`. Keycloak shares the PostgreSQL server while
+owning a separate database, login role, and password. Its canonical issuer is
+the authentication hostname rather than a container-specific address.
+
+Database provisioning and the reasoning behind this boundary are documented
+in [the local Keycloak guide](docs/keycloak-local-development.md). Realm,
+client, role, backend-token, and React-login configuration will follow in
+separate learning slices.

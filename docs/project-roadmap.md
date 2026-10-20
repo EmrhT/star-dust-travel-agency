@@ -74,8 +74,14 @@ and before Keycloak or additional booking and administration endpoints.
 ## Later milestones
 
 - [ ] Complete health-check, EF Core model, and seeding sequence diagrams.
-- [ ] Integrate Keycloak authentication and authorization with default-deny API
-  policies.
+- [ ] Integrate Keycloak authentication and authorization.
+  - [x] Define a pinned local service and isolated PostgreSQL boundary.
+  - [x] Provision the dedicated Keycloak role and database.
+  - [x] Verify startup, health, Admin Console, and restart persistence.
+  - [x] Establish a common HTTPS issuer through the HAProxy ingress.
+  - [ ] Design the realm, clients, and minimum application roles.
+  - [ ] Add default-deny ASP.NET Core authentication and authorization.
+  - [ ] Add React Authorization Code + PKCE and generated-client tokens.
 - [ ] Add booking behavior in small domain, API, and frontend slices.
 - [ ] Add administration workflows only after their authorization model is
   defined.
