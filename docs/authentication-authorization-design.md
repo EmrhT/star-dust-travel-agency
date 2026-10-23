@@ -39,6 +39,10 @@ This public OpenID Connect client represents the React application running in
 the browser. A browser cannot safely keep a client secret, so the client uses
 Authorization Code flow with PKCE `S256` and no secret.
 
+It was created through the Admin Console and verified in Keycloak storage with
+Standard flow enabled, other grant types disabled, and PKCE required as
+`S256`.
+
 Initial browser locations will be exact rather than wildcarded:
 
 ```text
@@ -64,6 +68,10 @@ aud = star-dust-api
 Checking the audience prevents a valid token intended only for another client
 from being reused against the Star Dust API.
 
+The `star-dust-web` dedicated client scope has an audience mapper that adds
+`star-dust-api` to access tokens but not ID tokens. Both viewer and operator
+tokens can therefore target the API independently of their assigned roles.
+
 ## Minimum role model
 
 Only one application role is currently justified:
@@ -82,6 +90,10 @@ complexity without protecting anything.
 Keycloak's administrative roles are separate from application roles. A Star
 Dust operator must never receive Keycloak realm-management privileges merely
 because the application calls that person an operator.
+
+The `stardust-viewer` test user has no API client role. The
+`stardust-operator` test user has `journey-operator` assigned directly, which
+provides a controlled pair for testing successful and forbidden requests.
 
 ## Endpoint policy
 

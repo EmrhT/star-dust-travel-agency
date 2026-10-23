@@ -79,10 +79,13 @@ and before Keycloak or additional booking and administration endpoints.
   - [x] Provision the dedicated Keycloak role and database.
   - [x] Verify startup, health, Admin Console, and restart persistence.
   - [x] Establish a common HTTPS issuer through the HAProxy ingress.
-  - [ ] Design the realm, clients, and minimum application roles.
+  - [x] Design the realm, clients, and minimum application roles.
     - [x] Create and verify the dedicated `star-dust` realm.
-    - [ ] Create the reviewed web and API clients.
-    - [ ] Create and map the `journey-operator` API client role.
+    - [x] Create and verify the public `star-dust-web` client.
+    - [x] Create and verify the `star-dust-api` resource client.
+    - [x] Create and verify the `journey-operator` API client role.
+  - [x] Create test users and assign the operator role to only one user.
+  - [x] Add and verify the `star-dust-api` access-token audience mapper.
   - [ ] Add default-deny ASP.NET Core authentication and authorization.
   - [ ] Add React Authorization Code + PKCE and generated-client tokens.
 - [ ] Add booking behavior in small domain, API, and frontend slices.
