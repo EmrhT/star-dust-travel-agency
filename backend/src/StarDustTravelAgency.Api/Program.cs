@@ -1,4 +1,8 @@
+using System.Security.Claims;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -6,10 +10,11 @@ using Npgsql;
 using StarDustTravelAgency.Api.Health;
 using StarDustTravelAgency.Api.Persistence;
 using StarDustTravelAgency.Api.Persistence.Seeding;
+using StarDustTravelAgency.Api.Security;
 using StarDustTravelAgency.Api.Services.Journeys;
 
-// Composes the ASP.NET Core host, API services, persistence, and health checks.
-// It is the process entry point joining controllers, EF Core, and PostgreSQL.
+// Composes authentication, controllers, persistence, and health checks.
+// It joins Keycloak token validation, authorization, EF Core, and PostgreSQL.
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.ConfigureHostOptions(options =>
@@ -26,6 +31,46 @@ builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<JourneyGenerationService>();
 builder.Services.AddScoped<JourneyQueryService>();
+
+var authority = builder.Configuration["Authentication:Authority"];
+if (string.IsNullOrWhiteSpace(authority))
+{
+    throw new InvalidOperationException(
+        "Authentication:Authority must be provided through configuration.");
+}
+
+var audience = builder.Configuration["Authentication:Audience"];
+if (string.IsNullOrWhiteSpace(audience))
+{
+    throw new InvalidOperationException(
+        "Authentication:Audience must be provided through configuration.");
+}
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = authority;
+        options.Audience = audience;
+        options.RequireHttpsMetadata = true;
+        options.MapInboundClaims = false;
+        options.TokenValidationParameters.NameClaimType =
+            "preferred_username";
+        options.TokenValidationParameters.RoleClaimType =
+            ClaimTypes.Role;
+    });
+builder.Services.AddTransient<IClaimsTransformation>(_ =>
+    new KeycloakRoleClaimsTransformation(audience));
+builder.Services
+    .AddAuthorizationBuilder()
+    .SetFallbackPolicy(
+        new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build())
+    .AddPolicy(
+        ApplicationAuthorization.JourneyOperatorPolicy,
+        policy => policy.RequireRole(
+            ApplicationAuthorization.JourneyOperatorRole));
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -38,6 +83,19 @@ builder.Services.AddSwaggerGen(options =>
         includeControllerXmlComments: true);
     options.SupportNonNullableReferenceTypes();
     options.NonNullableReferenceTypesAsRequired();
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description =
+            "Keycloak access token issued for the star-dust-api audience.",
+    });
+    options.AddSecurityRequirement(document =>
+        new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference("Bearer", document)] = [],
+        });
 
     // Gives NSwag stable controller_action names for generated client methods.
     options.CustomOperationIds(apiDescription =>
@@ -99,6 +157,9 @@ if (app.Configuration.GetValue(
     });
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
@@ -106,14 +167,14 @@ app.MapHealthChecks("/health/live", new HealthCheckOptions
     Predicate = registration =>
         registration.Tags.Contains(HealthCheckTags.Live),
     ResponseWriter = HealthResponseWriter.WriteAsync,
-});
+}).AllowAnonymous();
 
 app.MapHealthChecks("/health/ready", new HealthCheckOptions
 {
     Predicate = registration =>
         registration.Tags.Contains(HealthCheckTags.Ready),
     ResponseWriter = HealthResponseWriter.WriteAsync,
-});
+}).AllowAnonymous();
 
 app.Run();
 

@@ -7,7 +7,7 @@
         <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Journey-week generation and cache refresh — successful path" vertex="1">
           <mxGeometry height="40" width="1100" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: generateJourneysForWeek(), toApiError(), generated JourneysClient methods, backend generation functions, and cache refresh." vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: generateJourneysForWeek(), generated client methods, backend generation, and cache refresh. Authentication is expanded in backend-authentication-authorization-sequence.drawio." vertex="1">
           <mxGeometry height="30" width="1900" x="30" y="60" as="geometry" />
         </mxCell>
         <mxCell id="front-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="FRONTEND — BROWSER" vertex="1">
@@ -175,7 +175,7 @@
             <mxPoint x="1127" y="545" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="7. Route + deserialize body → GenerateWeek(&#xa;request: GenerateJourneyWeekRequest, cancellationToken)">
+        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="7. Authenticate + require JourneyOperator; route + deserialize → GenerateWeek(&#xa;request: GenerateJourneyWeekRequest, cancellationToken)">
           <mxGeometry relative="1" x="0.0148" y="-15" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="1127" y="615" as="sourcePoint" />

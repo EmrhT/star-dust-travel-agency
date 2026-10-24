@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using StarDustTravelAgency.Api.Security;
 using StarDustTravelAgency.Api.Services.Journeys;
 
 // Exposes manual one-week journey generation through the REST API.
@@ -8,8 +10,10 @@ namespace StarDustTravelAgency.Api.Controllers;
 
 /// <summary>
 /// Handles journey read and generation requests for a Monday-based week.
-/// Journey services provide generation and read-only weekly query operations.
+/// Authentication protects both actions; JourneyOperator protects generation.
+/// Journey services provide generation and read-only query operations.
 /// </summary>
+[Authorize]
 [ApiController]
 [Route("api/journeys")]
 public sealed class JourneysController(
@@ -26,6 +30,9 @@ public sealed class JourneysController(
     [ProducesResponseType<ValidationProblemDetails>(
         StatusCodes.Status400BadRequest,
         "application/problem+json")]
+    [ProducesResponseType(
+        typeof(void),
+        StatusCodes.Status401Unauthorized)]
     [ProducesResponseType<ProblemDetails>(
         StatusCodes.Status500InternalServerError,
         "application/problem+json")]
@@ -48,6 +55,8 @@ public sealed class JourneysController(
     /// <summary>
     /// Validates the requested Monday and delegates one week of generation.
     /// </summary>
+    [Authorize(
+        Policy = ApplicationAuthorization.JourneyOperatorPolicy)]
     [HttpPost("generate-week")]
     [Consumes("application/json")]
     [ProducesResponseType<GenerateJourneyWeekResponse>(
@@ -56,6 +65,12 @@ public sealed class JourneysController(
     [ProducesResponseType<ValidationProblemDetails>(
         StatusCodes.Status400BadRequest,
         "application/problem+json")]
+    [ProducesResponseType(
+        typeof(void),
+        StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(
+        typeof(void),
+        StatusCodes.Status403Forbidden)]
     [ProducesResponseType<ProblemDetails>(
         StatusCodes.Status500InternalServerError,
         "application/problem+json")]

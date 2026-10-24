@@ -86,7 +86,10 @@ and before Keycloak or additional booking and administration endpoints.
     - [x] Create and verify the `journey-operator` API client role.
   - [x] Create test users and assign the operator role to only one user.
   - [x] Add and verify the `star-dust-api` access-token audience mapper.
-  - [ ] Add default-deny ASP.NET Core authentication and authorization.
+  - [x] Add default-deny ASP.NET Core authentication and authorization.
+    - [x] Validate Keycloak signature, lifetime, issuer, and API audience.
+    - [x] Transform API client roles and require `journey-operator` on POST.
+    - [x] Keep health probes anonymous and document the runtime sequence.
   - [ ] Add React Authorization Code + PKCE and generated-client tokens.
 - [ ] Add booking behavior in small domain, API, and frontend slices.
 - [ ] Add administration workflows only after their authorization model is

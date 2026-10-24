@@ -1,7 +1,7 @@
 using System.Text.Json;
 
-// Guards the OpenAPI details consumed by the future NSwag TypeScript client.
-// UnavailablePostgresApiFactory exposes Swagger without a live database.
+// Guards the OpenAPI details consumed by the generated TypeScript client.
+// The test factory exposes Swagger without PostgreSQL or authentication.
 namespace StarDustTravelAgency.Api.Tests;
 
 /// <summary>
@@ -152,6 +152,34 @@ public sealed class OpenApiContractTests
     }
 
     /// <summary>
+    /// Protects the bearer scheme and the documented denial responses.
+    /// </summary>
+    [Fact]
+    public async Task Authentication_contract_declares_bearer_and_denials()
+    {
+        using var document = await GetDocumentAsync();
+        var root = document.RootElement;
+        var bearer = root
+            .GetProperty("components")
+            .GetProperty("securitySchemes")
+            .GetProperty("Bearer");
+        var getWeek = GetOperation(document, "/api/journeys", "get");
+        var generateWeek = GetOperation(
+            document,
+            "/api/journeys/generate-week",
+            "post");
+
+        Assert.Equal("http", bearer.GetProperty("type").GetString());
+        Assert.Equal("bearer", bearer.GetProperty("scheme").GetString());
+        Assert.True(
+            root.GetProperty("security")[0]
+                .TryGetProperty("Bearer", out _));
+        AssertEmptyResponse(getWeek, "401");
+        AssertEmptyResponse(generateWeek, "401");
+        AssertEmptyResponse(generateWeek, "403");
+    }
+
+    /// <summary>
     /// Reads Program's Swagger JSON for each contract-focused assertion.
     /// </summary>
     private async Task<JsonDocument> GetDocumentAsync()
@@ -192,6 +220,20 @@ public sealed class OpenApiContractTests
             .Single();
 
         Assert.Equal(expectedContentType, content.Name);
+    }
+
+    /// <summary>
+    /// Confirms authentication failures declare no response body contract.
+    /// </summary>
+    private static void AssertEmptyResponse(
+        JsonElement operation,
+        string statusCode)
+    {
+        var response = operation
+            .GetProperty("responses")
+            .GetProperty(statusCode);
+
+        Assert.False(response.TryGetProperty("content", out _));
     }
 
     /// <summary>

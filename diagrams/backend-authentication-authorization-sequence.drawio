@@ -1,0 +1,210 @@
+<mxfile host="Electron" agent="Codex">
+  <diagram id="backend-auth" name="JWT authentication and authorization">
+    <mxGraphModel dx="968" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2000" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Backend JWT authentication and authorization" vertex="1">
+          <mxGeometry height="40" width="1000" x="30" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Functions covered: JWT authentication, TransformAsync(), TryGetRoles(), fallback authorization, JourneyOperator policy, and controller dispatch." vertex="1">
+          <mxGeometry height="30" width="1800" x="30" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="request-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#EFF6FF;strokeColor=#93C5FD;opacity=35;" value="REQUEST EDGE" vertex="1">
+          <mxGeometry height="1400" width="430" x="10" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="security-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#6B21A8;fillColor=#FAF5FF;strokeColor=#D8B4FE;opacity=35;" value="ASP.NET CORE SECURITY PIPELINE" vertex="1">
+          <mxGeometry height="1400" width="1100" x="455" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="controller-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#166534;fillColor=#F0FDF4;strokeColor=#86EFAC;opacity=35;" value="CONTROLLER" vertex="1">
+          <mxGeometry height="1400" width="395" x="1570" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="browser" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="Browser fetch()&#xa;generated TypeScript client" vertex="1">
+          <mxGeometry height="65" width="190" x="25" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="nginx" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FEF3C7;strokeColor=#D97706;" value="nginx proxy&#xa;frontend container" vertex="1">
+          <mxGeometry height="65" width="175" x="245" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="authn" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="JwtBearerHandler&#xa;UseAuthentication()" vertex="1">
+          <mxGeometry height="65" width="190" x="475" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="keycloak" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#FCE7F3;strokeColor=#DB2777;" value="Keycloak realm&#xa;OIDC metadata + JWKS" vertex="1">
+          <mxGeometry height="65" width="190" x="700" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="transformer" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#EDE9FE;strokeColor=#7C3AED;" value="KeycloakRoleClaimsTransformation&#xa;Security/*.cs" vertex="1">
+          <mxGeometry height="65" width="230" x="925" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="authz" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#F3E8FF;strokeColor=#9333EA;" value="AuthorizationMiddleware&#xa;fallback + named policy" vertex="1">
+          <mxGeometry height="65" width="210" x="1190" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="program" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="ApplicationAuthorization&#xa;+ Program.cs policies" vertex="1">
+          <mxGeometry height="65" width="130" x="1420" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="controller" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DCFCE7;strokeColor=#16A34A;" value="API controller action&#xa;System / Journeys" vertex="1">
+          <mxGeometry height="65" width="220" x="1650" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="lb" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#2563EB;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="180" as="sourcePoint" />
+            <mxPoint x="120" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ln" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#D97706;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="332" y="180" as="sourcePoint" />
+            <mxPoint x="332" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="la" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#9333EA;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="180" as="sourcePoint" />
+            <mxPoint x="570" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lk" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#DB2777;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="795" y="180" as="sourcePoint" />
+            <mxPoint x="795" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lt" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#7C3AED;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1040" y="180" as="sourcePoint" />
+            <mxPoint x="1040" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lz" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#9333EA;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1295" y="180" as="sourcePoint" />
+            <mxPoint x="1295" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lp" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#4F46E5;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1485" y="180" as="sourcePoint" />
+            <mxPoint x="1485" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lc" edge="1" parent="1" style="endArrow=none;dashed=1;strokeColor=#16A34A;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1760" y="180" as="sourcePoint" />
+            <mxPoint x="1760" y="1460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. HTTP request&#xa;Authorization: Bearer &amp;lt;accessToken: string&amp;gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="235" as="sourcePoint" />
+            <mxPoint x="332" y="235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="2. Proxy unchanged request to backend: HttpContext">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="332" y="295" as="sourcePoint" />
+            <mxPoint x="570" y="295" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="3. AuthenticateAsync(context: HttpContext)&#xa;: Task&amp;lt;AuthenticateResult&amp;gt;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="340" />
+              <mxPoint x="660" y="390" />
+            </Array>
+            <mxPoint x="570" y="340" as="sourcePoint" />
+            <mxPoint x="570" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="4. First use / cache refresh: GET OIDC metadata and signing keys">
+          <mxGeometry relative="1" x="-0.0222" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="570" y="445" as="sourcePoint" />
+            <mxPoint x="795" y="445" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r4" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="5. OpenIdConnectConfiguration: issuer + JsonWebKeySet">
+          <mxGeometry relative="1" x="-0.0667" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="795" y="500" as="sourcePoint" />
+            <mxPoint x="570" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="6. Validate signature, expiry, iss, aud&#xa;input: JWT + TokenValidationParameters&#xa;return: ClaimsPrincipal">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="660" y="545" />
+              <mxPoint x="660" y="615" />
+            </Array>
+            <mxPoint x="570" y="545" as="sourcePoint" />
+            <mxPoint x="570" y="615" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="7. TransformAsync(principal: ClaimsPrincipal)&#xa;: Task&amp;lt;ClaimsPrincipal&amp;gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="675" as="sourcePoint" />
+            <mxPoint x="1040" y="675" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="8. TryGetRoles(resourceAccess: JsonElement,&#xa;out roles: JsonElement): bool">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1150" y="720" />
+              <mxPoint x="1150" y="780" />
+            </Array>
+            <mxPoint x="1040" y="720" as="sourcePoint" />
+            <mxPoint x="1040" y="780" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="9. bool + roles[]; add ClaimTypes.Role claims&#xa;return transformed ClaimsPrincipal">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="825" />
+              <mxPoint x="1160" y="885" />
+            </Array>
+            <mxPoint x="1040" y="825" as="sourcePoint" />
+            <mxPoint x="1040" y="885" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. AuthorizeAsync(user: ClaimsPrincipal, resource: HttpContext,&#xa;policy: fallback or JourneyOperator): Task&amp;lt;PolicyAuthorizationResult&amp;gt;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="940" as="sourcePoint" />
+            <mxPoint x="1295" y="940" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="11. RequireAuthenticatedUser(); POST also RequireRole(&amp;quot;journey-operator&amp;quot;)">
+          <mxGeometry relative="1" y="-15" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1295" y="995" as="sourcePoint" />
+            <mxPoint x="1485" y="995" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r11" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="12. AuthorizationPolicy + requirements">
+          <mxGeometry relative="1" y="10" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="1485" y="1050" as="sourcePoint" />
+            <mxPoint x="1295" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m13" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="13. Success: invoke selected action with bound parameters">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1295" y="1110" as="sourcePoint" />
+            <mxPoint x="1760" y="1110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r14" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="14. HTTP result: 200 / 400 / 500">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1760" y="1170" as="sourcePoint" />
+            <mxPoint x="120" y="1170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="unauth" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=12;" value="401 branch&#xa;&#xa;Missing, malformed, expired, wrongly signed, wrong issuer, or wrong audience token → AuthenticateResult.Fail → challenge → HTTP 401. Authorization does not invoke the controller." vertex="1">
+          <mxGeometry height="120" width="590" x="470" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="forbid" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#FFEDD5;strokeColor=#EA580C;fontSize=12;" value="403 branch&#xa;&#xa;Valid viewer token on POST generate-week → authenticated identity, but RequireRole fails → forbid → HTTP 403. The controller and database are not called." vertex="1">
+          <mxGeometry height="120" width="590" x="1090" y="1240" as="geometry" />
+        </mxCell>
+        <mxCell id="health" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=16;fillColor=#ECFDF5;strokeColor=#059669;fontSize=12;" value="Health exception&#xa;&#xa;MapHealthChecks(...).AllowAnonymous() deliberately bypasses the fallback authentication requirement for infrastructure probes." vertex="1">
+          <mxGeometry height="100" width="450" x="90" y="1380" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

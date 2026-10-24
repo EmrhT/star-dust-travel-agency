@@ -44,6 +44,17 @@ public sealed class HealthEndpointTests
     }
 
     /// <summary>
+    /// Verifies API controllers reject requests that have no bearer token.
+    /// </summary>
+    [Fact]
+    public async Task Api_endpoint_rejects_anonymous_requests()
+    {
+        var response = await _client.GetAsync("/api/system/status");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    /// <summary>
     /// Verifies Program exposes Swagger when its configuration enables it.
     /// </summary>
     [Fact]

@@ -89,6 +89,10 @@ export class JourneysClient {
           result400,
         )
       })
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException('Unauthorized', status, _responseText, _headers)
+      })
     } else if (status === 500) {
       return response.text().then((_responseText) => {
         let result500: any = null
@@ -187,6 +191,14 @@ export class JourneysClient {
           result400,
         )
       })
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException('Unauthorized', status, _responseText, _headers)
+      })
+    } else if (status === 403) {
+      return response.text().then((_responseText) => {
+        return throwException('Forbidden', status, _responseText, _headers)
+      })
     } else if (status === 500) {
       return response.text().then((_responseText) => {
         let result500: any = null
@@ -276,6 +288,10 @@ export class SystemClient {
                 this.jsonParseReviver,
               ) as SystemStatusResponse)
         return result200
+      })
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException('Unauthorized', status, _responseText, _headers)
       })
     } else if (status === 500) {
       return response.text().then((_responseText) => {

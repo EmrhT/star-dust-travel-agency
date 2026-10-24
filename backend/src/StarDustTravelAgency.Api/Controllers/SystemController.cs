@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 
@@ -7,8 +8,9 @@ namespace StarDustTravelAgency.Api.Controllers;
 
 /// <summary>
 /// Uses NpgsqlDataSource to verify PostgreSQL for GET api/system/status.
-/// frontend getSystemStatus consumes its SystemStatusResponse.
+/// Authentication precedes its query; frontend consumes SystemStatusResponse.
 /// </summary>
+[Authorize]
 [ApiController]
 [Route("api/system")]
 public sealed class SystemController(
@@ -21,6 +23,9 @@ public sealed class SystemController(
     [ProducesResponseType<SystemStatusResponse>(
         StatusCodes.Status200OK,
         "application/json")]
+    [ProducesResponseType(
+        typeof(void),
+        StatusCodes.Status401Unauthorized)]
     [ProducesResponseType<ProblemDetails>(
         StatusCodes.Status500InternalServerError,
         "application/problem+json")]

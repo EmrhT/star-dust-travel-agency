@@ -47,6 +47,9 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -98,6 +101,12 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -128,6 +137,9 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error",
@@ -337,16 +349,29 @@
         },
         "additionalProperties": { }
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Keycloak access token issued for the star-dust-api audience.",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ],
   "tags": [
     {
       "name": "Journeys",
-      "description": "Handles journey read and generation requests for a Monday-based week.\nJourney services provide generation and read-only weekly query operations."
+      "description": "Handles journey read and generation requests for a Monday-based week.\nAuthentication protects both actions; JourneyOperator protects generation.\nJourney services provide generation and read-only query operations."
     },
     {
       "name": "System",
-      "description": "Uses NpgsqlDataSource to verify PostgreSQL for GET api/system/status.\nfrontend getSystemStatus consumes its SystemStatusResponse."
+      "description": "Uses NpgsqlDataSource to verify PostgreSQL for GET api/system/status.\nAuthentication precedes its query; frontend consumes SystemStatusResponse."
     }
   ]
 }

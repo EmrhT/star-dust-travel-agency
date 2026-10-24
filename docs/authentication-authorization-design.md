@@ -131,11 +131,17 @@ storage. This reduces the time a token remains available to injected script.
 Reload and session-restoration behavior will be designed with the React OIDC
 library rather than solved through custom token storage.
 
-## Default-deny backend direction
+## Default-deny backend implementation
 
-The implementation will make authenticated access the global default. The two
-health endpoints will receive explicit anonymous metadata, while journey
-generation will require a named operator policy.
+`Program.cs` configures JWT Bearer validation with the realm authority and API
+audience. Its fallback policy makes authentication the default, while the two
+health endpoints use explicit anonymous metadata. `JourneysController` adds
+the named `JourneyOperator` policy to journey generation.
+
+Keycloak stores client roles in the nested `resource_access` JSON claim.
+`KeycloakRoleClaimsTransformation.TransformAsync()` extracts only roles under
+`star-dust-api` and adds standard ASP.NET Core role claims. Malformed or
+unrelated role data grants nothing, so authorization fails closed.
 
 This order matters:
 
