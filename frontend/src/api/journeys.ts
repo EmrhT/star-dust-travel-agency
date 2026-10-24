@@ -1,4 +1,5 @@
 import { generatedClientBaseUrl, toApiError } from './client-support'
+import { authenticatedHttp } from '../auth/authenticated-http'
 import {
   type GenerateJourneyWeekRequest,
   type GenerateJourneyWeekResponse as GeneratedJourneyWeekResponse,
@@ -28,7 +29,10 @@ export interface GetJourneysOptions {
 // Reuses the generation response produced from JourneysController's contract.
 export type GenerateJourneyWeekResult = GeneratedJourneyWeekResponse
 
-const journeysClient = new JourneysClient(generatedClientBaseUrl)
+const journeysClient = new JourneysClient(
+  generatedClientBaseUrl,
+  authenticatedHttp,
+)
 
 // Delegates the GET and JSON work to JourneysClient and normalizes failures.
 export async function getJourneysForWeek(

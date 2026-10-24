@@ -10,21 +10,15 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import {
-  generateJourneysForWeek,
-  getJourneysForWeek,
-} from './api/journeys'
+import { generateJourneysForWeek, getJourneysForWeek } from './api/journeys'
 import { getSystemStatus } from './api/system'
+import { useAuth } from './auth/AuthProvider'
 import { JourneyTable } from './components/JourneyTable'
 
-// Renders connectivity plus weekly journey reads and generation controls.
-// TanStack Query owns API state; JourneyTable presents its cached rows.
+// Renders identity, connectivity, journey reads, and generation controls.
+// Auth gates TanStack queries; JourneyTable presents their cached rows.
 const initialJourneyWeek = '2026-10-12'
 
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
@@ -47,6 +41,7 @@ function isMonday(dateValue: string) {
 
 // Coordinates status, journey reads, generation, and JourneyTable rendering.
 function App() {
+  const auth = useAuth()
   const [journeyWeekStarting, setJourneyWeekStarting] =
     useState(initialJourneyWeek)
   const journeyWeekIsValid = isMonday(journeyWeekStarting)
@@ -54,12 +49,13 @@ function App() {
   const statusQuery = useQuery({
     queryKey: ['system', 'status'],
     queryFn: ({ signal }) => getSystemStatus({ signal }),
+    enabled: auth.isAuthenticated,
   })
   const journeysQuery = useQuery({
     queryKey: ['journeys', 'week', journeyWeekStarting],
     queryFn: ({ signal }) =>
       getJourneysForWeek(journeyWeekStarting, { signal }),
-    enabled: journeyWeekIsValid,
+    enabled: auth.isAuthenticated && journeyWeekIsValid,
   })
   const generateWeekMutation = useMutation({
     mutationFn: generateJourneysForWeek,
@@ -70,191 +66,269 @@ function App() {
     },
   })
 
+  // Clears user-specific server state before redirecting through logout.
+  async function handleLogout() {
+    queryClient.clear()
+    await auth.logout()
+  }
+
   return (
     <Box component="main" sx={{ minHeight: '100vh', py: { xs: 6, md: 12 } }}>
       <Container maxWidth="md">
         <Stack spacing={4}>
-          <Box>
-            <Chip color="secondary" label="Foundation milestone" size="small" />
-            <Typography component="h1" variant="h1" sx={{ mt: 2 }}>
-              Star Dust Travel Agency
-            </Typography>
-            <Typography color="text.secondary" sx={{ mt: 2, maxWidth: 660 }}>
-              The customer and operations portal is under construction. This
-              page verifies the production frontend, API, and database
-              connection.
-            </Typography>
-          </Box>
-
-          <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
-            <Stack spacing={2.5}>
-              <Typography component="h2" variant="h5">
-                System connectivity
-              </Typography>
-
-              {statusQuery.isPending && (
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  sx={{ alignItems: 'center' }}
-                >
-                  <CircularProgress size={22} />
-                  <Typography>Checking the API and PostgreSQL…</Typography>
-                </Stack>
-              )}
-
-              {statusQuery.isError && (
-                <Alert
-                  severity="error"
-                  action={
-                    <Button
-                      color="inherit"
-                      size="small"
-                      onClick={() => statusQuery.refetch()}
-                    >
-                      Retry
-                    </Button>
-                  }
-                >
-                  {statusQuery.error.message}
-                </Alert>
-              )}
-
-              {statusQuery.isSuccess && (
-                <Stack spacing={1.5}>
-                  <Alert severity="success">
-                    The complete request path is working.
-                  </Alert>
-                  <Typography>
-                    API: <strong>{statusQuery.data.service}</strong>
-                  </Typography>
-                  <Typography>
-                    PostgreSQL: <strong>{statusQuery.data.database}</strong>
-                  </Typography>
-                  <Typography color="text.secondary" variant="body2">
-                    Checked at{' '}
-                    {istanbulDateTime.format(
-                      new Date(statusQuery.data.checkedAtUtc),
-                    )}
-                  </Typography>
-                </Stack>
-              )}
-            </Stack>
-          </Paper>
-
-          <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
-            <Stack spacing={2.5}>
-              <Typography component="h2" variant="h5">
-                Journey data
-              </Typography>
-
-              <TextField
-                label="Week starting"
-                type="date"
-                value={journeyWeekStarting}
-                onChange={(event) => {
-                  setJourneyWeekStarting(event.target.value)
-                  generateWeekMutation.reset()
-                }}
-                error={!journeyWeekIsValid}
-                helperText={
-                  journeyWeekIsValid
-                    ? 'Select a Monday to load that schedule week.'
-                    : 'The selected date must be a Monday.'
-                }
-                slotProps={{ inputLabel: { shrink: true } }}
-                sx={{ maxWidth: 280 }}
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={3}
+            sx={{ justifyContent: 'space-between' }}
+          >
+            <Box>
+              <Chip
+                color="secondary"
+                label="Authentication milestone"
+                size="small"
               />
+              <Typography component="h1" variant="h1" sx={{ mt: 2 }}>
+                Star Dust Travel Agency
+              </Typography>
+              <Typography color="text.secondary" sx={{ mt: 2, maxWidth: 660 }}>
+                Sign in through Keycloak to read journey data. Operators can
+                also generate a schedule week.
+              </Typography>
+            </Box>
 
-              <Box>
-                <Button
-                  variant="contained"
-                  disabled={
-                    !journeyWeekIsValid
-                    || generateWeekMutation.isPending
+            <Stack
+              direction={{ xs: 'row', sm: 'column' }}
+              spacing={1}
+              sx={{ alignItems: { xs: 'center', sm: 'flex-end' } }}
+            >
+              {auth.isAuthenticated && (
+                <Chip
+                  color="primary"
+                  label={auth.username ?? 'Authenticated user'}
+                />
+              )}
+              <Button
+                disabled={auth.isInitializing}
+                onClick={() => {
+                  if (auth.isAuthenticated) {
+                    void handleLogout()
+                  } else {
+                    void auth.login()
                   }
-                  onClick={() =>
-                    generateWeekMutation.mutate(journeyWeekStarting)
-                  }
-                >
-                  {generateWeekMutation.isPending
-                    ? 'Generating…'
-                    : 'Generate week'}
-                </Button>
-              </Box>
+                }}
+                variant="outlined"
+              >
+                {auth.isInitializing
+                  ? 'Checking session…'
+                  : auth.isAuthenticated
+                    ? 'Sign out'
+                    : 'Sign in'}
+              </Button>
+            </Stack>
+          </Stack>
 
-              {generateWeekMutation.isError && (
-                <Alert severity="error">
-                  {generateWeekMutation.error.message}
-                </Alert>
-              )}
+          {auth.error && <Alert severity="error">{auth.error}</Alert>}
 
-              {generateWeekMutation.isSuccess && (
-                <Alert severity="success">
-                  Generation finished:{' '}
-                  <strong>{generateWeekMutation.data.created}</strong>{' '}
-                  created and{' '}
-                  <strong>
-                    {generateWeekMutation.data.alreadyExisted}
-                  </strong>{' '}
-                  already existed.
-                </Alert>
-              )}
+          {!auth.isInitializing && !auth.isAuthenticated && (
+            <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
+              <Stack spacing={2}>
+                <Typography component="h2" variant="h5">
+                  Authentication required
+                </Typography>
+                <Typography color="text.secondary">
+                  Keycloak establishes your identity before the browser calls
+                  the protected ASP.NET Core API.
+                </Typography>
+                <Box>
+                  <Button onClick={() => void auth.login()} variant="contained">
+                    Sign in with Keycloak
+                  </Button>
+                </Box>
+              </Stack>
+            </Paper>
+          )}
 
-              {!journeyWeekIsValid && (
-                <Alert severity="warning">
-                  Select a Monday before loading journeys.
-                </Alert>
-              )}
+          {auth.isAuthenticated && (
+            <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
+              <Stack spacing={2.5}>
+                <Typography component="h2" variant="h5">
+                  System connectivity
+                </Typography>
 
-              {journeyWeekIsValid && journeysQuery.isPending && (
-                <Stack
-                  direction="row"
-                  spacing={2}
-                  sx={{ alignItems: 'center' }}
-                >
-                  <CircularProgress size={22} />
-                  <Typography>Loading the generated week…</Typography>
-                </Stack>
-              )}
+                {statusQuery.isPending && (
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{ alignItems: 'center' }}
+                  >
+                    <CircularProgress size={22} />
+                    <Typography>Checking the API and PostgreSQL…</Typography>
+                  </Stack>
+                )}
 
-              {journeyWeekIsValid && journeysQuery.isError && (
-                <Alert
-                  severity="error"
-                  action={
-                    <Button
-                      color="inherit"
-                      size="small"
-                      onClick={() => journeysQuery.refetch()}
-                    >
-                      Retry
-                    </Button>
-                  }
-                >
-                  {journeysQuery.error.message}
-                </Alert>
-              )}
-
-              {journeyWeekIsValid && journeysQuery.isSuccess && (
-                <Stack spacing={2}>
+                {statusQuery.isError && (
                   <Alert
-                    severity={
-                      journeysQuery.data.length === 0 ? 'info' : 'success'
+                    severity="error"
+                    action={
+                      <Button
+                        color="inherit"
+                        size="small"
+                        onClick={() => statusQuery.refetch()}
+                      >
+                        Retry
+                      </Button>
                     }
                   >
-                    <strong>{journeysQuery.data.length}</strong> journeys were
-                    returned for the week starting {journeyWeekStarting}.
+                    {statusQuery.error.message}
                   </Alert>
-                  {journeysQuery.data.length > 0 && (
-                    <JourneyTable journeys={journeysQuery.data} />
-                  )}
-                </Stack>
-              )}
-            </Stack>
-          </Paper>
+                )}
+
+                {statusQuery.isSuccess && (
+                  <Stack spacing={1.5}>
+                    <Alert severity="success">
+                      The complete request path is working.
+                    </Alert>
+                    <Typography>
+                      API: <strong>{statusQuery.data.service}</strong>
+                    </Typography>
+                    <Typography>
+                      PostgreSQL: <strong>{statusQuery.data.database}</strong>
+                    </Typography>
+                    <Typography color="text.secondary" variant="body2">
+                      Checked at{' '}
+                      {istanbulDateTime.format(
+                        new Date(statusQuery.data.checkedAtUtc),
+                      )}
+                    </Typography>
+                  </Stack>
+                )}
+              </Stack>
+            </Paper>
+          )}
+
+          {auth.isAuthenticated && (
+            <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
+              <Stack spacing={2.5}>
+                <Typography component="h2" variant="h5">
+                  Journey data
+                </Typography>
+
+                <TextField
+                  label="Week starting"
+                  type="date"
+                  value={journeyWeekStarting}
+                  onChange={(event) => {
+                    setJourneyWeekStarting(event.target.value)
+                    generateWeekMutation.reset()
+                  }}
+                  error={!journeyWeekIsValid}
+                  helperText={
+                    journeyWeekIsValid
+                      ? 'Select a Monday to load that schedule week.'
+                      : 'The selected date must be a Monday.'
+                  }
+                  slotProps={{ inputLabel: { shrink: true } }}
+                  sx={{ maxWidth: 280 }}
+                />
+
+                <Box>
+                  <Button
+                    variant="contained"
+                    disabled={
+                      !auth.canGenerateJourneys ||
+                      !journeyWeekIsValid ||
+                      generateWeekMutation.isPending
+                    }
+                    onClick={() =>
+                      generateWeekMutation.mutate(journeyWeekStarting)
+                    }
+                  >
+                    {generateWeekMutation.isPending
+                      ? 'Generating…'
+                      : 'Generate week'}
+                  </Button>
+                </Box>
+
+                {!auth.canGenerateJourneys && (
+                  <Alert severity="info">
+                    Your account has read-only journey access. Generation needs
+                    the journey-operator role.
+                  </Alert>
+                )}
+
+                {generateWeekMutation.isError && (
+                  <Alert severity="error">
+                    {generateWeekMutation.error.message}
+                  </Alert>
+                )}
+
+                {generateWeekMutation.isSuccess && (
+                  <Alert severity="success">
+                    Generation finished:{' '}
+                    <strong>{generateWeekMutation.data.created}</strong> created
+                    and{' '}
+                    <strong>
+                      {generateWeekMutation.data.alreadyExisted}
+                    </strong>{' '}
+                    already existed.
+                  </Alert>
+                )}
+
+                {!journeyWeekIsValid && (
+                  <Alert severity="warning">
+                    Select a Monday before loading journeys.
+                  </Alert>
+                )}
+
+                {journeyWeekIsValid && journeysQuery.isPending && (
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{ alignItems: 'center' }}
+                  >
+                    <CircularProgress size={22} />
+                    <Typography>Loading the generated week…</Typography>
+                  </Stack>
+                )}
+
+                {journeyWeekIsValid && journeysQuery.isError && (
+                  <Alert
+                    severity="error"
+                    action={
+                      <Button
+                        color="inherit"
+                        size="small"
+                        onClick={() => journeysQuery.refetch()}
+                      >
+                        Retry
+                      </Button>
+                    }
+                  >
+                    {journeysQuery.error.message}
+                  </Alert>
+                )}
+
+                {journeyWeekIsValid && journeysQuery.isSuccess && (
+                  <Stack spacing={2}>
+                    <Alert
+                      severity={
+                        journeysQuery.data.length === 0 ? 'info' : 'success'
+                      }
+                    >
+                      <strong>{journeysQuery.data.length}</strong> journeys were
+                      returned for the week starting {journeyWeekStarting}.
+                    </Alert>
+                    {journeysQuery.data.length > 0 && (
+                      <JourneyTable journeys={journeysQuery.data} />
+                    )}
+                  </Stack>
+                )}
+              </Stack>
+            </Paper>
+          )}
 
           <Typography color="text.secondary" variant="body2">
-            Browser → nginx → ASP.NET Core → PostgreSQL
+            Browser → Keycloak token → nginx → ASP.NET Core → PostgreSQL
           </Typography>
         </Stack>
       </Container>

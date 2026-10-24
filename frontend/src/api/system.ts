@@ -2,6 +2,7 @@ import {
   SystemClient,
   type SystemStatusResponse,
 } from './generated/star-dust-api'
+import { authenticatedHttp } from '../auth/authenticated-http'
 import { generatedClientBaseUrl, toApiError } from './client-support'
 
 // Adapts generated SystemClient transport behavior to React application needs.
@@ -9,7 +10,7 @@ import { generatedClientBaseUrl, toApiError } from './client-support'
 // Reuses the generated OpenAPI type instead of duplicating its DTO fields.
 export type SystemStatus = SystemStatusResponse
 
-const systemClient = new SystemClient(generatedClientBaseUrl)
+const systemClient = new SystemClient(generatedClientBaseUrl, authenticatedHttp)
 
 // Delegates HTTP and JSON work to SystemClient and normalizes API failures.
 export async function getSystemStatus({

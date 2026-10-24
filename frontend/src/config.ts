@@ -1,8 +1,11 @@
 // Reads browser runtime configuration written by the nginx startup script.
-// API clients use the result without baking environment URLs into the bundle.
+// API and authentication modules consume it without build-time URLs.
 // Defines the runtime settings shared by window configuration and API clients.
 export interface AppConfig {
   apiBaseUrl: string
+  authBaseUrl: string
+  authRealm: string
+  authClientId: string
 }
 
 declare global {
@@ -14,4 +17,8 @@ declare global {
 
 export const appConfig: AppConfig = {
   apiBaseUrl: window.__APP_CONFIG__?.apiBaseUrl || '/api',
+  authBaseUrl:
+    window.__APP_CONFIG__?.authBaseUrl || 'https://auth-stardust.no-name.win',
+  authRealm: window.__APP_CONFIG__?.authRealm || 'star-dust',
+  authClientId: window.__APP_CONFIG__?.authClientId || 'star-dust-web',
 }

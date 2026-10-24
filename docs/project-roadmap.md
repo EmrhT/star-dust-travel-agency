@@ -91,6 +91,10 @@ and before Keycloak or additional booking and administration endpoints.
     - [x] Transform API client roles and require `journey-operator` on POST.
     - [x] Keep health probes anonymous and document the runtime sequence.
   - [ ] Add React Authorization Code + PKCE and generated-client tokens.
+    - [x] Integrate the official adapter through an AuthProvider boundary.
+    - [x] Refresh and attach tokens through the generated-client fetch hook.
+    - [x] Deploy exact runtime identity configuration through nginx.
+    - [ ] Verify viewer and operator behavior through real browser logins.
 - [ ] Add booking behavior in small domain, API, and frontend slices.
 - [ ] Add administration workflows only after their authorization model is
   defined.

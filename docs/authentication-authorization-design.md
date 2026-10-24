@@ -14,10 +14,10 @@ slices will extend automation only after their designs are approved.
 Authentication answers who made a request. Authorization decides whether that
 authenticated identity may perform the requested operation.
 
-ASP.NET Core will use a fallback policy that requires authentication by
-default. New controller actions will therefore be protected even if a
+ASP.NET Core uses a fallback policy that requires authentication by default.
+New controller actions are therefore protected even if a
 developer forgets to add an authorization attribute. Only deliberately
-selected infrastructure endpoints will opt out.
+selected infrastructure endpoints opt out.
 
 ## Realm
 
@@ -126,10 +126,19 @@ React redirects the browser to Keycloak
     → ASP.NET Core evaluates the endpoint authorization policy
 ```
 
-The access token should be kept in browser memory rather than durable local
-storage. This reduces the time a token remains available to injected script.
-Reload and session-restoration behavior will be designed with the React OIDC
-library rather than solved through custom token storage.
+The official `keycloak-js` adapter implements Authorization Code flow with
+PKCE `S256`. `AuthProvider` exposes identity state to React without exposing
+token details. Access and refresh tokens remain in adapter memory rather than
+durable browser storage, reducing their availability to injected script.
+
+Before each generated-client request, `authenticatedHttp.fetch()` calls
+`getAccessToken()`. That function refreshes a token with less than 30 seconds
+remaining and returns it for the `Authorization: Bearer` header. The NSwag
+output receives this custom fetch object, so generated files remain untouched.
+
+Runtime Keycloak URL, realm, and client ID values come from `app-config.js`,
+which nginx creates from container environment variables before serving the
+React bundle.
 
 ## Default-deny backend implementation
 

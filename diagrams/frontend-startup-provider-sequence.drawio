@@ -7,7 +7,7 @@
         <mxCell id="title" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Frontend startup and provider composition" vertex="1">
           <mxGeometry height="40" width="1000" x="30" y="20" as="geometry" />
         </mxCell>
-        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Every call shows parameters and return values. Solid arrows are calls; dashed arrows are returns. HTTP query execution continues in separate request diagrams." vertex="1">
+        <mxCell id="subtitle" parent="1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Every call shows parameters and return values. Authentication initialization continues in frontend-keycloak-authentication-sequence.drawio; HTTP calls continue in request diagrams." vertex="1">
           <mxGeometry height="30" width="1750" x="30" y="60" as="geometry" />
         </mxCell>
         <mxCell id="runtime-band" parent="1" style="swimlane;html=1;rounded=1;startSize=26;horizontal=1;fontStyle=1;fontColor=#854D0E;fillColor=#FEFCE8;strokeColor=#FDE047;opacity=35;" value="CONTAINER RUNTIME" vertex="1">
@@ -37,7 +37,7 @@
         <mxCell id="reactdom" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="createRoot() / Root.render()&#xa;react-dom/client" vertex="1">
           <mxGeometry height="65" width="185" x="1250" y="115" as="geometry" />
         </mxCell>
-        <mxCell id="providers" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="StrictMode + ThemeProvider&#xa;QueryClientProvider + CssBaseline" vertex="1">
+        <mxCell id="providers" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#E0E7FF;strokeColor=#4F46E5;" value="Theme + query providers&#xa;AuthProvider + StrictMode" vertex="1">
           <mxGeometry height="65" width="200" x="1460" y="115" as="geometry" />
         </mxCell>
         <mxCell id="app" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontStyle=1;fillColor=#DBEAFE;strokeColor=#2563EB;" value="App() + isMonday()&#xa;App.tsx" vertex="1">
@@ -106,7 +106,7 @@
             <mxPoint x="1980" y="1975" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. envsubst(APP_API_BASE_URL: string, template)&#xa;: app-config.js text">
+        <mxCell id="m1" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="1. envsubst(API URL + Keycloak URL, realm, client ID, template)&#xa;: app-config.js text">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="190" y="230" />
@@ -145,7 +145,7 @@
             <mxPoint x="312" y="500" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="r2" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="6. HTTP 200 JavaScript&#xa;window.__APP_CONFIG__ = { apiBaseUrl: &#39;/api&#39; }">
+        <mxCell id="r2" edge="1" parent="1" style="edgeStyle=none;html=1;dashed=1;endArrow=open;endFill=0;strokeWidth=2;fontSize=12;" value="6. HTTP 200 JavaScript&#xa;window.__APP_CONFIG__ = { apiBaseUrl, authBaseUrl, authRealm, authClientId }">
           <mxGeometry relative="1" x="0.0286" y="-20" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="312" y="560" as="sourcePoint" />
@@ -175,7 +175,7 @@
             <mxPoint x="725" y="755" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. Initialize config.ts(window.__APP_CONFIG__)&#xa;: appConfig = { apiBaseUrl: string }">
+        <mxCell id="m7" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="10. Initialize config.ts(window.__APP_CONFIG__)&#xa;: AppConfig with API and authentication values">
           <mxGeometry relative="1" x="0.0145" y="-25" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="725" y="815" as="sourcePoint" />
@@ -244,7 +244,7 @@
             <mxPoint x="1560" y="1360" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="20. ThemeProvider({ theme, children }), CssBaseline(),&#xa;QueryClientProvider({ client: QueryClient, children }): ReactElement">
+        <mxCell id="m15" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="20. ThemeProvider + QueryClientProvider + AuthProvider&#xa;inputs: theme, QueryClient, children; return: ReactElement">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1650" y="1400" />
@@ -284,14 +284,14 @@
             <mxPoint x="1980" y="1705" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m20" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="25. useQuery({ queryKey: [&#39;system&#39;,&#39;status&#39;], queryFn })&#xa;: UseQueryResult&lt;SystemStatus&gt;">
+        <mxCell id="m20" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="25. useQuery({ queryKey: [&#39;system&#39;,&#39;status&#39;], queryFn,&#xa;enabled: auth.isAuthenticated }): UseQueryResult&lt;SystemStatus&gt;">
           <mxGeometry relative="1" x="-0.0577" y="-15" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="1772" y="1765" as="sourcePoint" />
             <mxPoint x="1980" y="1765" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="m21" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="26. useQuery({ queryKey: [&#39;journeys&#39;,&#39;week&#39;,date],&#xa;queryFn, enabled: true }): UseQueryResult&lt;JourneyListItem[]&gt;">
+        <mxCell id="m21" edge="1" parent="1" style="edgeStyle=none;html=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=12;" value="26. useQuery({ queryKey: [&#39;journeys&#39;,&#39;week&#39;,date], queryFn,&#xa;enabled: authenticated &amp;amp;&amp;amp; valid Monday }): UseQueryResult&lt;JourneyListItem[]&gt;">
           <mxGeometry relative="1" x="-0.0577" y="-20" as="geometry">
             <mxPoint as="offset" />
             <mxPoint x="1772" y="1830" as="sourcePoint" />
