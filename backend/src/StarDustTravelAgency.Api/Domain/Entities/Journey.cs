@@ -1,12 +1,12 @@
 using StarDustTravelAgency.Api.Domain.Enums;
 
 // Models one dated trip created from route, schedule, and spaceship data.
-// EF Core mappings persist these relations for later API workflows.
+// EF Core mappings persist these relations and its user-owned Bookings.
 namespace StarDustTravelAgency.Api.Domain.Entities;
 
 /// <summary>
-/// Links a dated trip to Route, WeeklySchedule, and Spaceship.
-/// JourneyConfiguration maps these relations into PostgreSQL.
+/// Links a dated trip to Route, WeeklySchedule, Spaceship, and Bookings.
+/// JourneyConfiguration and BookingConfiguration map these relationships.
 /// </summary>
 public sealed class Journey
 {
@@ -31,4 +31,6 @@ public sealed class Journey
     public Spaceship Spaceship { get; set; } = null!;
 
     public JourneyStatus Status { get; set; }
+
+    public ICollection<Booking> Bookings { get; set; } = [];
 }

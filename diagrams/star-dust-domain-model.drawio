@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Codex" pages="2">
+<mxfile host="Electron" agent="Codex" pages="3">
   <diagram id="domain-overview" name="1 - Domain overview">
     <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
       <root>
@@ -165,6 +165,52 @@
         </mxCell>
         <mxCell id="d-note" parent="d1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#EAB308;fontColor=#713F12;align=left;verticalAlign=middle;spacing=12;fontSize=13;" value="Design boundary: this first group establishes travel operations. Bookings, tickets, crew, authentication, and audit data are visible on the overview page but will be implemented in later, reviewable groups." vertex="1">
           <mxGeometry height="70" width="1470" x="60" y="850" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="minimal-booking" name="3 - Minimal booking detail">
+    <mxGraphModel dx="1489" dy="866" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="b0" />
+        <mxCell id="b1" parent="b0" />
+        <mxCell id="b-title" parent="b1" style="text;html=1;align=left;verticalAlign=middle;fontSize=24;fontStyle=1;fontColor=#0F172A;" value="Minimal booking model — identity-owned application data" vertex="1">
+          <mxGeometry height="40" width="1000" x="40" y="25" as="geometry" />
+        </mxCell>
+        <mxCell id="b-subtitle" parent="b1" style="text;html=1;align=left;verticalAlign=middle;fontSize=13;fontColor=#475569;" value="Only the fields and relationships planned for the first booking slice are shown." vertex="1">
+          <mxGeometry height="30" width="1050" x="40" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="b-identity-area" parent="b1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#065F46;fillColor=#D1FAE5;strokeColor=#6EE7B7;" value="IDENTITY AUTHORITY (external)" vertex="1">
+          <mxGeometry height="240" width="400" x="60" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="b-principal" parent="b-identity-area" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#059669;align=left;verticalAlign=top;spacing=12;fontSize=14;" value="&lt;b&gt;Validated ClaimsPrincipal&lt;/b&gt;&lt;br&gt;&lt;br&gt;sub : string&lt;br&gt;preferred_username : string" vertex="1">
+          <mxGeometry height="115" width="310" x="45" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="b-data-area" parent="b1" style="swimlane;html=1;rounded=1;startSize=34;horizontal=1;fontStyle=1;fontColor=#1E3A8A;fillColor=#DBEAFE;strokeColor=#93C5FD;" value="APPLICATION DATABASE" vertex="1">
+          <mxGeometry height="430" width="960" x="560" y="145" as="geometry" />
+        </mxCell>
+        <mxCell id="b-booking" parent="b-data-area" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;strokeWidth=2;align=left;verticalAlign=top;spacing=12;fontSize=14;" value="&lt;b&gt;Booking&lt;/b&gt;&lt;br&gt;&lt;br&gt;PK  Id : uuid&lt;br&gt;FK  JourneyId : uuid&lt;br&gt;     UserSubject : varchar(255)&lt;br&gt;     BookedAtUtc : timestamptz&lt;br&gt;&lt;br&gt;UQ  (UserSubject, JourneyId)" vertex="1">
+          <mxGeometry height="235" width="330" x="70" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="b-journey" parent="b-data-area" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#1D4ED8;strokeWidth=2;align=left;verticalAlign=top;spacing=12;fontSize=14;" value="&lt;b&gt;Journey&lt;/b&gt;&lt;br&gt;&lt;br&gt;PK  Id : uuid&lt;br&gt;     DepartureAtUtc : timestamptz&lt;br&gt;     ArrivalAtUtc : timestamptz&lt;br&gt;     Status : string&lt;br&gt;&lt;br&gt;Existing operational entity" vertex="1">
+          <mxGeometry height="235" width="310" x="570" y="95" as="geometry" />
+        </mxCell>
+        <mxCell id="b-owner-edge" edge="1" parent="b1" source="b-principal" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#059669;fontSize=12;strokeWidth=2;dashed=1;" target="b-booking" value="sub copied by backend&#xa;(not a database FK)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b-journey-edge" edge="1" parent="b1" source="b-journey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#2563EB;fontSize=12;strokeWidth=2;" target="b-booking" value="1 journey → many bookings&#xa;delete restricted">
+          <mxGeometry relative="1" x="0.0588" y="23" as="geometry">
+            <mxPoint x="-1" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b-security-note" parent="b1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ECFDF5;strokeColor=#10B981;fontColor=#065F46;align=left;verticalAlign=middle;spacing=14;fontSize=14;" value="&lt;b&gt;Security boundary&lt;/b&gt;&lt;br&gt;The request supplies JourneyId only. The backend reads UserSubject from the validated JWT sub claim, so the browser cannot choose another owner." vertex="1">
+          <mxGeometry height="120" width="700" x="60" y="625" as="geometry" />
+        </mxCell>
+        <mxCell id="b-deferred-note" parent="b1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEFCE8;strokeColor=#EAB308;fontColor=#713F12;align=left;verticalAlign=middle;spacing=14;fontSize=14;" value="&lt;b&gt;Deferred on purpose&lt;/b&gt;&lt;br&gt;Tickets, passengers, fares, payments, seat capacity, cancellation/status, an ApplicationUser table, and administration workflows." vertex="1">
+          <mxGeometry height="120" width="700" x="820" y="625" as="geometry" />
+        </mxCell>
+        <mxCell id="b-flow" parent="b1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#CBD5E1;fontColor=#334155;align=center;verticalAlign=middle;fontSize=15;fontStyle=1;" value="Learning flow: validated identity → server derives owner → relational insert → query only current user&#39;s rows" vertex="1">
+          <mxGeometry height="70" width="1180" x="210" y="805" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

@@ -74,7 +74,7 @@ and before Keycloak or additional booking and administration endpoints.
 ## Later milestones
 
 - [ ] Complete health-check, EF Core model, and seeding sequence diagrams.
-- [ ] Integrate Keycloak authentication and authorization.
+- [x] Integrate Keycloak authentication and authorization.
   - [x] Define a pinned local service and isolated PostgreSQL boundary.
   - [x] Provision the dedicated Keycloak role and database.
   - [x] Verify startup, health, Admin Console, and restart persistence.
@@ -90,12 +90,17 @@ and before Keycloak or additional booking and administration endpoints.
     - [x] Validate Keycloak signature, lifetime, issuer, and API audience.
     - [x] Transform API client roles and require `journey-operator` on POST.
     - [x] Keep health probes anonymous and document the runtime sequence.
-  - [ ] Add React Authorization Code + PKCE and generated-client tokens.
+  - [x] Add React Authorization Code + PKCE and generated-client tokens.
     - [x] Integrate the official adapter through an AuthProvider boundary.
     - [x] Refresh and attach tokens through the generated-client fetch hook.
     - [x] Deploy exact runtime identity configuration through nginx.
-    - [ ] Verify viewer and operator behavior through real browser logins.
-- [ ] Add booking behavior in small domain, API, and frontend slices.
+    - [x] Verify viewer and operator behavior through real browser logins.
+- [ ] Add minimal booking behavior to teach identity-owned application data.
+  - [x] Design the minimal Booking-to-Journey persistence relationship.
+  - [ ] Add the entity, EF Core configuration, and reviewed migration.
+  - [ ] Create a booking using the validated token's `sub` claim.
+  - [ ] Query bookings belonging to the authenticated user.
+  - [ ] Add the smallest React interface for those two operations.
 - [ ] Add administration workflows only after their authorization model is
   defined.
 

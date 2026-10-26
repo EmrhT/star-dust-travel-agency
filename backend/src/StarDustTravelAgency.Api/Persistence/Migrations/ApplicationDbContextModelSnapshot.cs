@@ -22,6 +22,37 @@ namespace StarDustTravelAgency.Api.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Booking", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("BookedAtUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("booked_at_utc");
+
+                    b.Property<Guid>("JourneyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("journey_id");
+
+                    b.Property<string>("UserSubject")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("user_subject");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JourneyId");
+
+                    b.HasIndex("UserSubject", "JourneyId")
+                        .IsUnique();
+
+                    b.ToTable("bookings", (string)null);
+                });
+
             modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Destination", b =>
                 {
                     b.Property<Guid>("Id")
@@ -299,6 +330,17 @@ namespace StarDustTravelAgency.Api.Persistence.Migrations
                     b.ToTable("weekly_schedules", (string)null);
                 });
 
+            modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Booking", b =>
+                {
+                    b.HasOne("StarDustTravelAgency.Api.Domain.Entities.Journey", "Journey")
+                        .WithMany("Bookings")
+                        .HasForeignKey("JourneyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Journey");
+                });
+
             modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Journey", b =>
                 {
                     b.HasOne("StarDustTravelAgency.Api.Domain.Entities.Route", "Route")
@@ -366,6 +408,11 @@ namespace StarDustTravelAgency.Api.Persistence.Migrations
             modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Destination", b =>
                 {
                     b.Navigation("Routes");
+                });
+
+            modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Journey", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.LaunchStation", b =>

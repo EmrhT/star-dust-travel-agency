@@ -14,6 +14,8 @@ public sealed class ApplicationDbContext(
     DbContextOptions<ApplicationDbContext> options)
     : DbContext(options)
 {
+    public DbSet<Booking> Bookings => Set<Booking>();
+
     public DbSet<Destination> Destinations => Set<Destination>();
 
     public DbSet<Journey> Journeys => Set<Journey>();
