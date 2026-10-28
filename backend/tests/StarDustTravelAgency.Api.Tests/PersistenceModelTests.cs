@@ -10,12 +10,12 @@ namespace StarDustTravelAgency.Api.Tests;
 
 /// <summary>
 /// Builds ApplicationDbContext to inspect all entity configuration classes.
-/// It verifies tables, Journey relations, and occurrence uniqueness.
+/// It verifies tables, Journey relations, and database uniqueness boundaries.
 /// </summary>
 public sealed class PersistenceModelTests
 {
     /// <summary>
-    /// Verifies tables, Journey's schedule relation, and occurrence index.
+    /// Verifies tables, Journey relations, and their unique indexes.
     /// </summary>
     [Fact]
     public void Operational_model_has_expected_tables_and_relationships()
@@ -28,6 +28,9 @@ public sealed class PersistenceModelTests
 
         using var context = new ApplicationDbContext(options);
 
+        Assert.Equal(
+            "bookings",
+            context.Model.FindEntityType(typeof(Booking))?.GetTableName());
         Assert.Equal(
             "destinations",
             context.Model.FindEntityType(typeof(Destination))?.GetTableName());
@@ -74,5 +77,26 @@ public sealed class PersistenceModelTests
                 ]));
 
         Assert.True(occurrenceIndex?.IsUnique);
+
+        var bookingEntity = context.Model.FindEntityType(typeof(Booking));
+        var bookingJourneyForeignKey = bookingEntity?
+            .FindProperty(nameof(Booking.JourneyId))?
+            .GetContainingForeignKeys()
+            .Single();
+        var ownerJourneyIndex = bookingEntity?
+            .GetIndexes()
+            .Single(index => index.Properties
+                .Select(property => property.Name)
+                .SequenceEqual(
+                [
+                    nameof(Booking.UserSubject),
+                    nameof(Booking.JourneyId),
+                ]));
+
+        Assert.True(bookingJourneyForeignKey?.IsRequired);
+        Assert.Equal(
+            DeleteBehavior.Restrict,
+            bookingJourneyForeignKey?.DeleteBehavior);
+        Assert.True(ownerJourneyIndex?.IsUnique);
     }
 }

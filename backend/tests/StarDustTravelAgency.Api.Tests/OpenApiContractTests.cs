@@ -31,6 +31,10 @@ public sealed class OpenApiContractTests
             document,
             "/api/journeys/generate-week",
             "post");
+        var createBooking = GetOperation(
+            document,
+            "/api/bookings",
+            "post");
         var getStatus = GetOperation(
             document,
             "/api/system/status",
@@ -45,6 +49,9 @@ public sealed class OpenApiContractTests
         Assert.Equal(
             "System_GetStatus",
             getStatus.GetProperty("operationId").GetString());
+        Assert.Equal(
+            "Bookings_Create",
+            createBooking.GetProperty("operationId").GetString());
 
         var weekStarting = getWeek
             .GetProperty("parameters")
@@ -56,6 +63,11 @@ public sealed class OpenApiContractTests
         Assert.True(weekStarting.GetProperty("required").GetBoolean());
         Assert.True(
             generateWeek
+                .GetProperty("requestBody")
+                .GetProperty("required")
+                .GetBoolean());
+        Assert.True(
+            createBooking
                 .GetProperty("requestBody")
                 .GetProperty("required")
                 .GetBoolean());
@@ -77,6 +89,10 @@ public sealed class OpenApiContractTests
             document,
             "/api/system/status",
             "get");
+        var createBooking = GetOperation(
+            document,
+            "/api/bookings",
+            "post");
 
         AssertResponseContentType(getWeek, "200", "application/json");
         AssertResponseContentType(
@@ -104,14 +120,40 @@ public sealed class OpenApiContractTests
             getStatus,
             "500",
             "application/problem+json");
+        AssertResponseContentType(
+            createBooking,
+            "201",
+            "application/json");
+        AssertResponseContentType(
+            createBooking,
+            "400",
+            "application/problem+json");
+        AssertResponseContentType(
+            createBooking,
+            "404",
+            "application/problem+json");
+        AssertResponseContentType(
+            createBooking,
+            "409",
+            "application/problem+json");
+        AssertResponseContentType(
+            createBooking,
+            "500",
+            "application/problem+json");
 
         var requestContent = generateWeek
             .GetProperty("requestBody")
             .GetProperty("content")
             .EnumerateObject()
             .Single();
+        var bookingRequestContent = createBooking
+            .GetProperty("requestBody")
+            .GetProperty("content")
+            .EnumerateObject()
+            .Single();
 
         Assert.Equal("application/json", requestContent.Name);
+        Assert.Equal("application/json", bookingRequestContent.Name);
     }
 
     /// <summary>
@@ -122,6 +164,16 @@ public sealed class OpenApiContractTests
     {
         using var document = await GetDocumentAsync();
 
+        AssertRequiredProperties(
+            document,
+            "CreateBookingRequest",
+            "journeyId");
+        AssertRequiredProperties(
+            document,
+            "CreateBookingResponse",
+            "id",
+            "journeyId",
+            "bookedAtUtc");
         AssertRequiredProperties(
             document,
             "GenerateJourneyWeekRequest",
@@ -168,6 +220,10 @@ public sealed class OpenApiContractTests
             document,
             "/api/journeys/generate-week",
             "post");
+        var createBooking = GetOperation(
+            document,
+            "/api/bookings",
+            "post");
 
         Assert.Equal("http", bearer.GetProperty("type").GetString());
         Assert.Equal("bearer", bearer.GetProperty("scheme").GetString());
@@ -177,6 +233,8 @@ public sealed class OpenApiContractTests
         AssertEmptyResponse(getWeek, "401");
         AssertEmptyResponse(generateWeek, "401");
         AssertEmptyResponse(generateWeek, "403");
+        AssertEmptyResponse(createBooking, "401");
+        AssertEmptyResponse(createBooking, "403");
     }
 
     /// <summary>

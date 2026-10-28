@@ -11,6 +11,7 @@ using StarDustTravelAgency.Api.Health;
 using StarDustTravelAgency.Api.Persistence;
 using StarDustTravelAgency.Api.Persistence.Seeding;
 using StarDustTravelAgency.Api.Security;
+using StarDustTravelAgency.Api.Services.Bookings;
 using StarDustTravelAgency.Api.Services.Journeys;
 
 // Composes authentication, controllers, persistence, and health checks.
@@ -29,6 +30,7 @@ builder.Services
             new JsonStringEnumConverter()));
 builder.Services.AddProblemDetails();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<BookingService>();
 builder.Services.AddScoped<JourneyGenerationService>();
 builder.Services.AddScoped<JourneyQueryService>();
 

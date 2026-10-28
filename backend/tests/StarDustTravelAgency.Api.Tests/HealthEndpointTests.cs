@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -50,6 +51,22 @@ public sealed class HealthEndpointTests
     public async Task Api_endpoint_rejects_anonymous_requests()
     {
         var response = await _client.GetAsync("/api/system/status");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    /// <summary>
+    /// Verifies Booking creation rejects data without an authenticated user.
+    /// </summary>
+    [Fact]
+    public async Task Booking_creation_rejects_anonymous_requests()
+    {
+        var response = await _client.PostAsJsonAsync(
+            "/api/bookings",
+            new
+            {
+                journeyId = Guid.NewGuid(),
+            });
 
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
