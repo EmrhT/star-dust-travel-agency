@@ -5,6 +5,123 @@
     "version": "v1"
   },
   "paths": {
+    "/api/bookings/mine": {
+      "get": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Returns BookingService rows owned by the validated JWT subject.",
+        "operationId": "Bookings_GetMine",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BookingListItem"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bookings": {
+      "post": {
+        "tags": [
+          "Bookings"
+        ],
+        "summary": "Derives the owner from JWT sub and asks BookingService to create a row.",
+        "operationId": "Bookings_Create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateBookingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/journeys": {
       "get": {
         "tags": [
@@ -157,6 +274,95 @@
   },
   "components": {
     "schemas": {
+      "BookingListItem": {
+        "required": [
+          "arrivalAtUtc",
+          "bookedAtUtc",
+          "departureAtUtc",
+          "destination",
+          "id",
+          "journeyId",
+          "launchStation",
+          "spaceship",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "journeyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "launchStation": {
+            "type": "string"
+          },
+          "destination": {
+            "type": "string"
+          },
+          "departureAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "arrivalAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "spaceship": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/JourneyStatus"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Projects one owned Booking with Journey details needed by the frontend.\nBookingService creates it without exposing the owner's Keycloak subject."
+      },
+      "CreateBookingRequest": {
+        "required": [
+          "journeyId"
+        ],
+        "type": "object",
+        "properties": {
+          "journeyId": {
+            "type": "string",
+            "description": "Identifies the Journey passed to BookingService for validation.",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Carries only the browser-selected Journey into BookingsController.\nThe authenticated ClaimsPrincipal supplies ownership separately."
+      },
+      "CreateBookingResponse": {
+        "required": [
+          "bookedAtUtc",
+          "id",
+          "journeyId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "journeyId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bookedAtUtc": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reports the created Booking without exposing its Keycloak subject.\nASP.NET Core serializes it for the generated frontend client."
+      },
       "GenerateJourneyWeekRequest": {
         "required": [
           "weekStarting"
@@ -365,6 +571,10 @@
     }
   ],
   "tags": [
+    {
+      "name": "Bookings",
+      "description": "Creates and lists Bookings owned by the authenticated Keycloak subject.\nBookingService applies Journey validation and database ownership filters."
+    },
     {
       "name": "Journeys",
       "description": "Handles journey read and generation requests for a Monday-based week.\nAuthentication protects both actions; JourneyOperator protects generation.\nJourney services provide generation and read-only query operations."

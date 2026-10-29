@@ -7,6 +7,242 @@
 /* eslint-disable */
 // ReSharper disable InconsistentNaming
 
+export class BookingsClient {
+  private http: {
+    fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
+  }
+  private baseUrl: string
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined =
+    undefined
+
+  constructor(
+    baseUrl?: string,
+    http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> },
+  ) {
+    this.http = http ? http : (window as any)
+    this.baseUrl = baseUrl ?? ''
+  }
+
+  /**
+   * Returns BookingService rows owned by the validated JWT subject.
+   *
+   * @returns OK
+   */
+  getMine(signal?: AbortSignal): Promise<BookingListItem[]> {
+    let url_ = this.baseUrl + '/api/bookings/mine'
+    url_ = url_.replace(/[?&]$/, '')
+
+    let options_: RequestInit = {
+      method: 'GET',
+      signal,
+      headers: {
+        Accept: 'application/json',
+      },
+    }
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGetMine(_response)
+    })
+  }
+
+  protected processGetMine(response: Response): Promise<BookingListItem[]> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+    }
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null
+        result200 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as BookingListItem[])
+        return result200
+      })
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException('Unauthorized', status, _responseText, _headers)
+      })
+    } else if (status === 403) {
+      return response.text().then((_responseText) => {
+        return throwException('Forbidden', status, _responseText, _headers)
+      })
+    } else if (status === 500) {
+      return response.text().then((_responseText) => {
+        let result500: any = null
+        result500 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as ProblemDetails)
+        return throwException(
+          'Internal Server Error',
+          status,
+          _responseText,
+          _headers,
+          result500,
+        )
+      })
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          'An unexpected server error occurred.',
+          status,
+          _responseText,
+          _headers,
+        )
+      })
+    }
+    return Promise.resolve<BookingListItem[]>(null as any)
+  }
+
+  /**
+   * Derives the owner from JWT sub and asks BookingService to create a row.
+   *
+   * @returns Created
+   */
+  create(
+    body: CreateBookingRequest,
+    signal?: AbortSignal,
+  ): Promise<CreateBookingResponse> {
+    let url_ = this.baseUrl + '/api/bookings'
+    url_ = url_.replace(/[?&]$/, '')
+
+    const content_ = JSON.stringify(body)
+
+    let options_: RequestInit = {
+      body: content_,
+      method: 'POST',
+      signal,
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    }
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processCreate(_response)
+    })
+  }
+
+  protected processCreate(response: Response): Promise<CreateBookingResponse> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+    }
+    if (status === 201) {
+      return response.text().then((_responseText) => {
+        let result201: any = null
+        result201 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as CreateBookingResponse)
+        return result201
+      })
+    } else if (status === 400) {
+      return response.text().then((_responseText) => {
+        let result400: any = null
+        result400 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as ValidationProblemDetails)
+        return throwException(
+          'Bad Request',
+          status,
+          _responseText,
+          _headers,
+          result400,
+        )
+      })
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException('Unauthorized', status, _responseText, _headers)
+      })
+    } else if (status === 403) {
+      return response.text().then((_responseText) => {
+        return throwException('Forbidden', status, _responseText, _headers)
+      })
+    } else if (status === 404) {
+      return response.text().then((_responseText) => {
+        let result404: any = null
+        result404 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as ProblemDetails)
+        return throwException(
+          'Not Found',
+          status,
+          _responseText,
+          _headers,
+          result404,
+        )
+      })
+    } else if (status === 409) {
+      return response.text().then((_responseText) => {
+        let result409: any = null
+        result409 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as ProblemDetails)
+        return throwException(
+          'Conflict',
+          status,
+          _responseText,
+          _headers,
+          result409,
+        )
+      })
+    } else if (status === 500) {
+      return response.text().then((_responseText) => {
+        let result500: any = null
+        result500 =
+          _responseText === ''
+            ? null
+            : (JSON.parse(
+                _responseText,
+                this.jsonParseReviver,
+              ) as ProblemDetails)
+        return throwException(
+          'Internal Server Error',
+          status,
+          _responseText,
+          _headers,
+          result500,
+        )
+      })
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          'An unexpected server error occurred.',
+          status,
+          _responseText,
+          _headers,
+        )
+      })
+    }
+    return Promise.resolve<CreateBookingResponse>(null as any)
+  }
+}
+
 export class JourneysClient {
   private http: {
     fetch(url: RequestInfo, init?: RequestInit): Promise<Response>
@@ -323,6 +559,41 @@ export class SystemClient {
     }
     return Promise.resolve<SystemStatusResponse>(null as any)
   }
+}
+
+/**
+ * Projects one owned Booking with Journey details needed by the frontend.
+ * BookingService creates it without exposing the owner's Keycloak subject.
+ */
+export interface BookingListItem {
+  id: string
+  journeyId: string
+  bookedAtUtc: string
+  launchStation: string
+  destination: string
+  departureAtUtc: string
+  arrivalAtUtc: string
+  spaceship: string
+  status: JourneyStatus
+}
+
+/**
+ * Carries only the browser-selected Journey into BookingsController. The
+ * authenticated ClaimsPrincipal supplies ownership separately.
+ */
+export interface CreateBookingRequest {
+  /** Identifies the Journey passed to BookingService for validation. */
+  journeyId: string
+}
+
+/**
+ * Reports the created Booking without exposing its Keycloak subject. ASP.NET
+ * Core serializes it for the generated frontend client.
+ */
+export interface CreateBookingResponse {
+  id: string
+  journeyId: string
+  bookedAtUtc: string
 }
 
 /**
