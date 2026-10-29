@@ -6,7 +6,7 @@ using StarDustTravelAgency.Api.Controllers;
 using StarDustTravelAgency.Api.Persistence;
 using StarDustTravelAgency.Api.Services.Bookings;
 
-// Verifies BookingsController rejects untrusted or unusable ownership input.
+// Verifies BookingsController rejects untrusted ownership in both operations.
 // A non-connecting DbContext keeps these controller-boundary tests isolated.
 namespace StarDustTravelAgency.Api.Tests;
 
@@ -16,6 +16,22 @@ namespace StarDustTravelAgency.Api.Tests;
 /// </summary>
 public sealed class BookingsControllerTests
 {
+    /// <summary>
+    /// Confirms a subjectless identity cannot query another user's Bookings.
+    /// </summary>
+    [Fact]
+    public async Task GetMine_forbids_identity_without_subject()
+    {
+        await using var context = CreateContext();
+        var controller = CreateController(
+            context,
+            new Claim("preferred_username", "subjectless-user"));
+
+        var result = await controller.GetMine(CancellationToken.None);
+
+        Assert.IsType<ForbidResult>(result.Result);
+    }
+
     /// <summary>
     /// Confirms an authenticated identity without sub cannot own a Booking.
     /// </summary>

@@ -35,6 +35,10 @@ public sealed class OpenApiContractTests
             document,
             "/api/bookings",
             "post");
+        var getMyBookings = GetOperation(
+            document,
+            "/api/bookings/mine",
+            "get");
         var getStatus = GetOperation(
             document,
             "/api/system/status",
@@ -52,6 +56,9 @@ public sealed class OpenApiContractTests
         Assert.Equal(
             "Bookings_Create",
             createBooking.GetProperty("operationId").GetString());
+        Assert.Equal(
+            "Bookings_GetMine",
+            getMyBookings.GetProperty("operationId").GetString());
 
         var weekStarting = getWeek
             .GetProperty("parameters")
@@ -93,6 +100,10 @@ public sealed class OpenApiContractTests
             document,
             "/api/bookings",
             "post");
+        var getMyBookings = GetOperation(
+            document,
+            "/api/bookings/mine",
+            "get");
 
         AssertResponseContentType(getWeek, "200", "application/json");
         AssertResponseContentType(
@@ -140,6 +151,14 @@ public sealed class OpenApiContractTests
             createBooking,
             "500",
             "application/problem+json");
+        AssertResponseContentType(
+            getMyBookings,
+            "200",
+            "application/json");
+        AssertResponseContentType(
+            getMyBookings,
+            "500",
+            "application/problem+json");
 
         var requestContent = generateWeek
             .GetProperty("requestBody")
@@ -174,6 +193,18 @@ public sealed class OpenApiContractTests
             "id",
             "journeyId",
             "bookedAtUtc");
+        AssertRequiredProperties(
+            document,
+            "BookingListItem",
+            "id",
+            "journeyId",
+            "bookedAtUtc",
+            "launchStation",
+            "destination",
+            "departureAtUtc",
+            "arrivalAtUtc",
+            "spaceship",
+            "status");
         AssertRequiredProperties(
             document,
             "GenerateJourneyWeekRequest",
@@ -224,6 +255,10 @@ public sealed class OpenApiContractTests
             document,
             "/api/bookings",
             "post");
+        var getMyBookings = GetOperation(
+            document,
+            "/api/bookings/mine",
+            "get");
 
         Assert.Equal("http", bearer.GetProperty("type").GetString());
         Assert.Equal("bearer", bearer.GetProperty("scheme").GetString());
@@ -235,6 +270,8 @@ public sealed class OpenApiContractTests
         AssertEmptyResponse(generateWeek, "403");
         AssertEmptyResponse(createBooking, "401");
         AssertEmptyResponse(createBooking, "403");
+        AssertEmptyResponse(getMyBookings, "401");
+        AssertEmptyResponse(getMyBookings, "403");
     }
 
     /// <summary>

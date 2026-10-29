@@ -72,6 +72,17 @@ public sealed class HealthEndpointTests
     }
 
     /// <summary>
+    /// Verifies owned Booking queries reject requests without a bearer token.
+    /// </summary>
+    [Fact]
+    public async Task My_bookings_rejects_anonymous_requests()
+    {
+        var response = await _client.GetAsync("/api/bookings/mine");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    /// <summary>
     /// Verifies Program exposes Swagger when its configuration enables it.
     /// </summary>
     [Fact]

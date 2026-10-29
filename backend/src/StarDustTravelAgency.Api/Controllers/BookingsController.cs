@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using StarDustTravelAgency.Api.Domain.Entities;
 using StarDustTravelAgency.Api.Services.Bookings;
 
-// Exposes authenticated Booking creation without accepting browser ownership.
+// Exposes identity-owned Booking creation and queries to authenticated users.
 // It reads the validated JWT subject and delegates to BookingService.
 namespace StarDustTravelAgency.Api.Controllers;
 
 /// <summary>
-/// Creates Bookings owned by the authenticated Keycloak subject.
-/// BookingService validates the requested Journey and persists the record.
+/// Creates and lists Bookings owned by the authenticated Keycloak subject.
+/// BookingService applies Journey validation and database ownership filters.
 /// </summary>
 [Authorize]
 [ApiController]
@@ -19,6 +19,38 @@ namespace StarDustTravelAgency.Api.Controllers;
 public sealed class BookingsController(
     BookingService bookingService) : ControllerBase
 {
+    /// <summary>
+    /// Returns BookingService rows owned by the validated JWT subject.
+    /// </summary>
+    [HttpGet("mine")]
+    [ProducesResponseType<IReadOnlyList<BookingListItem>>(
+        StatusCodes.Status200OK,
+        "application/json")]
+    [ProducesResponseType(
+        typeof(void),
+        StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(
+        typeof(void),
+        StatusCodes.Status403Forbidden)]
+    [ProducesResponseType<ProblemDetails>(
+        StatusCodes.Status500InternalServerError,
+        "application/problem+json")]
+    public async Task<ActionResult<IReadOnlyList<BookingListItem>>> GetMine(
+        CancellationToken cancellationToken)
+    {
+        var userSubject = User.FindFirstValue("sub");
+        if (string.IsNullOrWhiteSpace(userSubject))
+        {
+            return Forbid();
+        }
+
+        var bookings = await bookingService.GetMineAsync(
+            userSubject,
+            cancellationToken);
+
+        return Ok(bookings);
+    }
+
     /// <summary>
     /// Derives the owner from JWT sub and asks BookingService to create a row.
     /// </summary>

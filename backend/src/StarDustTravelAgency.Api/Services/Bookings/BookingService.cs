@@ -3,17 +3,42 @@ using StarDustTravelAgency.Api.Domain.Entities;
 using StarDustTravelAgency.Api.Domain.Enums;
 using StarDustTravelAgency.Api.Persistence;
 
-// Creates identity-owned Booking records against existing scheduled Journeys.
+// Creates and queries identity-owned Bookings against scheduled Journeys.
 // BookingsController supplies the trusted subject read from the validated JWT.
 namespace StarDustTravelAgency.Api.Services.Bookings;
 
 /// <summary>
-/// Validates Journey state and duplicate ownership before persisting a Booking.
-/// BookingConfiguration remains the final database-integrity boundary.
+/// Persists valid Bookings and projects those owned by one trusted subject.
+/// BookingsController translates its results into the public HTTP contract.
 /// </summary>
 public sealed class BookingService(
     ApplicationDbContext context)
 {
+    /// <summary>
+    /// Queries and projects only Bookings owned by the trusted JWT subject.
+    /// BookingsController returns these display-ready rows to the browser.
+    /// </summary>
+    public async Task<IReadOnlyList<BookingListItem>> GetMineAsync(
+        string userSubject,
+        CancellationToken cancellationToken = default)
+    {
+        return await context.Bookings
+            .AsNoTracking()
+            .Where(booking => booking.UserSubject == userSubject)
+            .OrderByDescending(booking => booking.BookedAtUtc)
+            .Select(booking => new BookingListItem(
+                booking.Id,
+                booking.JourneyId,
+                booking.BookedAtUtc,
+                booking.Journey.Route.LaunchStation.Name,
+                booking.Journey.Route.Destination.Name,
+                booking.Journey.DepartureAtUtc,
+                booking.Journey.ArrivalAtUtc,
+                booking.Journey.Spaceship.Name,
+                booking.Journey.Status))
+            .ToArrayAsync(cancellationToken);
+    }
+
     /// <summary>
     /// Creates one Booking for the trusted subject and requested Journey.
     /// BookingsController maps its outcome to an HTTP response.
@@ -71,6 +96,21 @@ public sealed class BookingService(
             booking);
     }
 }
+
+/// <summary>
+/// Projects one owned Booking with Journey details needed by the frontend.
+/// BookingService creates it without exposing the owner's Keycloak subject.
+/// </summary>
+public sealed record BookingListItem(
+    Guid Id,
+    Guid JourneyId,
+    DateTimeOffset BookedAtUtc,
+    string LaunchStation,
+    string Destination,
+    DateTimeOffset DepartureAtUtc,
+    DateTimeOffset ArrivalAtUtc,
+    string Spaceship,
+    JourneyStatus Status);
 
 /// <summary>
 /// Names expected BookingService outcomes for BookingsController to translate.
