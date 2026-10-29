@@ -1,4 +1,5 @@
 import {
+  Button,
   Chip,
   Table,
   TableBody,
@@ -9,7 +10,7 @@ import {
 } from '@mui/material'
 import type { JourneyListItem } from '../api/journeys'
 
-// Renders JourneyListItem records supplied by App in a scrollable table.
+// Renders JourneyListItem records and emits booking intents back to App.
 // It formats backend UTC timestamps for the Europe/Istanbul browser view.
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
@@ -20,9 +21,13 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Istanbul',
 })
 
-// Defines the JourneyListItem collection passed from App to JourneyTable.
+// Defines journey data and booking actions passed from App to JourneyTable.
 interface JourneyTableProps {
   journeys: JourneyListItem[]
+  bookedJourneyIds: ReadonlySet<string>
+  bookingActionsDisabled: boolean
+  bookingJourneyId?: string
+  onBook: (journeyId: string) => void
 }
 
 // Builds a passenger-facing route label from direction and endpoint names.
@@ -37,8 +42,14 @@ function formatDateTime(timestamp: string) {
   return istanbulDateTime.format(new Date(timestamp))
 }
 
-// Displays App's cached journey data without fetching or changing records.
-export function JourneyTable({ journeys }: JourneyTableProps) {
+// Displays cached journeys and reports Book button clicks to App.
+export function JourneyTable({
+  journeys,
+  bookedJourneyIds,
+  bookingActionsDisabled,
+  bookingJourneyId,
+  onBook,
+}: JourneyTableProps) {
   return (
     <TableContainer sx={{ maxHeight: 520 }}>
       <Table
@@ -54,6 +65,7 @@ export function JourneyTable({ journeys }: JourneyTableProps) {
             <TableCell>Arrival (GMT+3)</TableCell>
             <TableCell>Spaceship</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell align="right">Booking</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -75,6 +87,25 @@ export function JourneyTable({ journeys }: JourneyTableProps) {
                   size="small"
                   variant="outlined"
                 />
+              </TableCell>
+              <TableCell align="right">
+                <Button
+                  disabled={
+                    journey.status !== 'Scheduled' ||
+                    bookedJourneyIds.has(journey.id) ||
+                    bookingActionsDisabled ||
+                    bookingJourneyId !== undefined
+                  }
+                  onClick={() => onBook(journey.id)}
+                  size="small"
+                  variant="outlined"
+                >
+                  {bookedJourneyIds.has(journey.id)
+                    ? 'Booked'
+                    : bookingJourneyId === journey.id
+                      ? 'Booking…'
+                      : 'Book'}
+                </Button>
               </TableCell>
             </TableRow>
           ))}

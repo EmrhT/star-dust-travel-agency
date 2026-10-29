@@ -95,12 +95,12 @@ and before Keycloak or additional booking and administration endpoints.
     - [x] Refresh and attach tokens through the generated-client fetch hook.
     - [x] Deploy exact runtime identity configuration through nginx.
     - [x] Verify viewer and operator behavior through real browser logins.
-- [ ] Add minimal booking behavior to teach identity-owned application data.
+- [x] Add minimal booking behavior to teach identity-owned application data.
   - [x] Design the minimal Booking-to-Journey persistence relationship.
   - [x] Add the entity, EF Core configuration, and reviewed migration.
   - [x] Create a booking using the validated token's `sub` claim.
   - [x] Query bookings belonging to the authenticated user.
-  - [ ] Add the smallest React interface for those two operations.
+  - [x] Add the smallest React interface for those two operations.
 - [ ] Add administration workflows only after their authorization model is
   defined.
 

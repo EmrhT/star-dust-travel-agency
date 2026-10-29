@@ -12,13 +12,15 @@ import {
 } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { createBooking, getMyBookings } from './api/bookings'
 import { generateJourneysForWeek, getJourneysForWeek } from './api/journeys'
 import { getSystemStatus } from './api/system'
 import { useAuth } from './auth/AuthProvider'
+import { BookingTable } from './components/BookingTable'
 import { JourneyTable } from './components/JourneyTable'
 
-// Renders identity, connectivity, journey reads, and generation controls.
-// Auth gates TanStack queries; JourneyTable presents their cached rows.
+// Renders identity, connectivity, journey, and owned-booking interactions.
+// Auth gates TanStack operations; tables present their cached server state.
 const initialJourneyWeek = '2026-10-12'
 
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
@@ -39,7 +41,7 @@ function isMonday(dateValue: string) {
   return !Number.isNaN(date.getTime()) && date.getUTCDay() === 1
 }
 
-// Coordinates status, journey reads, generation, and JourneyTable rendering.
+// Coordinates API server state and renders JourneyTable and BookingTable.
 function App() {
   const auth = useAuth()
   const [journeyWeekStarting, setJourneyWeekStarting] =
@@ -57,6 +59,11 @@ function App() {
       getJourneysForWeek(journeyWeekStarting, { signal }),
     enabled: auth.isAuthenticated && journeyWeekIsValid,
   })
+  const bookingsQuery = useQuery({
+    queryKey: ['bookings', 'mine'],
+    queryFn: ({ signal }) => getMyBookings({ signal }),
+    enabled: auth.isAuthenticated,
+  })
   const generateWeekMutation = useMutation({
     mutationFn: generateJourneysForWeek,
     onSuccess: async (result) => {
@@ -65,6 +72,17 @@ function App() {
       })
     },
   })
+  const createBookingMutation = useMutation({
+    mutationFn: createBooking,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['bookings', 'mine'],
+      })
+    },
+  })
+  const bookedJourneyIds = new Set(
+    bookingsQuery.data?.map((booking) => booking.journeyId) ?? [],
+  )
 
   // Clears user-specific server state before redirecting through logout.
   async function handleLogout() {
@@ -319,7 +337,85 @@ function App() {
                       returned for the week starting {journeyWeekStarting}.
                     </Alert>
                     {journeysQuery.data.length > 0 && (
-                      <JourneyTable journeys={journeysQuery.data} />
+                      <JourneyTable
+                        bookedJourneyIds={bookedJourneyIds}
+                        bookingActionsDisabled={!bookingsQuery.isSuccess}
+                        bookingJourneyId={
+                          createBookingMutation.isPending
+                            ? createBookingMutation.variables
+                            : undefined
+                        }
+                        journeys={journeysQuery.data}
+                        onBook={(journeyId) =>
+                          createBookingMutation.mutate(journeyId)
+                        }
+                      />
+                    )}
+                  </Stack>
+                )}
+
+                {createBookingMutation.isError && (
+                  <Alert severity="error">
+                    {createBookingMutation.error.message}
+                  </Alert>
+                )}
+
+                {createBookingMutation.isSuccess && (
+                  <Alert severity="success">
+                    Booking created. The owned-booking list was refreshed.
+                  </Alert>
+                )}
+              </Stack>
+            </Paper>
+          )}
+
+          {auth.isAuthenticated && (
+            <Paper variant="outlined" sx={{ p: { xs: 3, md: 4 } }}>
+              <Stack spacing={2.5}>
+                <Typography component="h2" variant="h5">
+                  My bookings
+                </Typography>
+
+                {bookingsQuery.isPending && (
+                  <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{ alignItems: 'center' }}
+                  >
+                    <CircularProgress size={22} />
+                    <Typography>Loading your bookings…</Typography>
+                  </Stack>
+                )}
+
+                {bookingsQuery.isError && (
+                  <Alert
+                    severity="error"
+                    action={
+                      <Button
+                        color="inherit"
+                        size="small"
+                        onClick={() => bookingsQuery.refetch()}
+                      >
+                        Retry
+                      </Button>
+                    }
+                  >
+                    {bookingsQuery.error.message}
+                  </Alert>
+                )}
+
+                {bookingsQuery.isSuccess && (
+                  <Stack spacing={2}>
+                    <Alert
+                      severity={
+                        bookingsQuery.data.length === 0 ? 'info' : 'success'
+                      }
+                    >
+                      <strong>{bookingsQuery.data.length}</strong> bookings are
+                      owned by your authenticated identity.
+                    </Alert>
+                    {bookingsQuery.data.length > 0 && (
+                      <BookingTable bookings={bookingsQuery.data} />
                     )}
                   </Stack>
                 )}
