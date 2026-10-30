@@ -149,8 +149,14 @@
         <mxCell id="e4" edge="1" parent="1" source="static-response" target="browser-js" value="HTML + assets" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#0891B2;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e5" edge="1" parent="1" source="browser-js" target="create-root" value="execute main.tsx bundle" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="e5" edge="1" parent="1" source="browser-js" target="create-root" value="execute main.tsx bundle" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="897" />
+              <mxPoint x="420" y="262" />
+              <mxPoint x="485" y="262" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="e6" edge="1" parent="1" source="create-root" target="browser-router" value="mount tree" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;">
           <mxGeometry relative="1" as="geometry" />
@@ -164,8 +170,14 @@
         <mxCell id="e9" edge="1" parent="1" source="shared-contexts" target="app-call" value="contexts surround App" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#2563EB;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e10" edge="1" parent="1" source="provider-stack" target="auth-provider" value="AuthProvider mounts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="e10" edge="1" parent="1" source="provider-stack" target="auth-provider" value="AuthProvider mounts" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="870" y="600" />
+              <mxPoint x="870" y="237" />
+              <mxPoint x="955" y="237" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="e11" edge="1" parent="1" source="auth-provider" target="auth-init" value="useEffect()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;">
           <mxGeometry relative="1" as="geometry" />
@@ -190,21 +202,24 @@
         <mxCell id="e16" edge="1" parent="1" source="keycloak-redirect" target="auth-state" value="adapter exchanges code; synchronize()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e17" edge="1" parent="1" source="app-call" target="route-match" value="render Routes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#F97316;">
+        <mxCell id="e17" edge="1" parent="1" source="app-call" target="route-match" value="render Routes" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#F97316;labelBackgroundColor=#FFFFFF;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="870" y="962" />
-              <mxPoint x="870" y="235" />
+              <mxPoint x="870" y="165" />
+              <mxPoint x="1450" y="165" />
+              <mxPoint x="1450" y="235" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e18" edge="1" parent="1" source="navigation-kind" target="route-match" value="no: Link updates history + location" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#0284C7;">
+        <mxCell id="e18" edge="1" parent="1" source="navigation-kind" target="route-match" value="Link updates history + location" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#0284C7;labelBackgroundColor=#FFFFFF;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="390" y="387" />
-              <mxPoint x="390" y="130" />
-              <mxPoint x="1450" y="130" />
-              <mxPoint x="1450" y="235" />
+              <mxPoint x="390" y="105" />
+              <mxPoint x="1430" y="105" />
+              <mxPoint x="1430" y="215" />
+              <mxPoint x="1480" y="215" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -225,7 +240,7 @@
         <mxCell id="e22" edge="1" parent="1" source="path-decision" target="callback-page" value="/auth/callback" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#DB2777;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e23" edge="1" parent="1" source="callback-page" target="route-match" value="Navigate(destination) changes location" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#DB2777;">
+        <mxCell id="e23" edge="1" parent="1" source="callback-page" target="route-match" value="Navigate(destination)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#DB2777;labelBackgroundColor=#FFFFFF;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1885" y="802" />
@@ -254,7 +269,7 @@
         <mxCell id="e28" edge="1" parent="1" source="guard-decision" target="guard-outcomes" value="select outcome" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#F97316;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e29" edge="1" parent="1" source="guard-outcomes" target="pages" value="authenticated Outlet → selected page" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;">
+        <mxCell id="e29" edge="1" parent="1" source="guard-outcomes" target="pages" value="authenticated Outlet" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#16A34A;labelBackgroundColor=#FFFFFF;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="1920" y="1375" />
@@ -277,11 +292,25 @@
         <mxCell id="e34" edge="1" parent="1" source="generated-clients" target="auth-http" value="fetch(url, RequestInit)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#059669;">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e35" edge="1" parent="1" source="auth-http" target="token-service" value="getAccessToken()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="e35" edge="1" parent="1" source="auth-http" target="token-service" value="getAccessToken()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#9333EA;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1940" y="1308" />
+              <mxPoint x="1940" y="1460" />
+              <mxPoint x="1385" y="1460" />
+              <mxPoint x="1385" y="1312" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="e36" edge="1" parent="1" source="token-service" target="auth-http" value="Promise&amp;lt;string&amp;gt; JWT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;strokeColor=#9333EA;">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="e36" edge="1" parent="1" source="token-service" target="auth-http" value="Promise&amp;lt;string&amp;gt; JWT" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;strokeColor=#9333EA;labelBackgroundColor=#FFFFFF;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1370" y="1312" />
+              <mxPoint x="1370" y="1480" />
+              <mxPoint x="1960" y="1480" />
+              <mxPoint x="1960" y="1308" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="e37" edge="1" parent="1" source="auth-http" target="api-boundary" value="HTTP + Authorization header" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;strokeColor=#64748B;">
           <mxGeometry relative="1" as="geometry">
@@ -292,13 +321,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="e38" edge="1" parent="1" source="api-boundary" target="generated-clients" value="Response JSON / error" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;strokeColor=#64748B;">
+        <mxCell id="e38" edge="1" parent="1" source="api-boundary" target="generated-clients" value="Response JSON / error" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;endArrow=open;strokeColor=#64748B;labelBackgroundColor=#FFFFFF;">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
               <mxPoint x="390" y="1495" />
-              <mxPoint x="390" y="1615" />
-              <mxPoint x="2410" y="1615" />
-              <mxPoint x="2410" y="1092" />
+              <mxPoint x="390" y="1685" />
+              <mxPoint x="1980" y="1685" />
+              <mxPoint x="1980" y="1092" />
             </Array>
           </mxGeometry>
         </mxCell>
