@@ -6,6 +6,12 @@ import { appConfig } from '../config'
 const apiClientId = 'star-dust-api'
 const callbackUrl = `${window.location.origin}/auth/callback`
 const logoutUrl = `${window.location.origin}/`
+const postAuthenticationPathKey = 'star-dust:post-authentication-path:v2'
+const allowedPostAuthenticationPaths = new Set([
+  '/',
+  '/journeys',
+  '/bookings',
+])
 
 export const keycloak = new Keycloak({
   url: appConfig.authBaseUrl,
@@ -15,8 +21,19 @@ export const keycloak = new Keycloak({
 
 let initialization: Promise<boolean> | undefined
 
+// Preserves only known internal routes across Keycloak's full-page redirect.
+function rememberPostAuthenticationPath(path: string) {
+  if (allowedPostAuthenticationPaths.has(path)) {
+    window.localStorage.setItem(postAuthenticationPathKey, path)
+  }
+}
+
 // Initializes Authorization Code + PKCE once, including StrictMode remounts.
 export function initializeAuthentication(): Promise<boolean> {
+  if (window.location.pathname !== '/auth/callback') {
+    rememberPostAuthenticationPath(window.location.pathname)
+  }
+
   initialization ??= keycloak.init({
     onLoad: 'check-sso',
     flow: 'standard',
@@ -26,6 +43,17 @@ export function initializeAuthentication(): Promise<boolean> {
   })
 
   return initialization
+}
+
+// Consumes the safe route saved for this authentication redirect only.
+export function takePostAuthenticationPath(): string {
+  const path = window.localStorage.getItem(postAuthenticationPathKey)
+
+  window.localStorage.removeItem(postAuthenticationPathKey)
+
+  return path && allowedPostAuthenticationPaths.has(path)
+    ? path
+    : '/'
 }
 
 // Redirects the browser to Keycloak and back through the registered callback.

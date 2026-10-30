@@ -21,6 +21,9 @@ export interface GetMyBookingsOptions {
   signal?: AbortSignal
 }
 
+// Identifies the shared owned-booking cache across both routed pages.
+export const myBookingsQueryKey = ['bookings', 'mine'] as const
+
 const bookingsClient = new BookingsClient(
   generatedClientBaseUrl,
   authenticatedHttp,

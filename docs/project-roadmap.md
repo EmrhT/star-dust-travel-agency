@@ -101,6 +101,10 @@ and before Keycloak or additional booking and administration endpoints.
   - [x] Create a booking using the validated token's `sub` claim.
   - [x] Query bookings belonging to the authenticated user.
   - [x] Add the smallest React interface for those two operations.
+- [x] Introduce client-side routing without weakening backend authorization.
+  - [x] Split the monolithic App into a layout and focused page components.
+  - [x] Protect private pages through the existing AuthProvider state.
+  - [x] Preserve the Keycloak callback and verify nginx history fallback.
 - [ ] Add administration workflows only after their authorization model is
   defined.
 
