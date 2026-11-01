@@ -10,8 +10,8 @@ import {
 } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 import {
-  createBooking,
   getMyBookings,
   myBookingsQueryKey,
 } from '../api/bookings'
@@ -21,21 +21,18 @@ import {
 } from '../api/journeys'
 import { useAuth } from '../auth/AuthProvider'
 import { JourneyTable } from '../components/JourneyTable'
+import {
+  initialJourneyWeek,
+  isMonday,
+} from '../utils/journey-week'
 
-// Owns journey queries, generation, and booking mutations for /journeys.
-// TanStack cache invalidation synchronizes this page with /bookings.
-const initialJourneyWeek = '2026-10-12'
-
-// Checks the selected date before the page requests a schedule week.
-function isMonday(dateValue: string) {
-  const date = new Date(`${dateValue}T00:00:00Z`)
-
-  return !Number.isNaN(date.getTime()) && date.getUTCDay() === 1
-}
+// Owns journey queries, generation, and booking navigation for /journeys.
+// BookingFormPage owns form state and the eventual creation mutation.
 
 // Coordinates journey server state and reports booking intents to the API.
 export function JourneysPage() {
   const auth = useAuth()
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [journeyWeekStarting, setJourneyWeekStarting] =
     useState(initialJourneyWeek)
@@ -55,14 +52,6 @@ export function JourneysPage() {
     onSuccess: async (result) => {
       await queryClient.invalidateQueries({
         queryKey: ['journeys', 'week', result.weekStarting],
-      })
-    },
-  })
-  const createBookingMutation = useMutation({
-    mutationFn: createBooking,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: myBookingsQueryKey,
       })
     },
   })
@@ -176,30 +165,13 @@ export function JourneysPage() {
               <JourneyTable
                 bookedJourneyIds={bookedJourneyIds}
                 bookingActionsDisabled={!bookingsQuery.isSuccess}
-                bookingJourneyId={
-                  createBookingMutation.isPending
-                    ? createBookingMutation.variables
-                    : undefined
-                }
                 journeys={journeysQuery.data}
-                onBook={(journeyId) =>
-                  createBookingMutation.mutate(journeyId)
-                }
+                onBook={(journeyId) => navigate(
+                  `/journeys/${journeyWeekStarting}/${journeyId}/book`,
+                )}
               />
             )}
           </Stack>
-        )}
-
-        {createBookingMutation.isError && (
-          <Alert severity="error">
-            {createBookingMutation.error.message}
-          </Alert>
-        )}
-
-        {createBookingMutation.isSuccess && (
-          <Alert severity="success">
-            Booking created. The owned-booking cache was refreshed.
-          </Alert>
         )}
       </Stack>
     </Paper>

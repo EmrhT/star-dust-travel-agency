@@ -9,8 +9,8 @@ import {
 } from '@mui/material'
 import type { BookingListItem } from '../api/bookings'
 
-// Renders App's identity-filtered BookingListItem records in a table.
-// Backend UTC timestamps are formatted for the Europe/Istanbul browser view.
+// Renders BookingsPage's identity-filtered BookingListItem records in a table.
+// It includes submitted form values and formats backend UTC timestamps.
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
   month: 'short',
@@ -20,7 +20,7 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Istanbul',
 })
 
-// Defines the owned booking collection passed from App to BookingTable.
+// Defines the owned booking collection passed from BookingsPage.
 interface BookingTableProps {
   bookings: BookingListItem[]
 }
@@ -41,6 +41,9 @@ export function BookingTable({ bookings }: BookingTableProps) {
             <TableCell>Destination</TableCell>
             <TableCell>Departure (GMT+3)</TableCell>
             <TableCell>Spaceship</TableCell>
+            <TableCell>Travelers</TableCell>
+            <TableCell>Contact email</TableCell>
+            <TableCell>Special requests</TableCell>
             <TableCell>Booked at (GMT+3)</TableCell>
             <TableCell>Status</TableCell>
           </TableRow>
@@ -54,6 +57,9 @@ export function BookingTable({ bookings }: BookingTableProps) {
                 {formatDateTime(booking.departureAtUtc)}
               </TableCell>
               <TableCell>{booking.spaceship}</TableCell>
+              <TableCell>{booking.numberOfTravelers}</TableCell>
+              <TableCell>{booking.contactEmail}</TableCell>
+              <TableCell>{booking.specialRequests ?? 'None'}</TableCell>
               <TableCell>{formatDateTime(booking.bookedAtUtc)}</TableCell>
               <TableCell>
                 <Chip

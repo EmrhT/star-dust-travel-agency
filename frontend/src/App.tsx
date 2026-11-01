@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router'
 import { AppLayout } from './components/AppLayout'
 import { AuthenticationCallbackPage } from './pages/AuthenticationCallbackPage'
+import { BookingFormPage } from './pages/BookingFormPage'
 import { BookingsPage } from './pages/BookingsPage'
 import { HomePage } from './pages/HomePage'
 import { JourneysPage } from './pages/JourneysPage'
@@ -21,6 +22,10 @@ function App() {
         />
         <Route element={<RequireAuthentication />}>
           <Route path="journeys" element={<JourneysPage />} />
+          <Route
+            path="journeys/:weekStarting/:journeyId/book"
+            element={<BookingFormPage />}
+          />
           <Route path="bookings" element={<BookingsPage />} />
         </Route>
         <Route path="*" element={<Navigate replace to="/" />} />

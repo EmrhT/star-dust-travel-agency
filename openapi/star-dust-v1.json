@@ -278,11 +278,13 @@
         "required": [
           "arrivalAtUtc",
           "bookedAtUtc",
+          "contactEmail",
           "departureAtUtc",
           "destination",
           "id",
           "journeyId",
           "launchStation",
+          "numberOfTravelers",
           "spaceship",
           "status"
         ],
@@ -299,6 +301,17 @@
           "bookedAtUtc": {
             "type": "string",
             "format": "date-time"
+          },
+          "numberOfTravelers": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactEmail": {
+            "type": "string"
+          },
+          "specialRequests": {
+            "type": "string",
+            "nullable": true
           },
           "launchStation": {
             "type": "string"
@@ -326,7 +339,9 @@
       },
       "CreateBookingRequest": {
         "required": [
-          "journeyId"
+          "contactEmail",
+          "journeyId",
+          "numberOfTravelers"
         ],
         "type": "object",
         "properties": {
@@ -334,16 +349,39 @@
             "type": "string",
             "description": "Identifies the Journey passed to BookingService for validation.",
             "format": "uuid"
+          },
+          "numberOfTravelers": {
+            "maximum": 6,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Limits one Booking to the supported small travel-party size.",
+            "format": "int32"
+          },
+          "contactEmail": {
+            "maxLength": 254,
+            "minLength": 0,
+            "type": "string",
+            "description": "Supplies the validated contact address persisted by BookingService.",
+            "format": "email"
+          },
+          "specialRequests": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string",
+            "description": "Carries optional passenger notes normalized by BookingsController.",
+            "nullable": true
           }
         },
         "additionalProperties": false,
-        "description": "Carries only the browser-selected Journey into BookingsController.\nThe authenticated ClaimsPrincipal supplies ownership separately."
+        "description": "Carries untrusted browser form values into BookingsController validation.\nThe authenticated ClaimsPrincipal supplies ownership separately."
       },
       "CreateBookingResponse": {
         "required": [
           "bookedAtUtc",
+          "contactEmail",
           "id",
-          "journeyId"
+          "journeyId",
+          "numberOfTravelers"
         ],
         "type": "object",
         "properties": {
@@ -354,6 +392,17 @@
           "journeyId": {
             "type": "string",
             "format": "uuid"
+          },
+          "numberOfTravelers": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactEmail": {
+            "type": "string"
+          },
+          "specialRequests": {
+            "type": "string",
+            "nullable": true
           },
           "bookedAtUtc": {
             "type": "string",

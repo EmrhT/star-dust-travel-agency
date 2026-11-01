@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 import type { JourneyListItem } from '../api/journeys'
 
-// Renders JourneyListItem records and emits booking intents back to App.
+// Renders JourneyListItem records and reports booking intent to JourneysPage.
 // It formats backend UTC timestamps for the Europe/Istanbul browser view.
 const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
@@ -21,12 +21,11 @@ const istanbulDateTime = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Istanbul',
 })
 
-// Defines journey data and booking actions passed from App to JourneyTable.
+// Defines journey data and booking actions supplied by JourneysPage.
 interface JourneyTableProps {
   journeys: JourneyListItem[]
   bookedJourneyIds: ReadonlySet<string>
   bookingActionsDisabled: boolean
-  bookingJourneyId?: string
   onBook: (journeyId: string) => void
 }
 
@@ -42,12 +41,11 @@ function formatDateTime(timestamp: string) {
   return istanbulDateTime.format(new Date(timestamp))
 }
 
-// Displays cached journeys and reports Book button clicks to App.
+// Displays cached journeys and reports Book clicks to JourneysPage.
 export function JourneyTable({
   journeys,
   bookedJourneyIds,
   bookingActionsDisabled,
-  bookingJourneyId,
   onBook,
 }: JourneyTableProps) {
   return (
@@ -93,8 +91,7 @@ export function JourneyTable({
                   disabled={
                     journey.status !== 'Scheduled' ||
                     bookedJourneyIds.has(journey.id) ||
-                    bookingActionsDisabled ||
-                    bookingJourneyId !== undefined
+                    bookingActionsDisabled
                   }
                   onClick={() => onBook(journey.id)}
                   size="small"
@@ -102,9 +99,7 @@ export function JourneyTable({
                 >
                   {bookedJourneyIds.has(journey.id)
                     ? 'Booked'
-                    : bookingJourneyId === journey.id
-                      ? 'Booking…'
-                      : 'Book'}
+                    : 'Book'}
                 </Button>
               </TableCell>
             </TableRow>

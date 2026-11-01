@@ -569,6 +569,9 @@ export interface BookingListItem {
   id: string
   journeyId: string
   bookedAtUtc: string
+  numberOfTravelers: number
+  contactEmail: string
+  specialRequests?: string | undefined
   launchStation: string
   destination: string
   departureAtUtc: string
@@ -578,12 +581,18 @@ export interface BookingListItem {
 }
 
 /**
- * Carries only the browser-selected Journey into BookingsController. The
+ * Carries untrusted browser form values into BookingsController validation. The
  * authenticated ClaimsPrincipal supplies ownership separately.
  */
 export interface CreateBookingRequest {
   /** Identifies the Journey passed to BookingService for validation. */
   journeyId: string
+  /** Limits one Booking to the supported small travel-party size. */
+  numberOfTravelers: number
+  /** Supplies the validated contact address persisted by BookingService. */
+  contactEmail: string
+  /** Carries optional passenger notes normalized by BookingsController. */
+  specialRequests?: string | undefined
 }
 
 /**
@@ -593,6 +602,9 @@ export interface CreateBookingRequest {
 export interface CreateBookingResponse {
   id: string
   journeyId: string
+  numberOfTravelers: number
+  contactEmail: string
+  specialRequests?: string | undefined
   bookedAtUtc: string
 }
 
