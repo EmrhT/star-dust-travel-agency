@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -96,9 +97,16 @@ public sealed class BookingsController(
             return ValidationProblem(ModelState);
         }
 
+        var specialRequests = string.IsNullOrWhiteSpace(
+            request.SpecialRequests)
+            ? null
+            : request.SpecialRequests.Trim();
         var result = await bookingService.CreateAsync(
             userSubject,
             request.JourneyId,
+            request.NumberOfTravelers,
+            request.ContactEmail.Trim(),
+            specialRequests,
             cancellationToken);
 
         return ToActionResult(result);
@@ -140,11 +148,14 @@ public sealed class BookingsController(
         new(
             booking.Id,
             booking.JourneyId,
+            booking.NumberOfTravelers,
+            booking.ContactEmail,
+            booking.SpecialRequests,
             booking.BookedAtUtc);
 }
 
 /// <summary>
-/// Carries only the browser-selected Journey into BookingsController.
+/// Carries untrusted browser form values into BookingsController validation.
 /// The authenticated ClaimsPrincipal supplies ownership separately.
 /// </summary>
 public sealed record CreateBookingRequest
@@ -153,6 +164,26 @@ public sealed record CreateBookingRequest
     /// Identifies the Journey passed to BookingService for validation.
     /// </summary>
     public required Guid JourneyId { get; init; }
+
+    /// <summary>
+    /// Limits one Booking to the supported small travel-party size.
+    /// </summary>
+    [Range(1, 6)]
+    public int NumberOfTravelers { get; init; }
+
+    /// <summary>
+    /// Supplies the validated contact address persisted by BookingService.
+    /// </summary>
+    [Required]
+    [EmailAddress]
+    [StringLength(254)]
+    public required string ContactEmail { get; init; }
+
+    /// <summary>
+    /// Carries optional passenger notes normalized by BookingsController.
+    /// </summary>
+    [StringLength(500)]
+    public string? SpecialRequests { get; init; }
 }
 
 /// <summary>
@@ -162,4 +193,7 @@ public sealed record CreateBookingRequest
 public sealed record CreateBookingResponse(
     Guid Id,
     Guid JourneyId,
+    int NumberOfTravelers,
+    string ContactEmail,
+    string? SpecialRequests,
     DateTimeOffset BookedAtUtc);

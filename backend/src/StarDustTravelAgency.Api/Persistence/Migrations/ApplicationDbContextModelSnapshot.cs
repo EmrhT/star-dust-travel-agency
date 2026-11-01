@@ -33,9 +33,24 @@ namespace StarDustTravelAgency.Api.Persistence.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("booked_at_utc");
 
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasMaxLength(254)
+                        .HasColumnType("character varying(254)")
+                        .HasColumnName("contact_email");
+
                     b.Property<Guid>("JourneyId")
                         .HasColumnType("uuid")
                         .HasColumnName("journey_id");
+
+                    b.Property<int>("NumberOfTravelers")
+                        .HasColumnType("integer")
+                        .HasColumnName("number_of_travelers");
+
+                    b.Property<string>("SpecialRequests")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("special_requests");
 
                     b.Property<string>("UserSubject")
                         .IsRequired()
@@ -50,7 +65,10 @@ namespace StarDustTravelAgency.Api.Persistence.Migrations
                     b.HasIndex("UserSubject", "JourneyId")
                         .IsUnique();
 
-                    b.ToTable("bookings", (string)null);
+                    b.ToTable("bookings", null, t =>
+                        {
+                            t.HasCheckConstraint("ck_bookings_number_of_travelers", "number_of_travelers BETWEEN 1 AND 6");
+                        });
                 });
 
             modelBuilder.Entity("StarDustTravelAgency.Api.Domain.Entities.Destination", b =>

@@ -186,12 +186,16 @@ public sealed class OpenApiContractTests
         AssertRequiredProperties(
             document,
             "CreateBookingRequest",
-            "journeyId");
+            "journeyId",
+            "numberOfTravelers",
+            "contactEmail");
         AssertRequiredProperties(
             document,
             "CreateBookingResponse",
             "id",
             "journeyId",
+            "numberOfTravelers",
+            "contactEmail",
             "bookedAtUtc");
         AssertRequiredProperties(
             document,
@@ -199,6 +203,8 @@ public sealed class OpenApiContractTests
             "id",
             "journeyId",
             "bookedAtUtc",
+            "numberOfTravelers",
+            "contactEmail",
             "launchStation",
             "destination",
             "departureAtUtc",

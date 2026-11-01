@@ -47,6 +47,8 @@ public sealed class BookingsControllerTests
             new CreateBookingRequest
             {
                 JourneyId = Guid.NewGuid(),
+                NumberOfTravelers = 1,
+                ContactEmail = "traveler@example.com",
             },
             CancellationToken.None);
 

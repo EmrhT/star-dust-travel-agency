@@ -3,18 +3,35 @@
 This roadmap keeps the learning sequence explicit. Each milestone is reviewed
 before implementation, and application changes remain small enough to inspect.
 
-## Current milestone: understand the handwritten HTTP boundary
+## Current milestone: accept and validate booking form input
+
+- [x] Define form fields, trust boundaries, and validation rules.
+- [x] Define the request, success, and validation-error contracts.
+- [x] Extend the Booking entity and EF Core configuration.
+- [x] Generate and review the schema migration before applying it.
+- [x] Extend booking creation, projection, and focused backend tests.
+- [ ] Regenerate and verify the OpenAPI TypeScript client.
+- [ ] Add the routed React form with controlled Material UI inputs.
+- [ ] Map backend field errors and prevent duplicate submissions.
+- [ ] Refresh owned-booking state and navigate after success.
+- [ ] Document the complete form-submission runtime flow in draw.io.
+
+The approved contract and its trust boundaries live in
+`docs/booking-form-design.md`. Work remains incremental so model, HTTP, and UI
+changes can be inspected independently.
+
+## Completed milestone: understand the handwritten HTTP boundary
 
 - [x] Trace frontend startup and provider composition.
 - [x] Trace the system-status request and response.
 - [x] Trace the journey-week query and table rendering.
 - [x] Trace journey-week generation and TanStack Query cache refresh.
 
-The handwritten `fetch()` functions remain in place through this milestone so
-their URL construction, headers, serialization, errors, and cancellation are
-visible before tooling generates equivalent code.
+The handwritten `fetch()` functions remained through this milestone so their
+URL construction, headers, serialization, errors, and cancellation were visible
+before tooling generated equivalent code.
 
-## Next milestone: generate a typed client from OpenAPI
+## Completed milestone: generate a typed client from OpenAPI
 
 Recommended timing: immediately after the journey-generation sequence diagram
 and before Keycloak or additional booking and administration endpoints.
@@ -52,12 +69,12 @@ and before Keycloak or additional booking and administration endpoints.
    generated-client conventions live in `api/client-support.ts`.
 8. [x] Add a platform-neutral stale-client check whose non-zero exit code lets
    CI reject an OpenAPI or generated-client drift.
-9. [ ] Complete full-stack verification without introducing a browser-test
+9. [x] Complete full-stack verification without introducing a browser-test
    framework solely for the current single screen.
    - [x] Run all backend tests and the stale-client check.
    - [x] Run TypeScript checks and both production container builds.
    - [x] Smoke-test GET, POST, validation, and idempotency through nginx.
-   - [ ] Confirm React rendering and the Generate button in a real browser.
+   - [x] Confirm React rendering and the Generate button in a real browser.
 10. [x] Update affected comments and draw.io diagrams to distinguish generated
     client calls from browser `fetch()` and TanStack Query behavior.
 

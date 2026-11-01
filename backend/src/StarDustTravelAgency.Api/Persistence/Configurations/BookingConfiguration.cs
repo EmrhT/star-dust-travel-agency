@@ -2,20 +2,24 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StarDustTravelAgency.Api.Domain.Entities;
 
-// Maps Booking ownership and its required Journey relationship to PostgreSQL.
+// Maps Booking ownership, submitted form values, and its Journey relationship.
 // ApplicationDbContext discovers this configuration with the API assembly.
 namespace StarDustTravelAgency.Api.Persistence.Configurations;
 
 /// <summary>
-/// Maps Booking fields and prevents duplicate user-and-journey reservations.
+/// Maps Booking form constraints and prevents duplicate Journey reservations.
 /// Journey.Bookings supplies the inverse side of its restricted foreign key.
 /// </summary>
 public sealed class BookingConfiguration : IEntityTypeConfiguration<Booking>
 {
-    // Applies Booking columns, its Journey foreign key, and owner uniqueness.
+    // Applies Booking form columns, its Journey relation, and owner uniqueness.
     public void Configure(EntityTypeBuilder<Booking> builder)
     {
-        builder.ToTable("bookings");
+        builder.ToTable(
+            "bookings",
+            table => table.HasCheckConstraint(
+                "ck_bookings_number_of_travelers",
+                "number_of_travelers BETWEEN 1 AND 6"));
 
         builder.HasKey(booking => booking.Id);
 
@@ -29,6 +33,19 @@ public sealed class BookingConfiguration : IEntityTypeConfiguration<Booking>
             .HasColumnName("user_subject")
             .HasMaxLength(255)
             .IsRequired();
+
+        builder.Property(booking => booking.NumberOfTravelers)
+            .HasColumnName("number_of_travelers")
+            .IsRequired();
+
+        builder.Property(booking => booking.ContactEmail)
+            .HasColumnName("contact_email")
+            .HasMaxLength(254)
+            .IsRequired();
+
+        builder.Property(booking => booking.SpecialRequests)
+            .HasColumnName("special_requests")
+            .HasMaxLength(500);
 
         builder.Property(booking => booking.BookedAtUtc)
             .HasColumnName("booked_at_utc")

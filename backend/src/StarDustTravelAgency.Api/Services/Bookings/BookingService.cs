@@ -30,6 +30,9 @@ public sealed class BookingService(
                 booking.Id,
                 booking.JourneyId,
                 booking.BookedAtUtc,
+                booking.NumberOfTravelers,
+                booking.ContactEmail,
+                booking.SpecialRequests,
                 booking.Journey.Route.LaunchStation.Name,
                 booking.Journey.Route.Destination.Name,
                 booking.Journey.DepartureAtUtc,
@@ -46,6 +49,9 @@ public sealed class BookingService(
     public async Task<BookingCreationResult> CreateAsync(
         string userSubject,
         Guid journeyId,
+        int numberOfTravelers,
+        string contactEmail,
+        string? specialRequests,
         CancellationToken cancellationToken = default)
     {
         var journeyStatus = await context.Journeys
@@ -85,6 +91,9 @@ public sealed class BookingService(
             Id = Guid.NewGuid(),
             JourneyId = journeyId,
             UserSubject = userSubject,
+            NumberOfTravelers = numberOfTravelers,
+            ContactEmail = contactEmail,
+            SpecialRequests = specialRequests,
             BookedAtUtc = DateTimeOffset.UtcNow,
         };
 
@@ -105,6 +114,9 @@ public sealed record BookingListItem(
     Guid Id,
     Guid JourneyId,
     DateTimeOffset BookedAtUtc,
+    int NumberOfTravelers,
+    string ContactEmail,
+    string? SpecialRequests,
     string LaunchStation,
     string Destination,
     DateTimeOffset DepartureAtUtc,
