@@ -3,7 +3,62 @@
 This roadmap keeps the learning sequence explicit. Each milestone is reviewed
 before implementation, and application changes remain small enough to inspect.
 
-## Current milestone: accept and validate booking form input
+## Learning project status: complete
+
+Star Dust Travel Agency is complete as a **learning project**, not as a
+production-complete travel-agency product. Its purpose was to teach the major
+connections in a modern web application through a small number of complete
+vertical slices. Those slices now cover:
+
+- browser rendering, React state, forms, and client-side routing;
+- TanStack Query request and cache lifecycles;
+- OpenAPI and NSwag-generated TypeScript clients;
+- nginx proxying and container networking;
+- ASP.NET Core routing, model binding, validation, and service boundaries;
+- Keycloak authentication, JWT validation, authorization, and record ownership;
+- EF Core modeling, migrations, queries, and PostgreSQL persistence; and
+- serialization, error contracts, and end-to-end request tracing.
+
+Adding the remaining travel-agency features would mostly repeat these learned
+patterns through more entities, forms, and CRUD endpoints. The project stops
+here deliberately to preserve its learning-first scope and avoid turning a
+focused example into an unnecessarily large business application.
+
+### Why the UML model is broader than the code
+
+The first page of `diagrams/star-dust-domain-model.drawio` is a **conceptual
+domain map**. It records how a fuller travel agency could eventually include
+ApplicationUser, CrewMember, JourneyCrewAssignment, Ticket, FareClass,
+RouteFare, Payment, Announcement, and AuditRecord. It is an architectural
+blueprint and vocabulary map, not a promise that every displayed concept has a
+table, API, service, or React page in this repository.
+
+Only selected vertical slices were implemented: the operational journey core,
+weekly generation and queries, identity-owned bookings, and the booking form.
+Consequently, functions and endpoints implied by the broader UML model are
+absent by design. In particular, ticketing, passengers, seat allocation,
+pricing, payment, crew management, announcements, auditing, and administration
+were not partially forgotten; they were intentionally left outside the final
+learning boundary.
+
+Runtime sequence diagrams have a different purpose from the conceptual domain
+map. They document functions and request paths that actually exist in the
+implemented application. When extending the project, the conceptual model must
+first be refined into an approved implementation slice; only then should its
+entities, endpoints, generated client methods, UI, tests, and runtime diagrams
+be added together.
+
+### How to interpret unfinished-looking items
+
+- Checked roadmap items describe completed learning work.
+- Items explicitly marked **Deferred** are possible extensions, not completion
+  requirements.
+- Concepts shown only in the conceptual UML overview are design possibilities,
+  not missing implementation.
+- Production use would require a new requirements and threat-modeling phase;
+  it should not be inferred merely by filling in every UML box.
+
+## Completed milestone: accept and validate booking form input
 
 - [x] Define form fields, trust boundaries, and validation rules.
 - [x] Define the request, success, and validation-error contracts.
@@ -88,9 +143,11 @@ and before Keycloak or additional booking and administration endpoints.
 - Generated transport code remains separate from handwritten UI and query
   orchestration code.
 
-## Later milestones
+## Final milestone history and deferred extensions
 
-- [ ] Complete health-check, EF Core model, and seeding sequence diagrams.
+- **Deferred:** Complete health-check, EF Core model, and seeding sequence
+  diagrams. These would improve documentation but introduce no new runtime
+  behavior.
 - [x] Integrate Keycloak authentication and authorization.
   - [x] Define a pinned local service and isolated PostgreSQL boundary.
   - [x] Provision the dedicated Keycloak role and database.
@@ -122,6 +179,7 @@ and before Keycloak or additional booking and administration endpoints.
   - [x] Split the monolithic App into a layout and focused page components.
   - [x] Protect private pages through the existing AuthProvider state.
   - [x] Preserve the Keycloak callback and verify nginx history fallback.
-- [ ] Add administration workflows only after their authorization model is
-  defined.
+- **Deferred:** Add administration workflows only after defining new product
+  requirements and their authorization model. They are not required to
+  complete this learning project.
 
