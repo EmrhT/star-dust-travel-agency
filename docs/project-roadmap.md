@@ -14,7 +14,7 @@ before implementation, and application changes remain small enough to inspect.
 - [x] Add the routed React form with controlled Material UI inputs.
 - [x] Map backend field errors and prevent duplicate submissions.
 - [x] Refresh owned-booking state and navigate after success.
-- [ ] Document the complete form-submission runtime flow in draw.io.
+- [x] Document the complete form-submission runtime flow in draw.io.
 
 The approved contract and its trust boundaries live in
 `docs/booking-form-design.md`. Work remains incremental so model, HTTP, and UI
